@@ -208,7 +208,7 @@ Public Class SKUAliasWizardSection
                 Else
                     Me.OpenFileDialog1.FileName = ""
                 End If
-                If Me.OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                If Me.OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
                     Me.TextEditFilePath.Text = Me.OpenFileDialog1.FileName.ToString
                     Me.lblFilePathError.Text = ""
                     Me.WizardControlImport.EnableNextButton = True
@@ -231,7 +231,7 @@ Public Class SKUAliasWizardSection
                 Else
                     Me.OpenFileDialog1.FileName = ""
                 End If
-                If Me.OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                If Me.OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
                     Me.TextEditFilePath.Text = Me.OpenFileDialog1.FileName.ToString
                     Me.lblFilePathError.Text = ""
                     Me.WizardControlImport.EnableNextButton = True
