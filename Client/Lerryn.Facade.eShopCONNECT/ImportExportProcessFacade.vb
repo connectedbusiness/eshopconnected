@@ -3932,7 +3932,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateQuote", XMLGenericQuote.ToString)
                     End If
                     .CustomerSalesOrderView(0).Freight = RoundDecimalValue(.CustomerSalesOrderView(0).FreightRate / .CustomerSalesOrderView(0).ExchangeRate)
-                    .CustomerSalesOrderView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).TaxCode ' TJS 02/12/11
+                    .CustomerSalesOrderView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).FreightTax ' TJS 02/12/11
 
                     ' now calculate Sales Tax on freight (VAT)
                     ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderView(0).FreightTaxCode & "'").Length - 1)
@@ -5602,7 +5602,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
                     End If
                     .CustomerSalesOrderView(0).Freight = RoundDecimalValue(.CustomerSalesOrderView(0).FreightRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 26/05/09
-                    .CustomerSalesOrderView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).TaxCode ' TJS 02/12/11
+                    .CustomerSalesOrderView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).FreightTax ' TJS 02/12/11
 
                     ' now calculate Sales Tax on freight (VAT)
                     ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderView(0).FreightTaxCode & "'").Length - 1)
@@ -7332,7 +7332,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateInvoice", XMLGenericInvoice.ToString) ' TJS 09/03/09
                     End If
                     .CustomerInvoiceView(0).Freight = RoundDecimalValue(.CustomerInvoiceView(0).FreightRate / .CustomerInvoiceView(0).ExchangeRate) ' TJS 26/05/09
-                    .CustomerInvoiceView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).TaxCode ' TJS 02/12/11 TJS 14/05/12
+                    .CustomerInvoiceView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).FreightTax ' TJS 02/12/11 TJS 14/05/12
 
                     ' now calculate Sales Tax on freight (VAT)
                     ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerInvoiceView(0).FreightTaxCode & "'").Length - 1)
@@ -9009,7 +9009,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateCreditNote", XMLGenericCreditNote.ToString) ' TJS 09/03/09
                     End If
                     .CustomerInvoiceView(0).Freight = RoundDecimalValue(.CustomerInvoiceView(0).FreightRate / .CustomerInvoiceView(0).ExchangeRate) ' TJS 26/05/09
-                    .CustomerInvoiceView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).TaxCode ' TJS 02/12/11
+                    .CustomerInvoiceView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).FreightTax ' TJS 02/12/11
 
                     ' now calculate Sales Tax on freight (VAT)
                     ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerInvoiceView(0).FreightTaxCode & "'").Length - 1)
