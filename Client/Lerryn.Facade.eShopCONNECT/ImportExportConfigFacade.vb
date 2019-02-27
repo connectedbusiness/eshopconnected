@@ -316,7 +316,7 @@ Public Class ImportExportConfigFacade
         '------------------------------------------------------------------------------------------
 
         Get
-            If Interprise.Connectivity.Database.Configuration.Design.AppConfig.InterpriseConfiguration.Instance.LicenseInfo.ProductEdition = "ISB" Then
+            If Interprise.Connectivity.Database.Configuration.Design.AppConfig.InterpriseConfiguration.Instance.LicenseInfo.ProductEdition.ToString() = "ISB" Then
                 Return True
             Else
                 Return False
