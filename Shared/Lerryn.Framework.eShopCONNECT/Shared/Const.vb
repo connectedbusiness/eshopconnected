@@ -104,6 +104,7 @@ Namespace [Shared]
         Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_METHOD As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/ShippingMethod"
         Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_METHOD_GROUP As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/ShippingMethodGroup"
         Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_SHIPPING_DATE As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/ShippingDate"
+        Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_LATEST_SHIPPING_DATE As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/LatestShippingDate"
         Public Const GENERIC_XML_QUOTE_TOTALS As String = "Quote/QuoteTotals"
         Public Const GENERIC_XML_QUOTE_ITEM_LIST As String = "Quote/Item"
         Public Const GENERIC_XML_QUOTE_CUSTOMER_COMMENTS As String = "Quote/CustomerComments"
@@ -134,6 +135,7 @@ Namespace [Shared]
         Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_METHOD As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/ShippingMethod"
         Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_METHOD_GROUP As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/ShippingMethodGroup"
         Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_SHIPPING_DATE As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/ShippingDate" ' RCD 08/09/2019
+        Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_LATEST_SHIPPING_DATE As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/LatestShippingDate" ' RCD 08/12/2019
         Public Const GENERIC_XML_ORDER_PAYMENT_DETAILS_LIST As String = "Order/PaymentDetails" ' TJS 02/12/11
         Public Const GENERIC_XML_ORDER_PAYMENT_DETAILS As String = "PaymentDetails" ' TJS 02/12/11
         Public Const GENERIC_XML_ORDER_PAYMENT_METHOD As String = GENERIC_XML_ORDER_PAYMENT_DETAILS & "/PaymentMethod"
@@ -165,6 +167,7 @@ Namespace [Shared]
         Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_METHOD As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/ShippingMethod"
         Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_METHOD_GROUP As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/ShippingMethodGroup"
         Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_SHIPPING_DATE As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/ShippingDate"
+        Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_LATEST_SHIPPING_DATE As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/LatestShippingDate"
         Public Const GENERIC_XML_INVOICE_PAYMENT_DETAILS_LIST As String = "Invoice/PaymentDetails" ' TJS 26/10/11
         Public Const GENERIC_XML_INVOICE_PAYMENT_DETAILS As String = "PaymentDetails" ' TJS 02/12/11
         Public Const GENERIC_XML_INVOICE_PAYMENT_METHOD As String = GENERIC_XML_INVOICE_PAYMENT_DETAILS & "/PaymentMethod"
@@ -274,6 +277,7 @@ Namespace [Shared]
         ' Formatting - RCD 08/09/2019
         Public Const GENERIC_XML_YMD As String = "yyyy-MM-dd"
         Public Const GENERIC_XML_INVALID_SHIPPING_DATE As String = "Shipping Date Is Invalid! Should be yyyy-MM-dd."
+        Public Const GENERIC_XML_INVALID_LATEST_SHIPPING_DATE As String = "Latest Shipping Date Is Invalid! Should be yyyy-MM-dd."
         ' end of code added TJS 13/07/09
 
         ' Shop.com Order XML paths

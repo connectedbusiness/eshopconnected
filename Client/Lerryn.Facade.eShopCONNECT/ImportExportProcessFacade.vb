@@ -1413,6 +1413,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Dim strShippingDetailsCustomerXMLPath As String, strShippingDetailsAddressXMLPath As String
         Dim strShippingDetailsMethodXMLPath As String, strShippingDetailsMethodGroupXMLPath As String
         Dim strShippingDetailsShippingDateXMLPath As String ' RCD 08/09/2019
+        Dim strShippingDetailsLatestShippingDateXMLPath As String ' RCD 08/12/2019
         Dim strPaymentMethodXMLPath As String, strShippingMethod As String, strShippingMethodGroup As String
         Dim iTableLoop As Integer, iColumnLoop As Integer, iRowLoop As Integer, sTemp As String ' TJS 17/05/09
         Dim bCustomFieldExists As Boolean, bIsProspect As Boolean ' TJS 20/02/09 TJS 21/04/09 TJS 14/07/09
@@ -1483,6 +1484,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 strShippingDetailsMethodXMLPath = GENERIC_XML_ORDER_SHIPPING_DETAILS_METHOD
                 strShippingDetailsMethodGroupXMLPath = GENERIC_XML_ORDER_SHIPPING_DETAILS_METHOD_GROUP
                 strShippingDetailsShippingDateXMLPath = GENERIC_XML_ORDER_SHIPPING_DETAILS_SHIPPING_DATE ' RCD 08/09/2019
+                strShippingDetailsLatestShippingDateXMLPath = GENERIC_XML_ORDER_SHIPPING_DETAILS_LATEST_SHIPPING_DATE ' RCD 08/12/2019
                 strPaymentMethodXMLPath = GENERIC_XML_ORDER_PAYMENT_METHOD
                 strCustomerCurrencyXMLPath = GENERIC_XML_ORDER_CURRENCY ' TJS 17/03/09
                 strCustomerTableCustomFieldPath = strBillingDetailsCustomerXMLPath & "/CustomField" ' TJS 14/08/09
@@ -2630,6 +2632,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Dim strShippingCustomerName As String, strShippingCompanyName As String, strItemID As String
         Dim strShippingMethod As String, strShippingMethodGroup As String, bCouponValid As Boolean
         Dim strShippingDate As String = String.Empty ' RCD 08/09/2019
+        Dim strLatestShippingDate As String = String.Empty ' RCD 08/12/2019
         Dim bCustomFieldExists As Boolean, bSalesQuoteSaved As Boolean, dblCouponDiscount As Decimal
         Dim strWarehouseCode As String, strItemKitPricing As String, iItemPtr As Integer, iBundlePtr As Integer ' TJS 22/09/10 TJS 02/04/14
         Dim iItemRowsAdded As Integer, iTaxLoop As Integer, iBundleRow As Integer, decSalesPriceRate As Decimal ' TJS 18/03/11 TJS 02/04/14
@@ -3049,6 +3052,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             ' RCD 08/09/2019 Start
                             strShippingDate = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_SHIPPING_DATE)
                             ' RCD 08/09/2019 End
+                            ' RCD 08/12/2019 Start
+                            strLatestShippingDate = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_LATEST_SHIPPING_DATE)
+                            ' RCD 08/09/2019 End
                             rowGroupMethodDetail = Me.m_ImportExportDataset.SystemShippingMethodGroupDetail.FindByShippingMethodGroupShippingMethodCode(strShippingMethodGroup, strShippingMethod)
                             If rowGroupMethodDetail Is Nothing Then
                                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "075", "Invalid Shipping Method and Shipping Method Group combination - " & strShippingMethod & ", " & strShippingMethodGroup, _
@@ -3065,6 +3071,16 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                 .CustomerSalesOrderView(0).ShippingDate = shippingDate
                             Else
                                 Throw New Exception(GENERIC_XML_INVALID_SHIPPING_DATE)
+                            End If
+                        End If
+                        ' RCD 08/09/2019 End
+                        ' RCD 08/12/2019 Start
+                        If (Not String.IsNullOrEmpty(strLatestShippingDate)) Then
+                            Dim latestShippingDate As Date
+                            If (Date.TryParseExact(strLatestShippingDate, GENERIC_XML_YMD, System.Globalization.DateTimeFormatInfo.InvariantInfo, Globalization.DateTimeStyles.None, latestShippingDate)) Then
+                                .CustomerSalesOrderView(0).LatestShipDate = latestShippingDate
+                            Else
+                                Throw New Exception(GENERIC_XML_INVALID_LATEST_SHIPPING_DATE)
                             End If
                         End If
                         ' RCD 08/09/2019 End
@@ -4313,6 +4329,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Dim strShippingCustomerName As String, strShippingCompanyName As String, strItemID As String ' TJS 08/02/09 TJS 09/03/09
         Dim strShippingMethod As String, strShippingMethodGroup As String, bCouponValid As Boolean ' TJS 09/03/09 TJS 17/03/09
         Dim strShippingDate As String = String.Empty ' RCD 08/09/2019
+        Dim strLatestShippingDate As String = String.Empty ' RCD 08/12/2019
         Dim bCustomFieldExists As Boolean, bSalesOrderSaved As Boolean, dblCouponDiscount As Decimal ' TJS 21/04/09 TJS 08/06/09
         Dim strWarehouseCode As String, strItemKitPricing As String, iItemPtr As Integer, iBundlePtr As Integer ' TJS 08/06/09 TJS 19/08/10 TJS 02/04/14
         Dim iItemRowsAdded As Integer, iTaxLoop As Integer, iBundleRow As Integer, decSalesPriceRate As Decimal ' TJS 18/03/11 TJS 02/04/14
@@ -4739,6 +4756,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             ' RCD 08/09/2019 Start
                             strShippingDate = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_SHIPPING_DATE)
                             ' RCD 08/09/2019 End
+                            ' RCD 08/12/2019 Start
+                            strLatestShippingDate = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_LATEST_SHIPPING_DATE)
+                            ' RCD 08/12/2019 End
                             rowGroupMethodDetail = Me.m_ImportExportDataset.SystemShippingMethodGroupDetail.FindByShippingMethodGroupShippingMethodCode(strShippingMethodGroup, strShippingMethod)
                             If rowGroupMethodDetail Is Nothing Then
                                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "075", "Invalid Shipping Method and Shipping Method Group combination - " & strShippingMethod & ", " & strShippingMethodGroup, _
@@ -4758,6 +4778,16 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             End If
                         End If
                         ' RCD 08/09/2019 End
+                        ' RCD 08/12/2019 Start
+                        If (Not String.IsNullOrEmpty(strLatestShippingDate)) Then
+                            Dim latestShippingDate As Date
+                            If (Date.TryParseExact(strLatestShippingDate, GENERIC_XML_YMD, System.Globalization.DateTimeFormatInfo.InvariantInfo, Globalization.DateTimeStyles.None, latestShippingDate)) Then
+                                .CustomerSalesOrderView(0).LatestShipDate = latestShippingDate
+                            Else
+                                Throw New Exception(GENERIC_XML_INVALID_LATEST_SHIPPING_DATE)
+                            End If
+                        End If
+                        ' RCD 08/12/2019 End
                         ' end of code added TJS 17/03/09
                     End If
 
@@ -6115,6 +6145,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Dim strShippingCustomerName As String, strShippingCompanyName As String, strItemID As String ' TJS 08/02/09 TJS 09/03/09
         Dim strShippingMethod As String, strShippingMethodGroup As String, bCustomFieldExists As Boolean ' TJS 17/03/09 TJS 21/04/09
         Dim strShippingDate As String = String.Empty ' RCD 08/09/2019
+        Dim strLatestShippingDate As String = String.Empty ' RCD 08/12/2019
         Dim strWarehouseCode As String, strItemKitPricing As String, iItemPtr As Integer, iBundlePtr As Integer ' TJS 08/06/09 TJS 22/09/10 TJS 02/04/14
         Dim iItemRowsAdded As Integer, iTaxLoop As Integer, iBundleRow As Integer, decSalesPriceRate As Decimal ' TJS 18/03/11 TJS 02/04/14
         Dim decKitPriceSumRate As Decimal, decKitTotalPriceRate As Decimal, bTaxRecordFound As Boolean ' TJS 18/03/11 TJS 02/12/11
@@ -6539,6 +6570,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             ' RCD 08/09/2019 Start
                             strShippingDate = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_SHIPPING_DATE)
                             ' RCD 08/09/2019 End
+                            ' RCD 08/12/2019 Start
+                            strLatestShippingDate = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_LATEST_SHIPPING_DATE)
+                            ' RCD 08/12/2019 End
                             rowGroupMethodDetail = Me.m_ImportExportDataset.SystemShippingMethodGroupDetail.FindByShippingMethodGroupShippingMethodCode(strShippingMethodGroup, strShippingMethod)
                             If rowGroupMethodDetail Is Nothing Then
                                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "075", "Invalid Shipping Method and Shipping Method Group combination - " & strShippingMethod & ", " & strShippingMethodGroup, _
@@ -6558,6 +6592,16 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             End If
                         End If
                         ' RCD 08/09/2019 End
+                        ' RCD 08/12/2019 Start
+                        If (Not String.IsNullOrEmpty(strLatestShippingDate)) Then
+                            Dim latestShippingDate As Date
+                            If (Date.TryParseExact(strLatestShippingDate, GENERIC_XML_YMD, System.Globalization.DateTimeFormatInfo.InvariantInfo, Globalization.DateTimeStyles.None, latestShippingDate)) Then
+                                .CustomerInvoiceView(0).LatestShipDate = latestShippingDate
+                            Else
+                                Throw New Exception(GENERIC_XML_INVALID_LATEST_SHIPPING_DATE)
+                            End If
+                        End If
+                        ' RCD 08/12/2019 End
                         ' end of code added TJS 17/03/09
                     End If
 
