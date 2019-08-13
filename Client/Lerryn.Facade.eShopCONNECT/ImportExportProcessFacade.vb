@@ -3135,6 +3135,23 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         End If
                     End If
 
+                    ' RCD 2019/08/12 Start - SalesRepGroupCode Node
+                    Dim strSalesRepGroupCode = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_CUSTOMER_SALES_REP_GROUP_CODE)
+                    If (Not String.IsNullOrEmpty(strSalesRepGroupCode)) Then
+                        Dim salesRepRow As System.Data.DataRow = Interprise.Facade.Base.SimpleFacade.Instance.GetRow(New String() {"*"},
+                                                                                                                     Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_TABLE,
+                                                                                                                     String.Format(Interprise.Framework.Base.Shared.Const.FORMAT_FIELD_AND_VALUE,
+                                                                                                                                   Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN,
+                                                                                                                                   strSalesRepGroupCode),
+                                                                                                                     ConnectionStringType.Online)
+                        If (salesRepRow IsNot Nothing) Then
+                            .CustomerSalesRepCommissionView(0).SalesRepGroupCode = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN))
+                            .CustomerSalesRepCommissionView(0).SalesRepGroupName = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPNAME_COLUMN))
+                            .CustomerSalesRepCommissionView(0).CommissionPercent = CDec(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_COMMISSIONPERCENT_COLUMN))
+                        End If
+                    End If
+                    ' RCD 2019/08/12 End - SalesRepGroupCode Node
+
                     taxSchemeFacade.LoadDataSet(New String()() {New String() {taxSchemeDataset.SystemTaxSchemeDetailView.TableName, _
                         "ReadSystemTaxSchemeDetail", AT_COUNTRY_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COUNTRY_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
                         Interprise.Framework.Base.Shared.ClearType.Specific, Interprise.Framework.Base.Shared.ConnectionStringType.Offline)
@@ -3714,6 +3731,11 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                         If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_KIT Then ' TJS 02/04/14
                                             SalesOrderFacade.ComputeKitItemsSalesPrice(itemView(iRowLoop).Row) ' FA 03/11/10
                                         End If
+
+                                        ' RCD 2019/08/13 Start SalesRepGroupCode
+                                        .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        ' RCD 2019/08/13 End SalesRepGroupCode
+
                                         SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.Quote) ' TJS 13/01/10
 
                                         .CustomerSalesOrderDetailView(iRowLoop).IsConvert = False
@@ -3933,6 +3955,18 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "No Quote Items found", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateQuote", XMLGenericQuote.ToString)
                     End If
+
+                    ' RCD 2019/08/13 Start SalesRepGroupCode
+                    Dim commissionTotal As Decimal = 0
+                    Dim commissionTotalRate As Decimal = 0
+                    For counter As Integer = 0 To .CustomerSalesOrderDetailView.Rows.Count - 1
+                        commissionTotal += .CustomerSalesOrderDetailView(counter).CommissionAmount
+                        commissionTotalRate += .CustomerSalesOrderDetailView(counter).CommissionAmountRate
+                    Next
+                    .CustomerSalesRepCommissionView(0).CommissionPercent = 100
+                    .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
+                    .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    ' RCD 2019/08/13 End SalesRepGroupCode
 
                     .CustomerSalesOrderView(0).SubTotal = dblQuoteTotal
                     .CustomerSalesOrderView(0).SubTotalRate = dblQuoteTotalRate
@@ -4342,6 +4376,8 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Try
             bCustomerCreditHoldOrOverLimit = False ' TJS 06/10/09
             strCreditMessage = "" ' TJS 06/10/09
+
+            System.Diagnostics.Debugger.Launch()
 
             ' first check if order already entered but source hasn't received acknowledgement
             Me.m_ImportExportDataset.EnforceConstraints = False
@@ -4839,6 +4875,24 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         End If
                     End If
                     ' end of code added TJS 09/03/09
+
+                    ' RCD 2019/08/12 Start - SalesRepGroupCode Node
+                    Dim strSalesRepGroupCode = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_CUSTOMER_SALES_REP_GROUP_CODE)
+                    If (Not String.IsNullOrEmpty(strSalesRepGroupCode)) Then
+                        Dim salesRepRow As System.Data.DataRow = Interprise.Facade.Base.SimpleFacade.Instance.GetRow(New String() {"*"},
+                                                                                                                     Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_TABLE,
+                                                                                                                     String.Format(Interprise.Framework.Base.Shared.Const.FORMAT_FIELD_AND_VALUE,
+                                                                                                                                   Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN,
+                                                                                                                                   strSalesRepGroupCode),
+                                                                                                                     ConnectionStringType.Online)
+                        If (salesRepRow IsNot Nothing) Then
+                            .CustomerSalesRepCommissionView(0).SalesRepGroupCode = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN))
+                            .CustomerSalesRepCommissionView(0).SalesRepGroupName = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPNAME_COLUMN))
+                            .CustomerSalesRepCommissionView(0).CommissionPercent = CDec(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_COMMISSIONPERCENT_COLUMN))
+                        End If
+                    End If
+                    ' RCD 2019/08/12 End - SalesRepGroupCode Node
+
                     taxSchemeFacade.LoadDataSet(New String()() {New String() {taxSchemeDataset.SystemTaxSchemeDetailView.TableName, _
                         "ReadSystemTaxSchemeDetail", AT_COUNTRY_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COUNTRY_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
                         Interprise.Framework.Base.Shared.ClearType.Specific, Interprise.Framework.Base.Shared.ConnectionStringType.Offline)
@@ -5399,6 +5453,11 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                         If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_KIT Then ' TJS 02/04/14
                                             SalesOrderFacade.ComputeKitItemsSalesPrice(itemView(iRowLoop).Row) ' FA 18/10/10
                                         End If
+
+                                        ' RCD 2019/08/13 Start SalesRepGroupCode
+                                        .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        ' RCD 2019/08/13 End SalesRepGroupCode
+
                                         SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.SalesOrder) ' TJS 26/05/09
 
                                         ' code removed TJS 26/05/09
@@ -5631,6 +5690,18 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "No Order Items found", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
                     End If
+
+                    ' RCD 2019/08/13 Start SalesRepGroupCode
+                    Dim commissionTotal As Decimal = 0
+                    Dim commissionTotalRate As Decimal = 0
+                    For counter As Integer = 0 To .CustomerSalesOrderDetailView.Rows.Count - 1
+                        commissionTotal += .CustomerSalesOrderDetailView(counter).CommissionAmount
+                        commissionTotalRate += .CustomerSalesOrderDetailView(counter).CommissionAmountRate
+                    Next
+                    .CustomerSalesRepCommissionView(0).CommissionPercent = 100
+                    .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
+                    .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    ' RCD 2019/08/13 End SalesRepGroupCode
 
                     .CustomerSalesOrderView(0).SubTotal = dblOrderTotal
                     .CustomerSalesOrderView(0).SubTotalRate = dblOrderTotalRate ' TJS 26/05/09
@@ -6612,6 +6683,24 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     End If
                     .CustomerInvoiceView(0).Notes = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_CUSTOMER_COMMENTS)
 
+                    ' RCD 2019/08/12 Start - SalesRepGroupCode Node
+                    Dim strSalesRepGroupCode = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_CUSTOMER_SALES_REP_GROUP_CODE)
+                    If (Not String.IsNullOrEmpty(strSalesRepGroupCode)) Then
+                        Dim salesRepRow As System.Data.DataRow = Interprise.Facade.Base.SimpleFacade.Instance.GetRow(New String() {"*"},
+                                                                                                                     Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_TABLE,
+                                                                                                                     String.Format(Interprise.Framework.Base.Shared.Const.FORMAT_FIELD_AND_VALUE,
+                                                                                                                                   Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN,
+                                                                                                                                   strSalesRepGroupCode),
+                                                                                                                     ConnectionStringType.Online)
+                        If (salesRepRow IsNot Nothing) Then
+                            .CustomerSalesRepCommissionView(0).SalesRepGroupCode = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN))
+                            .CustomerSalesRepCommissionView(0).SalesRepGroupName = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPNAME_COLUMN))
+                            .CustomerSalesRepCommissionView(0).CommissionPercent = CDec(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_COMMISSIONPERCENT_COLUMN))
+                        End If
+                    End If
+                    ' RCD 2019/08/12 End - SalesRepGroupCode Node
+
+
                     taxSchemeFacade.LoadDataSet(New String()() {New String() {taxSchemeDataset.SystemTaxSchemeDetailView.TableName, _
                         "ReadSystemTaxSchemeDetail", AT_COUNTRY_CODE, .CustomerInvoiceView(0).BillToCountry}}, _
                         Interprise.Framework.Base.Shared.ClearType.Specific, Interprise.Framework.Base.Shared.ConnectionStringType.Offline)
@@ -7157,6 +7246,11 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                         If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_KIT Then ' TJS 02/04/14
                                             InvoiceFacade.ComputeKitItemsSalesPrice(itemView(iRowLoop).Row) ' FA 03/11/10
                                         End If
+
+                                        ' RCD 2019/08/13 Start SalesRepGroupCode
+                                        .CustomerInvoiceDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        ' RCD 2019/08/13 End SalesRepGroupCode
+
                                         InvoiceFacade.Compute(itemView(iRowLoop).Row, TransactionType.Invoice) ' TJS 26/05/09
                                         ' code removed TJS 26/05/09
 
@@ -7390,6 +7484,19 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "034", "No Invoice Items found", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateInvoice", XMLGenericInvoice.ToString) ' TJS 09/03/09
                     End If
+
+                    ' RCD 2019/08/13 Start SalesRepGroupCode
+                    Dim commissionTotal As Decimal = 0
+                    Dim commissionTotalRate As Decimal = 0
+                    For counter As Integer = 0 To .CustomerInvoiceDetailView.Rows.Count - 1
+                        commissionTotal += .CustomerInvoiceDetailView(counter).CommissionAmount
+                        commissionTotalRate += .CustomerInvoiceDetailView(counter).CommissionAmountRate
+                    Next
+                    .CustomerSalesRepCommissionView(0).CommissionPercent = 100
+                    .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
+                    .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    ' RCD 2019/08/13 End SalesRepGroupCode
+
                     .CustomerInvoiceView(0).SubTotal = dblInvoiceTotal
                     .CustomerInvoiceView(0).SubTotalRate = dblInvoiceTotalRate ' TJS 26/05/09
 
