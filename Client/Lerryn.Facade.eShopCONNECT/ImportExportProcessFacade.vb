@@ -4471,7 +4471,6 @@ Imports System.Xml.XPath ' TJS 02/12/11
 #If DEBUG Then
         System.Diagnostics.Debugger.Launch()
 #End If
-
             ' first check if order already entered but source hasn't received acknowledgement
             Me.m_ImportExportDataset.EnforceConstraints = False
             strWarningMessage = "" ' TJS 29/01/09
@@ -6897,7 +6896,6 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         End If
                     End If
                     ' RCD 2019/08/12 End - SalesRepGroupCode Node
-
 
                     taxSchemeFacade.LoadDataSet(New String()() {New String() {taxSchemeDataset.SystemTaxSchemeDetailView.TableName, _
                         "ReadSystemTaxSchemeDetail", AT_COUNTRY_CODE, .CustomerInvoiceView(0).BillToCountry}}, _

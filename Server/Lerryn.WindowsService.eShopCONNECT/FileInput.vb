@@ -245,7 +245,6 @@ Module FileInput
 #If DEBUG Then
         System.Diagnostics.Debugger.Launch()
 #End If
-
             ImportExportProcessFacade = New Lerryn.Facade.ImportExport.ImportExportProcessFacade(m_ImportExportDataset, m_ErrorNotification, PRODUCT_CODE, PRODUCT_NAME) ' TJS 10/06/12
 
             'Check the file is at least 40 chars (This prevents errors when checking for the xml version and encoding)
