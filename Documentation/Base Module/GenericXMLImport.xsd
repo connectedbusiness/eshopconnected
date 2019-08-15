@@ -24,6 +24,7 @@
                                              <xs:element name="OrderCurrency" type="xs:string"></xs:element>
                                              <xs:element name="CustomerSalesCoupon" type="xs:string"></xs:element>
                                              <xs:element name="SalesRepGroupCode" type="xs:string"></xs:element>
+                                             <xs:element name="SalesRepCode" type="xs:string"></xs:element>
                                              <xs:element name="Notes" type="xs:string"></xs:element>
                                              <xs:element name="SalesAgency" type="xs:string"></xs:element>
                                              <xs:element name="OrderTaker" type="xs:string"></xs:element>

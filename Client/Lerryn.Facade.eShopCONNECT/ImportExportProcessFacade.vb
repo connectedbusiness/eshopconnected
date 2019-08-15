@@ -2664,6 +2664,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Dim strBuyerPhone As String = String.Empty ' RCD 08/13/2019
         Dim strBuyerEmail As String = String.Empty ' RCD 08/13/2019
         Dim strCreditCardToken As String = String.Empty ' RCD 08/13/2019
+        Dim strCustomerComments As String = String.Empty ' RCD 08/15/2019
         Dim bCustomFieldExists As Boolean, bSalesQuoteSaved As Boolean, dblCouponDiscount As Decimal
         Dim strWarehouseCode As String, strItemKitPricing As String, iItemPtr As Integer, iBundlePtr As Integer ' TJS 22/09/10 TJS 02/04/14
         Dim iItemRowsAdded As Integer, iTaxLoop As Integer, iBundleRow As Integer, decSalesPriceRate As Decimal ' TJS 18/03/11 TJS 02/04/14
@@ -3112,9 +3113,15 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         End If
 
                         Dim predefinedNotes As New StringBuilder()
+                        strCustomerComments = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_CUSTOMER_COMMENTS)
+                        If (Not String.IsNullOrEmpty(strCustomerComments)) Then
+                            predefinedNotes.AppendLine(strCustomerComments)
+                            predefinedNotes.AppendLine()
+                        End If
                         strNotes = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_CUSTOMER_NOTES)
                         If (Not String.IsNullOrEmpty(strNotes)) Then
                             predefinedNotes.AppendLine(strNotes)
+                            predefinedNotes.AppendLine()
                         End If
                         strSalesAgency = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_CUSTOMER_SALES_AGENCY)
                         If (Not String.IsNullOrEmpty(strSalesAgency)) Then
@@ -3206,6 +3213,22 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             .CustomerSalesRepCommissionView(0).SalesRepGroupCode = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN))
                             .CustomerSalesRepCommissionView(0).SalesRepGroupName = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPNAME_COLUMN))
                             .CustomerSalesRepCommissionView(0).CommissionPercent = CDec(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_COMMISSIONPERCENT_COLUMN))
+
+                            ' RCD 2019/08/15 Start - SalesRepCode Node
+                            Dim strSalesRepCode = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_CUSTOMER_SALES_REP_CODE)
+                            If (Not String.IsNullOrEmpty(strSalesRepCode)) Then
+                                Dim salesRepContactCode As String = Interprise.Facade.Base.SimpleFacade.Instance.GetField(Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_CONTACTCODE_COLUMN, _
+                                                                                                                Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_TABLE,
+                                                                                                                String.Format(Interprise.Framework.Base.Shared.Const.FORMAT_FILTER_2, _
+                                                                                                                              Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_ENTITYCODE_COLUMN, _
+                                                                                                                              strSalesRepGroupCode, _
+                                                                                                                              Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_CONTACTCODE_COLUMN, _
+                                                                                                                              strSalesRepCode))
+                                If (Not String.IsNullOrEmpty(salesRepContactCode)) Then
+                                    .CustomerSalesRepCommissionView(0).ContactCode = salesRepContactCode
+                                End If
+                            End If
+                            ' RCD 2019/08/15 End - SalesRepCode Node
                         End If
                     End If
                     ' RCD 2019/08/12 End - SalesRepGroupCode Node
@@ -4429,6 +4452,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Dim strBuyerPhone As String = String.Empty ' RCD 08/13/2019
         Dim strBuyerEmail As String = String.Empty ' RCD 08/13/2019
         Dim strCreditCardToken As String = String.Empty ' RCD 08/13/2019
+        Dim strCustomerComments As String = String.Empty ' RCD 08/15/2019
         Dim bCustomFieldExists As Boolean, bSalesOrderSaved As Boolean, dblCouponDiscount As Decimal ' TJS 21/04/09 TJS 08/06/09
         Dim strWarehouseCode As String, strItemKitPricing As String, iItemPtr As Integer, iBundlePtr As Integer ' TJS 08/06/09 TJS 19/08/10 TJS 02/04/14
         Dim iItemRowsAdded As Integer, iTaxLoop As Integer, iBundleRow As Integer, decSalesPriceRate As Decimal ' TJS 18/03/11 TJS 02/04/14
@@ -4441,6 +4465,10 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Try
             bCustomerCreditHoldOrOverLimit = False ' TJS 06/10/09
             strCreditMessage = "" ' TJS 06/10/09
+
+#If DEBUG Then
+        System.Diagnostics.Debugger.Launch()
+#End If
 
             ' first check if order already entered but source hasn't received acknowledgement
             Me.m_ImportExportDataset.EnforceConstraints = False
@@ -4884,6 +4912,10 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         End If
 
                         Dim predefinedNotes As New StringBuilder()
+                        strCustomerComments = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_CUSTOMER_COMMENTS)
+                        If (Not String.IsNullOrEmpty(strCustomerComments)) Then
+                            predefinedNotes.AppendLine(strCustomerComments)
+                        End If
                         strNotes = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_CUSTOMER_NOTES)
                         If (Not String.IsNullOrEmpty(strNotes)) Then
                             predefinedNotes.AppendLine(strNotes)
@@ -4980,1063 +5012,1040 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             .CustomerSalesRepCommissionView(0).SalesRepGroupCode = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN))
                             .CustomerSalesRepCommissionView(0).SalesRepGroupName = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPNAME_COLUMN))
                             .CustomerSalesRepCommissionView(0).CommissionPercent = CDec(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_COMMISSIONPERCENT_COLUMN))
+
+                            ' RCD 2019/08/15 Start - SalesRepCode Node
+                            Dim strSalesRepCode = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_CUSTOMER_SALES_REP_CODE)
+                            If (Not String.IsNullOrEmpty(strSalesRepCode)) Then
+                                Dim salesRepContactCode As String = Interprise.Facade.Base.SimpleFacade.Instance.GetField(Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_CONTACTCODE_COLUMN, _
+                                                                                                                Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_TABLE,
+                                                                                                                String.Format(Interprise.Framework.Base.Shared.Const.FORMAT_FILTER_2, _
+                                                                                                                              Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_ENTITYCODE_COLUMN, _
+                                                                                                                              strSalesRepGroupCode, _
+                                                                                                                              Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_CONTACTCODE_COLUMN, _
+                                                                                                                              strSalesRepCode))
+                                If (Not String.IsNullOrEmpty(salesRepContactCode)) Then
+                                    .CustomerSalesRepCommissionView(0).ContactCode = salesRepContactCode
+                                End If
+                            End If
+                            ' RCD 2019/08/15 End - SalesRepCode Node
                         End If
                     End If
                     ' RCD 2019/08/12 End - SalesRepGroupCode Node
 
-                    taxSchemeFacade.LoadDataSet(New String()() {New String() {taxSchemeDataset.SystemTaxSchemeDetailView.TableName, _
-                        "ReadSystemTaxSchemeDetail", AT_COUNTRY_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COUNTRY_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
-                        Interprise.Framework.Base.Shared.ClearType.Specific, Interprise.Framework.Base.Shared.ConnectionStringType.Offline)
-                    XMLOrderItems = XMLGenericOrder.XPathSelectElements(GENERIC_XML_ORDER_ITEM_LIST)
-                    dblOrderTotal = 0
-                    dblOrderTotalRate = 0 ' TJS 26/05/09
-                    dblOrderTax = 0
-                    dblOrderTaxRate = 0
-                    iLineNum = 1
-                    If XMLOrderItems IsNot Nothing Then ' TJE 09/03/09
-                        For Each XMLOrderItem In XMLOrderItems
-                            Try
-                                XMLItemTemp = XDocument.Parse(XMLOrderItem.ToString)
-                                ' has Item Code been provided
-                                If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_CODE) <> "" Then
-                                    ' yes, use it
-                                    Me.LoadDataSet(New String()() {New String() {m_ImportExportDataset.SaleItemView.TableName, "ReadSaleItemView_DEV000221", _
-                                        Interprise.Framework.Inventory.Shared.Const.AT_ITEM_CODE, GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_CODE), _
-                                        Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
-                                        Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 13/02/14
-                                    strItemID = "Order Item Code " & GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_CODE)
+            taxSchemeFacade.LoadDataSet(New String()() {New String() {taxSchemeDataset.SystemTaxSchemeDetailView.TableName, _
+                "ReadSystemTaxSchemeDetail", AT_COUNTRY_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COUNTRY_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
+                Interprise.Framework.Base.Shared.ClearType.Specific, Interprise.Framework.Base.Shared.ConnectionStringType.Offline)
+            XMLOrderItems = XMLGenericOrder.XPathSelectElements(GENERIC_XML_ORDER_ITEM_LIST)
+            dblOrderTotal = 0
+            dblOrderTotalRate = 0 ' TJS 26/05/09
+            dblOrderTax = 0
+            dblOrderTaxRate = 0
+            iLineNum = 1
+            If XMLOrderItems IsNot Nothing Then ' TJE 09/03/09
+                For Each XMLOrderItem In XMLOrderItems
+                    Try
+                        XMLItemTemp = XDocument.Parse(XMLOrderItem.ToString)
+                        ' has Item Code been provided
+                        If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_CODE) <> "" Then
+                            ' yes, use it
+                            Me.LoadDataSet(New String()() {New String() {m_ImportExportDataset.SaleItemView.TableName, "ReadSaleItemView_DEV000221", _
+                                Interprise.Framework.Inventory.Shared.Const.AT_ITEM_CODE, GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_CODE), _
+                                Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
+                                Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 13/02/14
+                            strItemID = "Order Item Code " & GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_CODE)
 
-                                ElseIf GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_NAME) <> "" Then
-                                    ' no, but Item Name has been
-                                    Me.LoadDataSet(New String()() {New String() {m_ImportExportDataset.SaleItemView.TableName, "ReadSaleItemView_DEV000221", _
-                                        AT_ITEM_NAME, GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_NAME), Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, _
-                                        GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
-                                        Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 10/02/09 TJS 13/02/14
-                                    strItemID = "Order Item Name " & GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_NAME)
+                        ElseIf GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_NAME) <> "" Then
+                            ' no, but Item Name has been
+                            Me.LoadDataSet(New String()() {New String() {m_ImportExportDataset.SaleItemView.TableName, "ReadSaleItemView_DEV000221", _
+                                AT_ITEM_NAME, GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_NAME), Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, _
+                                GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
+                                Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 10/02/09 TJS 13/02/14
+                            strItemID = "Order Item Name " & GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_NAME)
 
-                                Else
-                                    sTemp = "Both ISItemCode or ISItemName are blank" ' TJS 10/02/09
-                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", sTemp, _
-                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                        Else
+                            sTemp = "Both ISItemCode or ISItemName are blank" ' TJS 10/02/09
+                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", sTemp, _
+                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
 
-                                End If
+                        End If
 
-                                ' start of code added TJS 19/09/13
-                                bSkipUMCAandWarehouseCheck = False
-                                ' did we find a matching Inventory Item ?
-                                If Me.m_ImportExportDataset.SaleItemView.Count = 0 Then
-                                    ' no, is Import Missing Items As NonStock set ?
-                                    If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_IMPORT_MISSING_ITEMS_AS_NONSTOCK).ToUpper = "YES" Then
-                                        ' yes, send error email
-                                        m_ImportExportConfigFacade.SendSourceErrorEmail(m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", strItemID & " not found - Order line item imported as Non-Stock.", XMLGenericOrder.ToString)
-                                        ' get Non-Stock item record
-                                        Me.LoadDataSet(New String()() {New String() {m_ImportExportDataset.SaleItemView.TableName, "ReadSaleItemView_DEV000221", AT_ITEM_NAME, "NONSTOCK", _
-                                            Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
-                                            Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 13/02/14
-                                        bSkipUMCAandWarehouseCheck = True
-                                    End If
-                                End If
-                                ' end of code added TJS 19/09/13
+                        ' start of code added TJS 19/09/13
+                        bSkipUMCAandWarehouseCheck = False
+                        ' did we find a matching Inventory Item ?
+                        If Me.m_ImportExportDataset.SaleItemView.Count = 0 Then
+                            ' no, is Import Missing Items As NonStock set ?
+                            If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_IMPORT_MISSING_ITEMS_AS_NONSTOCK).ToUpper = "YES" Then
+                                ' yes, send error email
+                                m_ImportExportConfigFacade.SendSourceErrorEmail(m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", strItemID & " not found - Order line item imported as Non-Stock.", XMLGenericOrder.ToString)
+                                ' get Non-Stock item record
+                                Me.LoadDataSet(New String()() {New String() {m_ImportExportDataset.SaleItemView.TableName, "ReadSaleItemView_DEV000221", AT_ITEM_NAME, "NONSTOCK", _
+                                    Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
+                                    Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 13/02/14
+                                bSkipUMCAandWarehouseCheck = True
+                            End If
+                        End If
+                        ' end of code added TJS 19/09/13
 
-                                If Me.m_ImportExportDataset.SaleItemView.Count > 0 Then
-                                    ' start of code added TJS 08/06/09
-                                    iItemPtr = 0
-                                    If Not bSkipUMCAandWarehouseCheck Then ' TJS 19/09/13
-                                        ' has a Warehouse code been specified ?
-                                        strWarehouseCode = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_WAREHOUSE)
-                                        If strWarehouseCode = "" Then
-                                            ' no, is UseShipToClassTemplate set ?
-                                            If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_USE_SHIPTO_CLASS_TEMPLATE).ToUpper = "YES" Then ' TJS 08/07/12 TJS 20/07/12
-                                                ' yes, get warehouse from Customer Ship To
-                                                strWarehouseCode = .CustomerSalesOrderView(0).WarehouseCode ' TJS 08/07/12 TJS 20/07/12
-                                            Else
-                                                ' no, get default Warehouse code
-                                                strWarehouseCode = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DEFAULT_WAREHOUSE)
-                                            End If
-                                        End If
-                                        ' has a Unit Of Measure been specified ?
-                                        strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UMC)
-                                        If strTempValue <> "" Then
-                                            ' yes, find relevent item details
-                                            Do While Me.m_ImportExportDataset.SaleItemView(iItemPtr).Item("UnitMeasureCode").ToString.ToUpper <> strTempValue.ToUpper Or _
-                                                (Me.m_ImportExportDataset.SaleItemView(iItemPtr).Item("WarehouseCode").ToString.ToUpper <> strWarehouseCode.ToUpper And _
-                                                (Not Me.m_ImportExportDataset.SaleItemView(iItemPtr).IsWarehouseCodeNull)) ' TJS 04/07/09 TJS 14/08/09
-                                                iItemPtr += 1
-                                                If iItemPtr > Me.m_ImportExportDataset.SaleItemView.Count - 1 Then
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", "Cannot find Unit of Measure " & strTempValue & " and Warehouse Code " & strWarehouseCode & " for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                End If
-                                            Loop
-                                        Else
-                                            ' no, find base Unit of Measure
-                                            Do While (Me.m_ImportExportDataset.SaleItemView(iItemPtr).IsDefaultSellingNull OrElse Not Me.m_ImportExportDataset.SaleItemView(iItemPtr).DefaultSelling) Or _
-                                                (Me.m_ImportExportDataset.SaleItemView(iItemPtr).Item("WarehouseCode").ToString.ToUpper <> strWarehouseCode.ToUpper And _
-                                                (Not Me.m_ImportExportDataset.SaleItemView(iItemPtr).IsWarehouseCodeNull)) ' TJS 14/08/09 TJS 02/12/11 TJS 23/05/14
-                                                iItemPtr += 1
-                                                If iItemPtr > Me.m_ImportExportDataset.SaleItemView.Count - 1 Then
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", "Cannot find default UMC and Warehouse Code " & strWarehouseCode & " for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                End If
-                                            Loop
-                                        End If
-                                    End If
-                                    ' end of code added TJS 08/06/09
-                                    itemView = New DataView(SalesOrderDataset.CustomerSalesOrderDetailView)
-                                    itemView.AddNew()
-
-                                    ' need to set default value for linenum etc to prevent DBNull conversion error
-                                    itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.RootDocumentCodeColumn.ColumnName) = .CustomerSalesOrderView(0).RootDocumentCode
-                                    itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.SalesOrderCodeColumn.ColumnName) = .CustomerSalesOrderView(0).SalesOrderCode
-                                    itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.LineNumColumn.ColumnName) = 0
-                                    itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.SourceLineNumColumn.ColumnName) = 0
-                                    ' save original Inventory Item description in order detail row
-                                    itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.InventoryDescriptionColumn.ColumnName) = Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemDescription ' TJS 02.04/14
-
-                                    ' start of code added TJS 10/06/12
-                                    sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_SOURCE_COMMISSION)
-                                    ' has source commission been supplied ?
-                                    If sTemp <> "" Then
-                                        ' yes, must be numeric and not contain any commas
-                                        If IsNumeric(sTemp) And InStr(sTemp, ",") >= 0 Then
-                                            itemView(iLineNum - 1)("SourceCommissionChargeRate_DEV000221") = CDec(sTemp)
-                                            itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.CommissionAmountColumn.ColumnName) = CDec(itemView(iLineNum - 1)("SourceCommissionChargeRate_DEV000221"))
-                                            itemView(iLineNum - 1)("SourceCommissionCharge_DEV000221") = RoundDecimalValue(CDec(itemView(iLineNum - 1)("SourceCommissionChargeRate_DEV000221")) / .CustomerSalesOrderView(0).ExchangeRate)
-                                            itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.CommissionAmountRateColumn.ColumnName) = CDec(itemView(iLineNum - 1)("SourceCommissionCharge_DEV000221"))
-                                        Else
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Source Commission must be numeric for " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                        End If
-                                    End If
-                                    sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_SOURCE_FULFILLMENT)
-                                    ' has source fulfillment been supplied ?
-                                    If sTemp <> "" Then
-                                        ' yes, must be numeric and not contain any commas
-                                        If IsNumeric(sTemp) And InStr(sTemp, ",") >= 0 Then
-                                            itemView(iLineNum - 1)("SourceFulfillmentCostRate_DEV000221") = CDec(sTemp)
-                                            itemView(iLineNum - 1)("SourceFulfillmentCost_DEV000221") = RoundDecimalValue(CDec(itemView(iLineNum - 1)("SourceFulfillmentCostRate_DEV000221")) / .CustomerSalesOrderView(0).ExchangeRate)
-                                        Else
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Source Fulfillment must be numeric for " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                        End If
-                                    End If
-                                    ' end of code added TJS 10/06/12
-
-                                    sTemp = ""
-                                    strItemKitPricing = "" ' TJS 18/03/11
-                                    iItemRowsAdded = 1 ' TJS 18/03/11
-                                    decKitPriceSumRate = 0 ' TJS 18/03/11
-                                    decKitPriceTaxSumRate = 0 ' TJS/FA 17/10/11
-                                    If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_MATRIX_GROUP Then ' TJS 19/08/10 TJS 02/04/14
-                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", strItemID & " is a Matrix Group item.  Only individual Items whthin the Matrix Group can be added to an order.", _
-                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 19/08/10
-
-                                        ' start of code added TJS 19/08/10
-                                    ElseIf Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_KIT Then ' TJS 02/04/14
-                                        ItemKitDataset = New Interprise.Framework.Base.DatasetGateway.ItemKitDatasetGateway
-                                        ItemKitFacade = New Interprise.Facade.Customer.CustomerItemKitFacade(ItemKitDataset)
-                                        ItemKitFacade.CurrencyCode = .CustomerSalesOrderView(0).CurrencyCode
-                                        ItemKitFacade.ExchangeRate = .CustomerSalesOrderView(0).ExchangeRate
-                                        strItemKitPricing = ItemKitFacade.GetField("PricingType", "InventoryKit", "ItemKitCode = '" & Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode & "'")
-                                        itemKitDetailRows = New DataRow() {} ' TJS 22/09/10
-                                        ItemKitFacade.InitializeKitConfigurator(Me.m_ImportExportDataset.SaleItemView(iItemPtr), strItemKitPricing, _
-                                            CustomerCode, .CustomerSalesOrderView(0).SalesOrderDate, strWarehouseCode, itemKitDetailRows) ' TJS 22/09/10
-                                        ' get quantity ordered
-                                        strItemQty = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_QUANTITY)
-                                        ' has quantity been provided ?
-                                        If strItemQty <> "" Then
-                                            ' yes, must be numeric and not contain any commas
-                                            If IsNumeric(strItemQty) And InStr(strItemQty, ",") >= 0 Then
-                                                ' must be greater than 0
-                                                If CDec(strItemQty) > 0 Then
-                                                    ' need to apply price to kit via configurator
-                                                    ' start of code added TJS 18/03/11
-                                                    decSalesPriceRate = 0
-                                                    strItemPrice = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UNIT_PRICE)
-                                                    ' has price been supplied ?
-                                                    If strItemPrice <> "" Then
-                                                        ' yes, must be numeric and not contain any commas
-                                                        If IsNumeric(strItemPrice) And InStr(strItemPrice, ",") >= 0 Then
-                                                            ' must not be negative
-                                                            If CDec(strItemPrice) >= 0 Then
-                                                                ' Unit price valid, overwrite Item price
-                                                                ' do prices include tax >
-                                                                If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then
-                                                                    ' yes, get price before tax (Use freight tax calc as item row(s) not yet created for kit
-                                                                    decSalesPriceRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, .TransactionItemTaxDetailView, _
-                                                                        Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode, 0, CDec(strItemQty), CDec(strItemPrice), _
-                                                                        Me.m_ImportExportDataset.SaleItemView(iItemPtr).SalesTaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
-                                                                        .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, True)
-                                                                Else
-                                                                    decSalesPriceRate = CDec(strItemPrice)
-                                                                End If
-                                                            Else
-                                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must not be negative for " & strItemID, _
-                                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                            End If
-                                                        Else
-                                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must be numeric for " & strItemID, _
-                                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                        End If
-                                                    End If
-                                                    dblOrderTotalRate += (decSalesPriceRate * CDec(strItemQty)) ' TJS 02/04/14
-                                                    dblOrderTotal = RoundDecimalValue(dblOrderTotalRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 02/04/14
-                                                    ' end of code added TJS 18/03/11
-                                                    ' quantity valid, apply to Kit
-                                                    If strItemKitPricing = "Item Price" Then ' TJS 18/03/11
-                                                        SalesOrderFacade.AssignItemKit(Me.m_ImportExportDataset.SaleItemView(iItemPtr), ItemKitFacade.KitItems, itemView(iLineNum - 1), strItemKitPricing, CDec(strItemQty), 0, TransactionType.SalesOrder, sTemp, strWarehouseCode) ' TJS 18/03/11
-                                                        iItemRowsAdded = ItemKitFacade.KitItems.Length ' TJS 18/03/11
-                                                        decKitTotalPriceRate = ItemKitFacade.ComputeTotalByTotal ' TJS 18/03/11
-                                                    Else
-                                                        SalesOrderFacade.AssignItemKit(Me.m_ImportExportDataset.SaleItemView(iItemPtr), ItemKitFacade.KitItems, itemView(iLineNum - 1), strItemKitPricing, CDec(strItemQty), decSalesPriceRate, TransactionType.SalesOrder, sTemp, strWarehouseCode)
-                                                    End If
-                                                    If sTemp <> "" Then
-                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "016", sTemp, _
-                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                                                    End If
-                                                Else
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be greater than 0 for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                End If
-                                            Else
-                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be numeric for " & strItemID, _
-                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                            End If
-                                        Else
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity is blank in input XML for " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                        End If
-                                        ' end of code added TJS 19/08/10
-
-                                        ' start of code added TJS 02/04/14
-                                    ElseIf Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_BUNDLE Then
-                                        ' get quantity ordered
-                                        strItemQty = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_QUANTITY)
-                                        ' has quantity been provided ?
-                                        If strItemQty <> "" Then
-                                            ' yes, must be numeric and not contain any commas
-                                            If IsNumeric(strItemQty) And InStr(strItemQty, ",") >= 0 Then
-                                                ' must be greater than 0
-                                                If CDec(strItemQty) > 0 Then
-                                                    ' quantity valid, get 
-                                                    decSalesPriceRate = 0
-                                                    strItemPrice = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UNIT_PRICE)
-                                                    ' has price been supplied ?
-                                                    If strItemPrice <> "" Then
-                                                        ' yes, must be numeric and not contain any commas
-                                                        If IsNumeric(strItemPrice) And InStr(strItemPrice, ",") >= 0 Then
-                                                            ' must not be negative
-                                                            If CDec(strItemPrice) >= 0 Then
-                                                                ' Unit price valid, overwrite Item price
-                                                                ' do prices include tax >
-                                                                If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then
-                                                                    ' yes, get price before tax (Use freight tax calc as item row(s) not yet created for kit
-                                                                    decSalesPriceRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, .TransactionItemTaxDetailView, _
-                                                                        Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode, 0, CDec(strItemQty), CDec(strItemPrice), _
-                                                                        Me.m_ImportExportDataset.SaleItemView(iItemPtr).SalesTaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
-                                                                        .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, True)
-                                                                Else
-                                                                    decSalesPriceRate = CDec(strItemPrice)
-                                                                End If
-
-                                                            Else
-                                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must not be negative for " & strItemID, _
-                                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                            End If
-                                                        Else
-                                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must be numeric for " & strItemID, _
-                                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                        End If
-                                                    End If
-
-                                                    ' get bundle details
-                                                    ItemBundleDataset = New Interprise.Framework.Customer.DatasetGateway.BundleConfiguratorDatasetGateway
-                                                    ItemBundleFacade = New Interprise.Facade.Customer.ItemBundleFacade(ItemBundleDataset)
-                                                    ItemBundleFacade.LoadDataSet("ReadInventoryBundleConfigurator", New String() {"InventoryBundleConfiguratorView"}, _
-                                                        New String()() {New String() {"@BundleCode", Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode}, _
-                                                        New String() {"@DefaultPrice", CustomerDetailDataset.CustomerView(0).DefaultPrice}, _
-                                                        New String() {"@LanguageCode", GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}, _
-                                                        New String() {"@CurrencyCode", .CustomerSalesOrderView(0).CurrencyCode}, _
-                                                        New String() {"@WarehouseCode", strWarehouseCode}}, ClearType.Specific)
-                                                    iBundleRow = iLineNum - 1
-                                                    ' get total of item prices in bundle
-                                                    decBundleTotalPriceRate = 0
-                                                    decBundlePriceSumRate = 0
-                                                    For Each ItemBundleRow In ItemBundleDataset.InventoryBundleConfiguratorView.Rows
-                                                        decBundleTotalPriceRate = decBundleTotalPriceRate + (CDec(ItemBundleRow(CUSTOMERSALESORDERDETAIL_SALESPRICERATE_COLUMN)) * CDec(ItemBundleRow("Quantity")))
-                                                    Next
-                                                    iItemRowsAdded = ItemBundleDataset.InventoryBundleConfiguratorView.Count
-                                                    iBundlePtr = 0
-                                                    For Each ItemBundleRow In ItemBundleDataset.InventoryBundleConfiguratorView.Rows
-                                                        SalesOrderFacade.AssignInventoryItem(ItemBundleRow, itemView(iBundleRow), sTemp)
-                                                        .CustomerSalesOrderDetailView(iBundleRow).ItemCode = ItemBundleRow(CUSTOMERSALESORDERDETAIL_ITEMCODE_COLUMN).ToString
-                                                        .CustomerSalesOrderDetailView(iBundleRow).ItemName = ItemBundleRow(INVENTORYITEMS_ITEMNAME_COLUMN).ToString
-                                                        .CustomerSalesOrderDetailView(iBundleRow).ItemDescription = ItemBundleRow(INVENTORYITEMDESCRIPTION_ITEMDESCRIPTION_COLUMN).ToString
-                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = CDec(ItemBundleRow(CUSTOMERSALESORDERDETAIL_SALESPRICERATE_COLUMN))
-                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPrice = CDec(ItemBundleRow(CUSTOMERSALESORDERDETAIL_SALESPRICE_COLUMN))
-                                                        .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered = CDec(strItemQty) * CDec(ItemBundleRow("Quantity"))
-                                                        .CustomerSalesOrderDetailView(iBundleRow).ItemType = ItemBundleRow(CUSTOMERSALESORDERDETAIL_ITEMTYPE_COLUMN).ToString
-                                                        .CustomerSalesOrderDetailView(iBundleRow).ParentBundleItemCode = ItemBundleRow(BUNDLECODE).ToString
-
-                                                        ' is this the last row of the bundle ?
-                                                        If iBundlePtr <> ItemBundleDataset.InventoryBundleConfiguratorView.Count - 1 Then
-                                                            ' no, set price as relevant fraction of total bundle price
-                                                            If decBundleTotalPriceRate = 0 Then
-                                                                ' is quantity ordered > 1 ?
-                                                                If CInt(strItemQty) > 1 Then
-                                                                    ' yes - CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered will be equal to Kit Item Qty 
-                                                                    ' if there is only 1 of the item in the bundle
-                                                                    ' Otherwise the Item Quantity Order figure will always be greater than the bundle Qty as it is 
-                                                                    ' the bundle item Quantity / by the number of bundles in the order
-                                                                    If (.CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered / CInt(strItemQty)) > 1 Then
-                                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((decSalesPriceRate / iItemRowsAdded) * (CDec(strItemQty) / .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered), 2)
-                                                                    Else
-                                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded), 2)
-                                                                    End If
-                                                                Else
-                                                                    If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
-                                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded * .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered), 2)
-                                                                    Else
-                                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / iItemRowsAdded, 2)
-                                                                    End If
-                                                                End If
-                                                            Else
-                                                                ' is quantity ordered > 1 ?
-                                                                If CInt(strItemQty) > 1 Then
-                                                                    ' yes - CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered will be equal to Kit Item Qty 
-                                                                    ' if there is only 1 of the item in the bundle
-                                                                    ' Otherwise the Item Quantity Order figure will always be greater than the bundle Qty as it is 
-                                                                    ' the bundle item Quantity / by the number of bundles in the order
-                                                                    If (.CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered / CInt(strItemQty)) > 1 Then
-                                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * decSalesPriceRate) / (decBundleTotalPriceRate * (.CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered / CInt(strItemQty))), 2)
-
-                                                                    Else
-                                                                        ' if there is only 1 of the item, then the unit price will be the percentage calculation for the individual item price.
-                                                                        'Total for the item is then multiplied by the Kit item quantity
-                                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * decSalesPriceRate) / decBundleTotalPriceRate, 2)
-                                                                    End If
-                                                                Else
-                                                                    'If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
-                                                                    ' TJS/FA 19/04/12 percentage of kit value divided by the number of items
-                                                                    .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * decSalesPriceRate / decBundleTotalPriceRate, 2)
-
-                                                                End If
-                                                            End If
-                                                            If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
-                                                                decBundlePriceSumRate = decBundlePriceSumRate + .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered
-                                                            Else
-                                                                decBundlePriceSumRate = decBundlePriceSumRate + .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate
-                                                            End If
-                                                        Else
-                                                            If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
-                                                                ' yes, set price as remainder to prevent rounding errors and divide by quantity ordered
-                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(((decSalesPriceRate * CInt(strItemQty)) - decBundlePriceSumRate) / .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered, 2)
-                                                            Else
-                                                                ' yes, set price as remainder to prevent rounding errors
-                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((decSalesPriceRate * CInt(strItemQty)) - decBundlePriceSumRate, 2)
-                                                            End If
-                                                        End If
-                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPrice = RoundDecimalValue(.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate / .CustomerSalesOrderView(0).ExchangeRate)
-
-                                                        iBundleRow += 1
-                                                        iBundlePtr += 1
-                                                        If iBundlePtr <> ItemBundleDataset.InventoryBundleConfiguratorView.Count Then
-                                                            itemView = New DataView(SalesOrderDataset.CustomerSalesOrderDetailView)
-                                                            itemView.AddNew()
-
-                                                            ' need to set default value for linenum etc to prevent DBNull conversion error
-                                                            itemView(iBundleRow)(.CustomerSalesOrderDetailView.RootDocumentCodeColumn.ColumnName) = .CustomerSalesOrderView(0).RootDocumentCode
-                                                            itemView(iBundleRow)(.CustomerSalesOrderDetailView.SalesOrderCodeColumn.ColumnName) = .CustomerSalesOrderView(0).SalesOrderCode
-                                                            itemView(iBundleRow)(.CustomerSalesOrderDetailView.LineNumColumn.ColumnName) = 0
-                                                            itemView(iBundleRow)(.CustomerSalesOrderDetailView.SourceLineNumColumn.ColumnName) = 0
-                                                        End If
-                                                    Next
-                                                    dblOrderTotalRate += (decSalesPriceRate * CDec(strItemQty))
-                                                    dblOrderTotal = RoundDecimalValue(dblOrderTotalRate / .CustomerSalesOrderView(0).ExchangeRate)
-
-                                                Else
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be greater than 0 for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                                End If
-                                            Else
-                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be numeric for " & strItemID, _
-                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                            End If
-                                        Else
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity is blank in input XML for " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                                        End If
-                                        ' end of code added TJS 02/04/14
-
+                        If Me.m_ImportExportDataset.SaleItemView.Count > 0 Then
+                            ' start of code added TJS 08/06/09
+                            iItemPtr = 0
+                            If Not bSkipUMCAandWarehouseCheck Then ' TJS 19/09/13
+                                ' has a Warehouse code been specified ?
+                                strWarehouseCode = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_WAREHOUSE)
+                                If strWarehouseCode = "" Then
+                                    ' no, is UseShipToClassTemplate set ?
+                                    If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_USE_SHIPTO_CLASS_TEMPLATE).ToUpper = "YES" Then ' TJS 08/07/12 TJS 20/07/12
+                                        ' yes, get warehouse from Customer Ship To
+                                        strWarehouseCode = .CustomerSalesOrderView(0).WarehouseCode ' TJS 08/07/12 TJS 20/07/12
                                     Else
-                                        SalesOrderFacade.AssignInventoryItem(Me.m_ImportExportDataset.SaleItemView(iItemPtr), itemView(iLineNum - 1), sTemp)
-                                        If sTemp <> "" Then
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "016", sTemp, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                                        End If
-                                        ' start of code moved TJS 19/08/10
-                                        ' set quantity ordered
-                                        strItemQty = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_QUANTITY) ' TJS 09/03/09
-                                        ' has quantity been provided ?
-                                        If strItemQty <> "" Then ' TJS 09/03/09
-                                            ' yes, must be numeric and not contain any commas
-                                            If IsNumeric(strItemQty) And InStr(strItemQty, ",") >= 0 Then ' TJS 09/03/09 TJS 29/05/09
-                                                ' must be greater than 0
-                                                If CDec(strItemQty) > 0 Then ' TJS 09/03/09
-                                                    ' quantity valid, apply to Item
-                                                    .CustomerSalesOrderDetailView(iLineNum - 1).QuantityOrdered = CDec(strItemQty) ' TJS 09/03/09
-                                                Else
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be greater than 0 for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                                                End If
-                                            Else
-                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be numeric for " & strItemID, _
-                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                                            End If
-                                        Else
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity is blank in input XML for " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                                        End If
-
-                                        ' now set default price and cost
-                                        If Not SalesOrderFacade.SetSalesPrice(itemView(iLineNum - 1), False) Then ' TJS 26/05/09
-                                            sTemp = Interprise.Facade.Base.SimpleFacade.Instance.GetMessage("INF0101", New String() {CStr(itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.ItemNameColumn.ColumnName)), .CustomerSalesOrderView(0).CurrencyCode}) ' TJS 26/05/09
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "016", sTemp, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)  ' TJS 26/05/09
-                                        End If
-                                        ' end of code moved TJS 19/08/10
+                                        ' no, get default Warehouse code
+                                        strWarehouseCode = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DEFAULT_WAREHOUSE)
                                     End If
+                                End If
+                                ' has a Unit Of Measure been specified ?
+                                strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UMC)
+                                If strTempValue <> "" Then
+                                    ' yes, find relevent item details
+                                    Do While Me.m_ImportExportDataset.SaleItemView(iItemPtr).Item("UnitMeasureCode").ToString.ToUpper <> strTempValue.ToUpper Or _
+                                        (Me.m_ImportExportDataset.SaleItemView(iItemPtr).Item("WarehouseCode").ToString.ToUpper <> strWarehouseCode.ToUpper And _
+                                        (Not Me.m_ImportExportDataset.SaleItemView(iItemPtr).IsWarehouseCodeNull)) ' TJS 04/07/09 TJS 14/08/09
+                                        iItemPtr += 1
+                                        If iItemPtr > Me.m_ImportExportDataset.SaleItemView.Count - 1 Then
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", "Cannot find Unit of Measure " & strTempValue & " and Warehouse Code " & strWarehouseCode & " for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                        End If
+                                    Loop
+                                Else
+                                    ' no, find base Unit of Measure
+                                    Do While (Me.m_ImportExportDataset.SaleItemView(iItemPtr).IsDefaultSellingNull OrElse Not Me.m_ImportExportDataset.SaleItemView(iItemPtr).DefaultSelling) Or _
+                                        (Me.m_ImportExportDataset.SaleItemView(iItemPtr).Item("WarehouseCode").ToString.ToUpper <> strWarehouseCode.ToUpper And _
+                                        (Not Me.m_ImportExportDataset.SaleItemView(iItemPtr).IsWarehouseCodeNull)) ' TJS 14/08/09 TJS 02/12/11 TJS 23/05/14
+                                        iItemPtr += 1
+                                        If iItemPtr > Me.m_ImportExportDataset.SaleItemView.Count - 1 Then
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", "Cannot find default UMC and Warehouse Code " & strWarehouseCode & " for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                        End If
+                                    Loop
+                                End If
+                            End If
+                            ' end of code added TJS 08/06/09
+                            itemView = New DataView(SalesOrderDataset.CustomerSalesOrderDetailView)
+                            itemView.AddNew()
 
-                                    For iRowLoop = iLineNum - 1 To (iLineNum - 1) + (iItemRowsAdded - 1) ' TJS 18/03/11
-                                        .CustomerSalesOrderDetailView(iRowLoop).WebSiteCode = .CustomerSalesOrderView(0).WebSiteCode
-                                        sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_PURCHASE_ID)
-                                        If sTemp <> "" Then
-                                            .CustomerSalesOrderDetailView(iRowLoop)("SourcePurchaseID_DEV000221") = sTemp
-                                        End If
+                            ' need to set default value for linenum etc to prevent DBNull conversion error
+                            itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.RootDocumentCodeColumn.ColumnName) = .CustomerSalesOrderView(0).RootDocumentCode
+                            itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.SalesOrderCodeColumn.ColumnName) = .CustomerSalesOrderView(0).SalesOrderCode
+                            itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.LineNumColumn.ColumnName) = 0
+                            itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.SourceLineNumColumn.ColumnName) = 0
+                            ' save original Inventory Item description in order detail row
+                            itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.InventoryDescriptionColumn.ColumnName) = Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemDescription ' TJS 02.04/14
 
-                                        ' code to set quantity and price moved TJS 19/08/10
-                                        .CustomerSalesOrderDetailView(iRowLoop).QuantityBackOrdered = 0
-                                        .CustomerSalesOrderDetailView(iRowLoop).QuantityShipped = 0
-                                        .CustomerSalesOrderDetailView(iRowLoop).QuantityToBeShipped = 0
-                                        If m_ImportExportDataset.SaleItemView(0).ItemType = ITEM_TYPE_NON_STOCK Or _
-                                            m_ImportExportDataset.SaleItemView(0).ItemType = ITEM_TYPE_SERVICE Or _
-                                            m_ImportExportDataset.SaleItemView(0).ItemType = ITEM_TYPE_ELECTRONIC_DOWNLOAD Then ' TJS 17/05/09
-                                            .CustomerSalesOrderDetailView(iRowLoop).QuantityAllocated = .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered ' TJS 17/05/09
-                                        Else
-                                            .CustomerSalesOrderDetailView(iRowLoop).QuantityAllocated = 0
-                                        End If
-                                        .CustomerSalesOrderDetailView(iRowLoop).QuantityAlReadyRMA = 0
-                                        .CustomerSalesOrderDetailView(iRowLoop).QuantityReturned = 0
-                                        .CustomerSalesOrderDetailView(iRowLoop).ContractQuantity = 0
-                                        .CustomerSalesOrderDetailView(iRowLoop).ContractCalledOff = 0
-                                        If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DESCRIPTION) <> "" And ((Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_KIT And _
-                                            Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_BUNDLE) Or strItemKitPricing = "Kit Price") Then ' TJS 18/03/11 TJS 02/04/14
-                                            .CustomerSalesOrderDetailView(iRowLoop).ItemDescription = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DESCRIPTION)
-                                            .CustomerSalesOrderDetailView(iRowLoop).InventoryDescription = .CustomerSalesOrderDetailView(iRowLoop).ItemDescription
-                                            .CustomerSalesOrderDetailView(iRowLoop).IsInventoryDescription = True
-                                        End If
-                                        ' only apply price here if not a kit (kit pricing handled above when pricing type is Kit and below for Item pricing
-                                        ' or a bundle (bundle pricing is handled above)
-                                        If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_KIT And Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_BUNDLE Then ' TJS 18/03/11 TJS 02/04/14 
-                                            strItemPrice = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UNIT_PRICE) ' TJS 09/03/09
+                            ' start of code added TJS 10/06/12
+                            sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_SOURCE_COMMISSION)
+                            ' has source commission been supplied ?
+                            If sTemp <> "" Then
+                                ' yes, must be numeric and not contain any commas
+                                If IsNumeric(sTemp) And InStr(sTemp, ",") >= 0 Then
+                                    itemView(iLineNum - 1)("SourceCommissionChargeRate_DEV000221") = CDec(sTemp)
+                                    itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.CommissionAmountColumn.ColumnName) = CDec(itemView(iLineNum - 1)("SourceCommissionChargeRate_DEV000221"))
+                                    itemView(iLineNum - 1)("SourceCommissionCharge_DEV000221") = RoundDecimalValue(CDec(itemView(iLineNum - 1)("SourceCommissionChargeRate_DEV000221")) / .CustomerSalesOrderView(0).ExchangeRate)
+                                    itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.CommissionAmountRateColumn.ColumnName) = CDec(itemView(iLineNum - 1)("SourceCommissionCharge_DEV000221"))
+                                Else
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Source Commission must be numeric for " & strItemID, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                End If
+                            End If
+                            sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_SOURCE_FULFILLMENT)
+                            ' has source fulfillment been supplied ?
+                            If sTemp <> "" Then
+                                ' yes, must be numeric and not contain any commas
+                                If IsNumeric(sTemp) And InStr(sTemp, ",") >= 0 Then
+                                    itemView(iLineNum - 1)("SourceFulfillmentCostRate_DEV000221") = CDec(sTemp)
+                                    itemView(iLineNum - 1)("SourceFulfillmentCost_DEV000221") = RoundDecimalValue(CDec(itemView(iLineNum - 1)("SourceFulfillmentCostRate_DEV000221")) / .CustomerSalesOrderView(0).ExchangeRate)
+                                Else
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Source Fulfillment must be numeric for " & strItemID, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                End If
+                            End If
+                            ' end of code added TJS 10/06/12
+
+                            sTemp = ""
+                            strItemKitPricing = "" ' TJS 18/03/11
+                            iItemRowsAdded = 1 ' TJS 18/03/11
+                            decKitPriceSumRate = 0 ' TJS 18/03/11
+                            decKitPriceTaxSumRate = 0 ' TJS/FA 17/10/11
+                            If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_MATRIX_GROUP Then ' TJS 19/08/10 TJS 02/04/14
+                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "017", strItemID & " is a Matrix Group item.  Only individual Items whthin the Matrix Group can be added to an order.", _
+                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 19/08/10
+
+                                ' start of code added TJS 19/08/10
+                            ElseIf Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_KIT Then ' TJS 02/04/14
+                                ItemKitDataset = New Interprise.Framework.Base.DatasetGateway.ItemKitDatasetGateway
+                                ItemKitFacade = New Interprise.Facade.Customer.CustomerItemKitFacade(ItemKitDataset)
+                                ItemKitFacade.CurrencyCode = .CustomerSalesOrderView(0).CurrencyCode
+                                ItemKitFacade.ExchangeRate = .CustomerSalesOrderView(0).ExchangeRate
+                                strItemKitPricing = ItemKitFacade.GetField("PricingType", "InventoryKit", "ItemKitCode = '" & Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode & "'")
+                                itemKitDetailRows = New DataRow() {} ' TJS 22/09/10
+                                ItemKitFacade.InitializeKitConfigurator(Me.m_ImportExportDataset.SaleItemView(iItemPtr), strItemKitPricing, _
+                                    CustomerCode, .CustomerSalesOrderView(0).SalesOrderDate, strWarehouseCode, itemKitDetailRows) ' TJS 22/09/10
+                                ' get quantity ordered
+                                strItemQty = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_QUANTITY)
+                                ' has quantity been provided ?
+                                If strItemQty <> "" Then
+                                    ' yes, must be numeric and not contain any commas
+                                    If IsNumeric(strItemQty) And InStr(strItemQty, ",") >= 0 Then
+                                        ' must be greater than 0
+                                        If CDec(strItemQty) > 0 Then
+                                            ' need to apply price to kit via configurator
+                                            ' start of code added TJS 18/03/11
+                                            decSalesPriceRate = 0
+                                            strItemPrice = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UNIT_PRICE)
                                             ' has price been supplied ?
-                                            If strItemPrice <> "" Then ' TJS 09/03/09
+                                            If strItemPrice <> "" Then
                                                 ' yes, must be numeric and not contain any commas
-                                                If IsNumeric(strItemPrice) And InStr(strItemPrice, ",") >= 0 Then ' TJS 09/03/09 TJS 29/05/09
+                                                If IsNumeric(strItemPrice) And InStr(strItemPrice, ",") >= 0 Then
                                                     ' must not be negative
-                                                    If CDec(strItemPrice) >= 0 Then ' TJS 09/03/09
+                                                    If CDec(strItemPrice) >= 0 Then
                                                         ' Unit price valid, overwrite Item price
                                                         ' do prices include tax >
-                                                        If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 08/06/09
-                                                            ' yes, get price before tax
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, _
-                                                                .TransactionItemTaxDetailView, .CustomerSalesOrderDetailView(iRowLoop).ItemCode, _
-                                                                .CustomerSalesOrderDetailView(iRowLoop).LineNum, .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered, _
-                                                                CDec(strItemPrice), .CustomerSalesOrderDetailView(iRowLoop).TaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
-                                                                .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, False) ' TJS 08/06/09
+                                                        If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then
+                                                            ' yes, get price before tax (Use freight tax calc as item row(s) not yet created for kit
+                                                            decSalesPriceRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, .TransactionItemTaxDetailView, _
+                                                                Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode, 0, CDec(strItemQty), CDec(strItemPrice), _
+                                                                Me.m_ImportExportDataset.SaleItemView(iItemPtr).SalesTaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
+                                                                .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, True)
                                                         Else
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = CDec(strItemPrice) ' TJS 09/03/09 TJS 26/05/09
+                                                            decSalesPriceRate = CDec(strItemPrice)
                                                         End If
-                                                        .CustomerSalesOrderDetailView(iRowLoop).Discount = 0 ' TJS 07/07/09
                                                     Else
                                                         Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must not be negative for " & strItemID, _
-                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
                                                     End If
                                                 Else
                                                     Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must be numeric for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
                                                 End If
                                             End If
-                                            dblOrderTotalRate += (.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered) ' TJS 26/05/09 TJS 02/04/14
-                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPrice = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 26/05/09
+                                            dblOrderTotalRate += (decSalesPriceRate * CDec(strItemQty)) ' TJS 02/04/14
                                             dblOrderTotal = RoundDecimalValue(dblOrderTotalRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 02/04/14
-
-                                        ElseIf strItemKitPricing = "Item Price" Then ' TJS 18/03/11
-                                            ' is this the last row of the kit ?
-                                            If iRowLoop < (iLineNum - 1) + (iItemRowsAdded - 1) Then ' TJS 18/03/11
-                                                ' no, set price as relevant fraction of total kit price
-                                                If decKitTotalPriceRate = 0 Then ' TJS 04/04/11
-                                                    ' TJS/FA 19/04/12
-                                                    If CInt(strItemQty) > 1 Then
-                                                        ' TJS/FA 19/04/12
-                                                        'CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered will be equal to Kit Item Qty 
-                                                        'if there is only 1 of the item in the kit
-                                                        'Otherwise the Item Quantity Order figure will always be greater than the Kit Qty as it is 
-                                                        'the Kit item Quantity * by the number of kits in the order
-                                                        If (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)) > 1 Then
-                                                            ' TJS/FA 19/04/12
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((decSalesPriceRate / iItemRowsAdded) * (CDec(strItemQty) / .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered), 2)
-                                                            '.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((decSalesPriceRate * CDec(strItemQty)) / iItemRowsAdded * (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)), 2) ' TJS/FA 19/04/12
-                                                        Else
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded), 2) ' TJS 04/04/11
-                                                        End If
-                                                    Else
-                                                        If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded * .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered), 2)
-                                                        Else
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / iItemRowsAdded, 2) ' TJS 04/04/11
-                                                        End If
-                                                    End If
-                                                Else
-                                                    ' TJS/FA 19/04/12
-                                                    ' AssignKit already set the SalesPriceRate to the IS kit price, we now need to adjust for the actual selling price
-                                                    'i.e. kit price in order needs to reflect the percentage breakdown in IS
-                                                    If CInt(strItemQty) > 1 Then
-                                                        'CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered will be equal to Kit Item Qty 
-                                                        'if there is only 1 of the item in the kit
-                                                        'Otherwise the Item Quantity Order figure will always be greater than the Kit Qty as it is 
-                                                        'the Kit item Quantity * by the number of kits in the order
-                                                        ' TJS/FA 19/04/12 divided by number of the item in kit
-                                                        If (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)) > 1 Then
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * decSalesPriceRate) / (decKitTotalPriceRate * (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty))), 2)
-                                                        Else
-                                                            ' TJS/FA 19/04/12 if there is only 1 of the item, then the unit price will be the percentage calculation for the individual item price.
-                                                            'Total for the item is then multiplied by the Kit item quantity
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * decSalesPriceRate) / decKitTotalPriceRate, 2)
-                                                        End If
-                                                    Else
-                                                        'If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then
-                                                        ' TJS/FA 19/04/12 percentage of kit value divided by the number of items
-                                                        .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * decSalesPriceRate / decKitTotalPriceRate, 2)
-
-                                                    End If
-                                                    ' TJS/FA 19/04/12 end
-                                                End If
-                                                If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then ' FA 24/10/11
-                                                    decKitPriceSumRate = decKitPriceSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)) ' FA 24/10/11 TJS 01/05/14
-                                                Else
-                                                    decKitPriceSumRate = decKitPriceSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate ' TJS 18/03/11
-                                                End If
+                                            ' end of code added TJS 18/03/11
+                                            ' quantity valid, apply to Kit
+                                            If strItemKitPricing = "Item Price" Then ' TJS 18/03/11
+                                                SalesOrderFacade.AssignItemKit(Me.m_ImportExportDataset.SaleItemView(iItemPtr), ItemKitFacade.KitItems, itemView(iLineNum - 1), strItemKitPricing, CDec(strItemQty), 0, TransactionType.SalesOrder, sTemp, strWarehouseCode) ' TJS 18/03/11
+                                                iItemRowsAdded = ItemKitFacade.KitItems.Length ' TJS 18/03/11
+                                                decKitTotalPriceRate = ItemKitFacade.ComputeTotalByTotal ' TJS 18/03/11
                                             Else
-                                                If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then ' FA 24/10/11
-                                                    ' yes, set price as remainder to prevent rounding errors and divide by kit quantity
-                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((decSalesPriceRate - decKitPriceSumRate) / (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)), 2) ' FA 24/10/11 TJS 01/05/14
-                                                Else
-                                                    ' yes, set price as remainder to prevent rounding errors
-                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate - decKitPriceSumRate, 2) ' TJS 18/03/11
-                                                End If
+                                                SalesOrderFacade.AssignItemKit(Me.m_ImportExportDataset.SaleItemView(iItemPtr), ItemKitFacade.KitItems, itemView(iLineNum - 1), strItemKitPricing, CDec(strItemQty), decSalesPriceRate, TransactionType.SalesOrder, sTemp, strWarehouseCode)
                                             End If
-                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPrice = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 18/03/11
-                                        End If
-
-                                        'SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.SalesOrder) ' TJS 26/05/09
-                                        'FA 18/10/10 Modified to use the correct compute function for kits
-                                        'Interprise code seems to call bothe the ComputeKit function and the Compute function as well
-                                        If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_KIT Then ' TJS 02/04/14
-                                            SalesOrderFacade.ComputeKitItemsSalesPrice(itemView(iRowLoop).Row) ' FA 18/10/10
-                                        End If
-
-                                        ' RCD 2019/08/13 Start SalesRepGroupCode
-                                        .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
-                                        ' RCD 2019/08/13 End SalesRepGroupCode
-
-                                        SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.SalesOrder) ' TJS 26/05/09
-
-                                        ' code removed TJS 26/05/09
-                                        .CustomerSalesOrderDetailView(iRowLoop).IsConvert = False
-                                        .CustomerSalesOrderDetailView(iRowLoop).IsConverted = False
-                                        .CustomerSalesOrderDetailView(iRowLoop).IsPickingNotePrinted = False
-                                        .CustomerSalesOrderDetailView(iRowLoop).IsPackingListPrinted = False
-                                        .CustomerSalesOrderDetailView(iRowLoop).IsConfirmedPickedPacked = False
-
-                                        ' is Item Drop Ship ?
-                                        sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_IS_DROP_SHIP) ' TJS 17/03/09
-                                        If sTemp.ToUpper = "YES" Then ' TJS 17/03/09
-                                            ' yes, set flag
-                                            .CustomerSalesOrderDetailView(iRowLoop).IsDropShip = True ' TJS 17/03/09
-                                            ' has a Drop Ship REference been supplied ?
-                                            If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) <> "" Then ' TJS 17/03/09
-                                                ' yes, set it
-                                                .CustomerSalesOrderDetailView(iRowLoop).DropShipReference = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) ' TJS 17/03/09
+                                            If sTemp <> "" Then
+                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "016", sTemp, _
+                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
                                             End If
-                                        ElseIf sTemp.ToUpper <> "" And sTemp.ToUpper <> "NO" Then ' TJS 17/03/09
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Drop Ship must be Yes, No or blank " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/03/09
+                                        Else
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be greater than 0 for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
                                         End If
+                                    Else
+                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be numeric for " & strItemID, _
+                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                    End If
+                                Else
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity is blank in input XML for " & strItemID, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                End If
+                                ' end of code added TJS 19/08/10
 
-                                        ' get Due Date offset config value
-                                        sTemp = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DUE_DATE_OFFSET)
-                                        If sTemp = "" Then
-                                            sTemp = "1"
-                                        End If
-                                        .CustomerSalesOrderDetailView(iRowLoop).DueDate = .CustomerSalesOrderView(0).SalesOrderDate.AddDays(CDec(sTemp))
-                                        .CustomerSalesOrderDetailView(iRowLoop).Pricing = CustomerDetailDataset.CustomerView(0).DefaultPrice
-                                        ' now calculate Sales Tax (VAT)
-                                        ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderDetailView(iRowLoop).TaxCode & "'").Length - 1)
-                                        index = 0
-                                        'Get the detail rows for this tax code.
-                                        For detailRowIndex As Integer = 0 To taxSchemeDataset.SystemTaxSchemeDetailView.Count - 1
-                                            If taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex).TaxCode.ToUpper = .CustomerSalesOrderDetailView(iRowLoop).TaxCode.ToUpper Then
-                                                detailRows(index) = taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex)
-                                                index += 1
-                                            End If
-                                        Next
-                                        ' get tax values
-                                        taxValue = taxFacade.CalculateItemTax(.CustomerSalesOrderDetailView(iRowLoop).TaxCode, .CustomerSalesOrderDetailView(iRowLoop).SalesPrice, _
-                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate, .CustomerSalesOrderDetailView(iRowLoop).ItemCode, _
-                                            .CustomerSalesOrderDetailView(iRowLoop).LineNum, .CustomerSalesOrderView(0).SalesOrderCode, detailRows, .TransactionItemTaxDetailView, _
-                                            .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered, .CustomerSalesOrderDetailView(iRowLoop).ExtPrice, _
-                                            .CustomerSalesOrderDetailView(iRowLoop).ExtPriceRate, .CustomerSalesOrderView(0).CurrencyCode, _
-                                            .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09
-                                        ' are we accepting the source tax calculation ?
-                                        If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ACCEPT_SOURCE_SALES_TAX_CALCULATION).ToUpper = "YES" Or _
-                                            GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 17/05/09 TJS 26/10/11
-                                            ' yes, get value
-                                            strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX) ' TJS 17/05/09
-                                            ' has tax value been supplied ?
-                                            If strTempValue <> "" Then ' TJS 17/05/09
+                                ' start of code added TJS 02/04/14
+                            ElseIf Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_BUNDLE Then
+                                ' get quantity ordered
+                                strItemQty = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_QUANTITY)
+                                ' has quantity been provided ?
+                                If strItemQty <> "" Then
+                                    ' yes, must be numeric and not contain any commas
+                                    If IsNumeric(strItemQty) And InStr(strItemQty, ",") >= 0 Then
+                                        ' must be greater than 0
+                                        If CDec(strItemQty) > 0 Then
+                                            ' quantity valid, get 
+                                            decSalesPriceRate = 0
+                                            strItemPrice = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UNIT_PRICE)
+                                            ' has price been supplied ?
+                                            If strItemPrice <> "" Then
                                                 ' yes, must be numeric and not contain any commas
-                                                If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 17/05/09 TJS 29/05/09
+                                                If IsNumeric(strItemPrice) And InStr(strItemPrice, ",") >= 0 Then
                                                     ' must not be negative
-                                                    If CDec(strTempValue) >= 0 Then ' TJS 17/05/09
-                                                        ' Unit price valid, use it
-                                                        ' start of code added FA 17/10/11
-                                                        If strItemKitPricing = "Item Price" Then
-                                                            ' is this the last row of the kit ?
-                                                            If iRowLoop < (iLineNum - 1) + (iItemRowsAdded - 1) Then
-                                                                ' no, set tax as relevant fraction of total tax price
-                                                                If decKitTotalPriceRate = 0 Then
-                                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) / iItemRowsAdded, 2)
-                                                                Else
-                                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) * decSalesPriceRate / decKitTotalPriceRate, 2)
-                                                                End If
-                                                                decKitPriceTaxSumRate = decKitPriceTaxSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
-                                                            Else
-                                                                ' yes, set price as remainder to prevent rounding errors
-                                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) - decKitPriceTaxSumRate, 2)
-                                                            End If
+                                                    If CDec(strItemPrice) >= 0 Then
+                                                        ' Unit price valid, overwrite Item price
+                                                        ' do prices include tax >
+                                                        If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then
+                                                            ' yes, get price before tax (Use freight tax calc as item row(s) not yet created for kit
+                                                            decSalesPriceRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, .TransactionItemTaxDetailView, _
+                                                                Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode, 0, CDec(strItemQty), CDec(strItemPrice), _
+                                                                Me.m_ImportExportDataset.SaleItemView(iItemPtr).SalesTaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
+                                                                .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, True)
                                                         Else
-                                                            ' end of code added FA 17/10/11
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = CDec(strTempValue) ' TJS 17/05/09 TJS 26/05/09
+                                                            decSalesPriceRate = CDec(strItemPrice)
                                                         End If
-                                                        dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09
-                                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09 TJS 26/05/09
-                                                        dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09
-                                                        ' find relevant tax detail record
-                                                        bTaxRecordFound = False ' TJS 02/12/11
-                                                        For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
-                                                            If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
-                                                                .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
-                                                                .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
-                                                                bTaxRecordFound = True ' TJS 02/12/11
-                                                                .TransactionItemTaxDetailView(iTaxLoop).TaxAmountRate = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09 TJS 18/03/11
-                                                                .TransactionItemTaxDetailView(iTaxLoop).TaxAmount = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09 TJS 26/05/09 TJS 18/03/11
-                                                                .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = True ' TJS 14/07/09 TJS 18/03/11
-                                                                .TransactionItemTaxDetailView(iTaxLoop).IsTAOverridden = True ' TJS 24/02/12
-                                                            End If
-                                                        Next
-                                                        If Not bTaxRecordFound Then ' TJS 02/12/11
-                                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "038", "Cannot apply Sales Tax to an Item with no active Tax Code - " & strItemID, _
-                                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 02/12/11
-                                                        End If
+
                                                     Else
-                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
-                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
+                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must not be negative for " & strItemID, _
+                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
                                                     End If
                                                 Else
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
+                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must be numeric for " & strItemID, _
+                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                                End If
+                                            End If
+
+                                            ' get bundle details
+                                            ItemBundleDataset = New Interprise.Framework.Customer.DatasetGateway.BundleConfiguratorDatasetGateway
+                                            ItemBundleFacade = New Interprise.Facade.Customer.ItemBundleFacade(ItemBundleDataset)
+                                            ItemBundleFacade.LoadDataSet("ReadInventoryBundleConfigurator", New String() {"InventoryBundleConfiguratorView"}, _
+                                                New String()() {New String() {"@BundleCode", Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemCode}, _
+                                                New String() {"@DefaultPrice", CustomerDetailDataset.CustomerView(0).DefaultPrice}, _
+                                                New String() {"@LanguageCode", GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}, _
+                                                New String() {"@CurrencyCode", .CustomerSalesOrderView(0).CurrencyCode}, _
+                                                New String() {"@WarehouseCode", strWarehouseCode}}, ClearType.Specific)
+                                            iBundleRow = iLineNum - 1
+                                            ' get total of item prices in bundle
+                                            decBundleTotalPriceRate = 0
+                                            decBundlePriceSumRate = 0
+                                            For Each ItemBundleRow In ItemBundleDataset.InventoryBundleConfiguratorView.Rows
+                                                decBundleTotalPriceRate = decBundleTotalPriceRate + (CDec(ItemBundleRow(CUSTOMERSALESORDERDETAIL_SALESPRICERATE_COLUMN)) * CDec(ItemBundleRow("Quantity")))
+                                            Next
+                                            iItemRowsAdded = ItemBundleDataset.InventoryBundleConfiguratorView.Count
+                                            iBundlePtr = 0
+                                            For Each ItemBundleRow In ItemBundleDataset.InventoryBundleConfiguratorView.Rows
+                                                SalesOrderFacade.AssignInventoryItem(ItemBundleRow, itemView(iBundleRow), sTemp)
+                                                .CustomerSalesOrderDetailView(iBundleRow).ItemCode = ItemBundleRow(CUSTOMERSALESORDERDETAIL_ITEMCODE_COLUMN).ToString
+                                                .CustomerSalesOrderDetailView(iBundleRow).ItemName = ItemBundleRow(INVENTORYITEMS_ITEMNAME_COLUMN).ToString
+                                                .CustomerSalesOrderDetailView(iBundleRow).ItemDescription = ItemBundleRow(INVENTORYITEMDESCRIPTION_ITEMDESCRIPTION_COLUMN).ToString
+                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = CDec(ItemBundleRow(CUSTOMERSALESORDERDETAIL_SALESPRICERATE_COLUMN))
+                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPrice = CDec(ItemBundleRow(CUSTOMERSALESORDERDETAIL_SALESPRICE_COLUMN))
+                                                .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered = CDec(strItemQty) * CDec(ItemBundleRow("Quantity"))
+                                                .CustomerSalesOrderDetailView(iBundleRow).ItemType = ItemBundleRow(CUSTOMERSALESORDERDETAIL_ITEMTYPE_COLUMN).ToString
+                                                .CustomerSalesOrderDetailView(iBundleRow).ParentBundleItemCode = ItemBundleRow(BUNDLECODE).ToString
+
+                                                ' is this the last row of the bundle ?
+                                                If iBundlePtr <> ItemBundleDataset.InventoryBundleConfiguratorView.Count - 1 Then
+                                                    ' no, set price as relevant fraction of total bundle price
+                                                    If decBundleTotalPriceRate = 0 Then
+                                                        ' is quantity ordered > 1 ?
+                                                        If CInt(strItemQty) > 1 Then
+                                                            ' yes - CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered will be equal to Kit Item Qty 
+                                                            ' if there is only 1 of the item in the bundle
+                                                            ' Otherwise the Item Quantity Order figure will always be greater than the bundle Qty as it is 
+                                                            ' the bundle item Quantity / by the number of bundles in the order
+                                                            If (.CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered / CInt(strItemQty)) > 1 Then
+                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((decSalesPriceRate / iItemRowsAdded) * (CDec(strItemQty) / .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered), 2)
+                                                            Else
+                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded), 2)
+                                                            End If
+                                                        Else
+                                                            If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
+                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded * .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered), 2)
+                                                            Else
+                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / iItemRowsAdded, 2)
+                                                            End If
+                                                        End If
+                                                    Else
+                                                        ' is quantity ordered > 1 ?
+                                                        If CInt(strItemQty) > 1 Then
+                                                            ' yes - CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered will be equal to Kit Item Qty 
+                                                            ' if there is only 1 of the item in the bundle
+                                                            ' Otherwise the Item Quantity Order figure will always be greater than the bundle Qty as it is 
+                                                            ' the bundle item Quantity / by the number of bundles in the order
+                                                            If (.CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered / CInt(strItemQty)) > 1 Then
+                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * decSalesPriceRate) / (decBundleTotalPriceRate * (.CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered / CInt(strItemQty))), 2)
+
+                                                            Else
+                                                                ' if there is only 1 of the item, then the unit price will be the percentage calculation for the individual item price.
+                                                                'Total for the item is then multiplied by the Kit item quantity
+                                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * decSalesPriceRate) / decBundleTotalPriceRate, 2)
+                                                            End If
+                                                        Else
+                                                            'If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
+                                                            ' TJS/FA 19/04/12 percentage of kit value divided by the number of items
+                                                            .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * decSalesPriceRate / decBundleTotalPriceRate, 2)
+
+                                                        End If
+                                                    End If
+                                                    If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
+                                                        decBundlePriceSumRate = decBundlePriceSumRate + .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate * .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered
+                                                    Else
+                                                        decBundlePriceSumRate = decBundlePriceSumRate + .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate
+                                                    End If
+                                                Else
+                                                    If .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered > 1 Then
+                                                        ' yes, set price as remainder to prevent rounding errors and divide by quantity ordered
+                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(((decSalesPriceRate * CInt(strItemQty)) - decBundlePriceSumRate) / .CustomerSalesOrderDetailView(iBundleRow).QuantityOrdered, 2)
+                                                    Else
+                                                        ' yes, set price as remainder to prevent rounding errors
+                                                        .CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((decSalesPriceRate * CInt(strItemQty)) - decBundlePriceSumRate, 2)
+                                                    End If
+                                                End If
+                                                .CustomerSalesOrderDetailView(iBundleRow).SalesPrice = RoundDecimalValue(.CustomerSalesOrderDetailView(iBundleRow).SalesPriceRate / .CustomerSalesOrderView(0).ExchangeRate)
+
+                                                iBundleRow += 1
+                                                iBundlePtr += 1
+                                                If iBundlePtr <> ItemBundleDataset.InventoryBundleConfiguratorView.Count Then
+                                                    itemView = New DataView(SalesOrderDataset.CustomerSalesOrderDetailView)
+                                                    itemView.AddNew()
+
+                                                    ' need to set default value for linenum etc to prevent DBNull conversion error
+                                                    itemView(iBundleRow)(.CustomerSalesOrderDetailView.RootDocumentCodeColumn.ColumnName) = .CustomerSalesOrderView(0).RootDocumentCode
+                                                    itemView(iBundleRow)(.CustomerSalesOrderDetailView.SalesOrderCodeColumn.ColumnName) = .CustomerSalesOrderView(0).SalesOrderCode
+                                                    itemView(iBundleRow)(.CustomerSalesOrderDetailView.LineNumColumn.ColumnName) = 0
+                                                    itemView(iBundleRow)(.CustomerSalesOrderDetailView.SourceLineNumColumn.ColumnName) = 0
+                                                End If
+                                            Next
+                                            dblOrderTotalRate += (decSalesPriceRate * CDec(strItemQty))
+                                            dblOrderTotal = RoundDecimalValue(dblOrderTotalRate / .CustomerSalesOrderView(0).ExchangeRate)
+
+                                        Else
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be greater than 0 for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                        End If
+                                    Else
+                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be numeric for " & strItemID, _
+                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                    End If
+                                Else
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity is blank in input XML for " & strItemID, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                                End If
+                                ' end of code added TJS 02/04/14
+
+                            Else
+                                SalesOrderFacade.AssignInventoryItem(Me.m_ImportExportDataset.SaleItemView(iItemPtr), itemView(iLineNum - 1), sTemp)
+                                If sTemp <> "" Then
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "016", sTemp, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                End If
+                                ' start of code moved TJS 19/08/10
+                                ' set quantity ordered
+                                strItemQty = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_QUANTITY) ' TJS 09/03/09
+                                ' has quantity been provided ?
+                                If strItemQty <> "" Then ' TJS 09/03/09
+                                    ' yes, must be numeric and not contain any commas
+                                    If IsNumeric(strItemQty) And InStr(strItemQty, ",") >= 0 Then ' TJS 09/03/09 TJS 29/05/09
+                                        ' must be greater than 0
+                                        If CDec(strItemQty) > 0 Then ' TJS 09/03/09
+                                            ' quantity valid, apply to Item
+                                            .CustomerSalesOrderDetailView(iLineNum - 1).QuantityOrdered = CDec(strItemQty) ' TJS 09/03/09
+                                        Else
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be greater than 0 for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                        End If
+                                    Else
+                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity must be numeric for " & strItemID, _
+                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                    End If
+                                Else
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Quantity is blank in input XML for " & strItemID, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                End If
+
+                                ' now set default price and cost
+                                If Not SalesOrderFacade.SetSalesPrice(itemView(iLineNum - 1), False) Then ' TJS 26/05/09
+                                    sTemp = Interprise.Facade.Base.SimpleFacade.Instance.GetMessage("INF0101", New String() {CStr(itemView(iLineNum - 1)(.CustomerSalesOrderDetailView.ItemNameColumn.ColumnName)), .CustomerSalesOrderView(0).CurrencyCode}) ' TJS 26/05/09
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "016", sTemp, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)  ' TJS 26/05/09
+                                End If
+                                ' end of code moved TJS 19/08/10
+                            End If
+
+                            For iRowLoop = iLineNum - 1 To (iLineNum - 1) + (iItemRowsAdded - 1) ' TJS 18/03/11
+                                .CustomerSalesOrderDetailView(iRowLoop).WebSiteCode = .CustomerSalesOrderView(0).WebSiteCode
+                                sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_PURCHASE_ID)
+                                If sTemp <> "" Then
+                                    .CustomerSalesOrderDetailView(iRowLoop)("SourcePurchaseID_DEV000221") = sTemp
+                                End If
+
+                                ' code to set quantity and price moved TJS 19/08/10
+                                .CustomerSalesOrderDetailView(iRowLoop).QuantityBackOrdered = 0
+                                .CustomerSalesOrderDetailView(iRowLoop).QuantityShipped = 0
+                                .CustomerSalesOrderDetailView(iRowLoop).QuantityToBeShipped = 0
+                                If m_ImportExportDataset.SaleItemView(0).ItemType = ITEM_TYPE_NON_STOCK Or _
+                                    m_ImportExportDataset.SaleItemView(0).ItemType = ITEM_TYPE_SERVICE Or _
+                                    m_ImportExportDataset.SaleItemView(0).ItemType = ITEM_TYPE_ELECTRONIC_DOWNLOAD Then ' TJS 17/05/09
+                                    .CustomerSalesOrderDetailView(iRowLoop).QuantityAllocated = .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered ' TJS 17/05/09
+                                Else
+                                    .CustomerSalesOrderDetailView(iRowLoop).QuantityAllocated = 0
+                                End If
+                                .CustomerSalesOrderDetailView(iRowLoop).QuantityAlReadyRMA = 0
+                                .CustomerSalesOrderDetailView(iRowLoop).QuantityReturned = 0
+                                .CustomerSalesOrderDetailView(iRowLoop).ContractQuantity = 0
+                                .CustomerSalesOrderDetailView(iRowLoop).ContractCalledOff = 0
+                                If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DESCRIPTION) <> "" And ((Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_KIT And _
+                                    Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_BUNDLE) Or strItemKitPricing = "Kit Price") Then ' TJS 18/03/11 TJS 02/04/14
+                                    .CustomerSalesOrderDetailView(iRowLoop).ItemDescription = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DESCRIPTION)
+                                    .CustomerSalesOrderDetailView(iRowLoop).InventoryDescription = .CustomerSalesOrderDetailView(iRowLoop).ItemDescription
+                                    .CustomerSalesOrderDetailView(iRowLoop).IsInventoryDescription = True
+                                End If
+                                ' only apply price here if not a kit (kit pricing handled above when pricing type is Kit and below for Item pricing
+                                ' or a bundle (bundle pricing is handled above)
+                                If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_KIT And Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType <> ITEM_TYPE_BUNDLE Then ' TJS 18/03/11 TJS 02/04/14 
+                                    strItemPrice = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_UNIT_PRICE) ' TJS 09/03/09
+                                    ' has price been supplied ?
+                                    If strItemPrice <> "" Then ' TJS 09/03/09
+                                        ' yes, must be numeric and not contain any commas
+                                        If IsNumeric(strItemPrice) And InStr(strItemPrice, ",") >= 0 Then ' TJS 09/03/09 TJS 29/05/09
+                                            ' must not be negative
+                                            If CDec(strItemPrice) >= 0 Then ' TJS 09/03/09
+                                                ' Unit price valid, overwrite Item price
+                                                ' do prices include tax >
+                                                If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 08/06/09
+                                                    ' yes, get price before tax
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, _
+                                                        .TransactionItemTaxDetailView, .CustomerSalesOrderDetailView(iRowLoop).ItemCode, _
+                                                        .CustomerSalesOrderDetailView(iRowLoop).LineNum, .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered, _
+                                                        CDec(strItemPrice), .CustomerSalesOrderDetailView(iRowLoop).TaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
+                                                        .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, False) ' TJS 08/06/09
+                                                Else
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = CDec(strItemPrice) ' TJS 09/03/09 TJS 26/05/09
+                                                End If
+                                                .CustomerSalesOrderDetailView(iRowLoop).Discount = 0 ' TJS 07/07/09
+                                            Else
+                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must not be negative for " & strItemID, _
+                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                            End If
+                                        Else
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Unit Price must be numeric for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                                        End If
+                                    End If
+                                    dblOrderTotalRate += (.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered) ' TJS 26/05/09 TJS 02/04/14
+                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPrice = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 26/05/09
+                                    dblOrderTotal = RoundDecimalValue(dblOrderTotalRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 02/04/14
+
+                                ElseIf strItemKitPricing = "Item Price" Then ' TJS 18/03/11
+                                    ' is this the last row of the kit ?
+                                    If iRowLoop < (iLineNum - 1) + (iItemRowsAdded - 1) Then ' TJS 18/03/11
+                                        ' no, set price as relevant fraction of total kit price
+                                        If decKitTotalPriceRate = 0 Then ' TJS 04/04/11
+                                            ' TJS/FA 19/04/12
+                                            If CInt(strItemQty) > 1 Then
+                                                ' TJS/FA 19/04/12
+                                                'CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered will be equal to Kit Item Qty 
+                                                'if there is only 1 of the item in the kit
+                                                'Otherwise the Item Quantity Order figure will always be greater than the Kit Qty as it is 
+                                                'the Kit item Quantity * by the number of kits in the order
+                                                If (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)) > 1 Then
+                                                    ' TJS/FA 19/04/12
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((decSalesPriceRate / iItemRowsAdded) * (CDec(strItemQty) / .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered), 2)
+                                                    '.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((decSalesPriceRate * CDec(strItemQty)) / iItemRowsAdded * (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)), 2) ' TJS/FA 19/04/12
+                                                Else
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded), 2) ' TJS 04/04/11
                                                 End If
                                             Else
-                                                ' no, use values from tax facade
-                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount ' TJS 17/05/09
-                                                dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09
-                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate ' TJS 17/05/09
+                                                If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / (iItemRowsAdded * .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered), 2)
+                                                Else
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate / iItemRowsAdded, 2) ' TJS 04/04/11
+                                                End If
+                                            End If
+                                        Else
+                                            ' TJS/FA 19/04/12
+                                            ' AssignKit already set the SalesPriceRate to the IS kit price, we now need to adjust for the actual selling price
+                                            'i.e. kit price in order needs to reflect the percentage breakdown in IS
+                                            If CInt(strItemQty) > 1 Then
+                                                'CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered will be equal to Kit Item Qty 
+                                                'if there is only 1 of the item in the kit
+                                                'Otherwise the Item Quantity Order figure will always be greater than the Kit Qty as it is 
+                                                'the Kit item Quantity * by the number of kits in the order
+                                                ' TJS/FA 19/04/12 divided by number of the item in kit
+                                                If (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)) > 1 Then
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * decSalesPriceRate) / (decKitTotalPriceRate * (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty))), 2)
+                                                Else
+                                                    ' TJS/FA 19/04/12 if there is only 1 of the item, then the unit price will be the percentage calculation for the individual item price.
+                                                    'Total for the item is then multiplied by the Kit item quantity
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * decSalesPriceRate) / decKitTotalPriceRate, 2)
+                                                End If
+                                            Else
+                                                'If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then
+                                                ' TJS/FA 19/04/12 percentage of kit value divided by the number of items
+                                                .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * decSalesPriceRate / decKitTotalPriceRate, 2)
+
+                                            End If
+                                            ' TJS/FA 19/04/12 end
+                                        End If
+                                        If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then ' FA 24/10/11
+                                            decKitPriceSumRate = decKitPriceSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate * (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)) ' FA 24/10/11 TJS 01/05/14
+                                        Else
+                                            decKitPriceSumRate = decKitPriceSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate ' TJS 18/03/11
+                                        End If
+                                    Else
+                                        If .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered > 1 Then ' FA 24/10/11
+                                            ' yes, set price as remainder to prevent rounding errors and divide by kit quantity
+                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue((decSalesPriceRate - decKitPriceSumRate) / (.CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered / CInt(strItemQty)), 2) ' FA 24/10/11 TJS 01/05/14
+                                        Else
+                                            ' yes, set price as remainder to prevent rounding errors
+                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate = RoundDecimalValue(decSalesPriceRate - decKitPriceSumRate, 2) ' TJS 18/03/11
+                                        End If
+                                    End If
+                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPrice = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 18/03/11
+                                End If
+
+                                'SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.SalesOrder) ' TJS 26/05/09
+                                'FA 18/10/10 Modified to use the correct compute function for kits
+                                'Interprise code seems to call bothe the ComputeKit function and the Compute function as well
+                                If Me.m_ImportExportDataset.SaleItemView(iItemPtr).ItemType = ITEM_TYPE_KIT Then ' TJS 02/04/14
+                                    SalesOrderFacade.ComputeKitItemsSalesPrice(itemView(iRowLoop).Row) ' FA 18/10/10
+                                End If
+
+                                ' RCD 2019/08/13 Start SalesRepGroupCode
+                                .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                ' RCD 2019/08/13 End SalesRepGroupCode
+
+                                SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.SalesOrder) ' TJS 26/05/09
+
+                                ' code removed TJS 26/05/09
+                                .CustomerSalesOrderDetailView(iRowLoop).IsConvert = False
+                                .CustomerSalesOrderDetailView(iRowLoop).IsConverted = False
+                                .CustomerSalesOrderDetailView(iRowLoop).IsPickingNotePrinted = False
+                                .CustomerSalesOrderDetailView(iRowLoop).IsPackingListPrinted = False
+                                .CustomerSalesOrderDetailView(iRowLoop).IsConfirmedPickedPacked = False
+
+                                ' is Item Drop Ship ?
+                                sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_IS_DROP_SHIP) ' TJS 17/03/09
+                                If sTemp.ToUpper = "YES" Then ' TJS 17/03/09
+                                    ' yes, set flag
+                                    .CustomerSalesOrderDetailView(iRowLoop).IsDropShip = True ' TJS 17/03/09
+                                    ' has a Drop Ship REference been supplied ?
+                                    If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) <> "" Then ' TJS 17/03/09
+                                        ' yes, set it
+                                        .CustomerSalesOrderDetailView(iRowLoop).DropShipReference = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) ' TJS 17/03/09
+                                    End If
+                                ElseIf sTemp.ToUpper <> "" And sTemp.ToUpper <> "NO" Then ' TJS 17/03/09
+                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Drop Ship must be Yes, No or blank " & strItemID, _
+                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/03/09
+                                End If
+
+                                ' get Due Date offset config value
+                                sTemp = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DUE_DATE_OFFSET)
+                                If sTemp = "" Then
+                                    sTemp = "1"
+                                End If
+                                .CustomerSalesOrderDetailView(iRowLoop).DueDate = .CustomerSalesOrderView(0).SalesOrderDate.AddDays(CDec(sTemp))
+                                .CustomerSalesOrderDetailView(iRowLoop).Pricing = CustomerDetailDataset.CustomerView(0).DefaultPrice
+                                ' now calculate Sales Tax (VAT)
+                                ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderDetailView(iRowLoop).TaxCode & "'").Length - 1)
+                                index = 0
+                                'Get the detail rows for this tax code.
+                                For detailRowIndex As Integer = 0 To taxSchemeDataset.SystemTaxSchemeDetailView.Count - 1
+                                    If taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex).TaxCode.ToUpper = .CustomerSalesOrderDetailView(iRowLoop).TaxCode.ToUpper Then
+                                        detailRows(index) = taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex)
+                                        index += 1
+                                    End If
+                                Next
+                                ' get tax values
+                                taxValue = taxFacade.CalculateItemTax(.CustomerSalesOrderDetailView(iRowLoop).TaxCode, .CustomerSalesOrderDetailView(iRowLoop).SalesPrice, _
+                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate, .CustomerSalesOrderDetailView(iRowLoop).ItemCode, _
+                                    .CustomerSalesOrderDetailView(iRowLoop).LineNum, .CustomerSalesOrderView(0).SalesOrderCode, detailRows, .TransactionItemTaxDetailView, _
+                                    .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered, .CustomerSalesOrderDetailView(iRowLoop).ExtPrice, _
+                                    .CustomerSalesOrderDetailView(iRowLoop).ExtPriceRate, .CustomerSalesOrderView(0).CurrencyCode, _
+                                    .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09
+                                ' are we accepting the source tax calculation ?
+                                If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ACCEPT_SOURCE_SALES_TAX_CALCULATION).ToUpper = "YES" Or _
+                                    GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 17/05/09 TJS 26/10/11
+                                    ' yes, get value
+                                    strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX) ' TJS 17/05/09
+                                    ' has tax value been supplied ?
+                                    If strTempValue <> "" Then ' TJS 17/05/09
+                                        ' yes, must be numeric and not contain any commas
+                                        If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 17/05/09 TJS 29/05/09
+                                            ' must not be negative
+                                            If CDec(strTempValue) >= 0 Then ' TJS 17/05/09
+                                                ' Unit price valid, use it
+                                                ' start of code added FA 17/10/11
+                                                If strItemKitPricing = "Item Price" Then
+                                                    ' is this the last row of the kit ?
+                                                    If iRowLoop < (iLineNum - 1) + (iItemRowsAdded - 1) Then
+                                                        ' no, set tax as relevant fraction of total tax price
+                                                        If decKitTotalPriceRate = 0 Then
+                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) / iItemRowsAdded, 2)
+                                                        Else
+                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) * decSalesPriceRate / decKitTotalPriceRate, 2)
+                                                        End If
+                                                        decKitPriceTaxSumRate = decKitPriceTaxSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
+                                                    Else
+                                                        ' yes, set price as remainder to prevent rounding errors
+                                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) - decKitPriceTaxSumRate, 2)
+                                                    End If
+                                                Else
+                                                    ' end of code added FA 17/10/11
+                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = CDec(strTempValue) ' TJS 17/05/09 TJS 26/05/09
+                                                End If
                                                 dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09
+                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09 TJS 26/05/09
+                                                dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09
+                                                ' find relevant tax detail record
+                                                bTaxRecordFound = False ' TJS 02/12/11
                                                 For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
                                                     If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
                                                         .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
                                                         .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
-                                                        .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
+                                                        bTaxRecordFound = True ' TJS 02/12/11
+                                                        .TransactionItemTaxDetailView(iTaxLoop).TaxAmountRate = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09 TJS 18/03/11
+                                                        .TransactionItemTaxDetailView(iTaxLoop).TaxAmount = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09 TJS 26/05/09 TJS 18/03/11
+                                                        .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = True ' TJS 14/07/09 TJS 18/03/11
+                                                        .TransactionItemTaxDetailView(iTaxLoop).IsTAOverridden = True ' TJS 24/02/12
                                                     End If
                                                 Next
+                                                If Not bTaxRecordFound Then ' TJS 02/12/11
+                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "038", "Cannot apply Sales Tax to an Item with no active Tax Code - " & strItemID, _
+                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 02/12/11
+                                                End If
+                                            Else
+                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
+                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
                                             End If
                                         Else
-                                            ' no, use values from tax facade
-                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount
-                                            dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount
-                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate
-                                            dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
-                                            For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
-                                                If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
-                                                    .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
-                                                    .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
-                                                    .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
-                                                End If
-                                            Next
-                                            ' start of code added TJS 14/07/09
-                                            strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX)
-                                            ' has sales tax value been supplied ?
-                                            If strTempValue <> "" Then
-                                                ' yes, must be numeric
-                                                If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then
-                                                    ' must not be negative
-                                                    If CDec(strTempValue) >= 0 Then
-                                                        ' is value same as IS calculation (ignore roundings of 0.01 or less) ?
-                                                        If CDec(strTempValue) > .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate + 0.01 Or CDec(strTempValue) < .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate - 0.01 Then
-                                                            ' no, 
-                                                            If strWarningMessage <> "" Then
-                                                                strWarningMessage = strWarningMessage & vbCrLf
-                                                            End If
-                                                            strWarningMessage = strWarningMessage & "Sales Tax corrected for " & strItemID & ", XML file contained " & strTempValue & ", Tax Facade calculated " & .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 24/08/12
-                                                        End If
-                                                    Else
-                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
-                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
-                                                    End If
-                                                Else
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
-                                                End If
-                                            End If
-                                            ' end of code added TJS 14/07/09
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
                                         End If
-
-                                        ' start of code added TJS 03/04/09
-                                        ' Check for any CustomerSalesOrderDetail table Custom Fields
-                                        XMLCustomFields = XMLItemTemp.XPathSelectElements(GENERIC_XML_ORDER_INVOICE_ITEM_CUSTOM_FIELDS)
-                                        If XMLCustomFields IsNot Nothing Then
-                                            For Each XMLCustomField In XMLCustomFields
-                                                Try
-                                                    XMLTemp = XDocument.Parse(XMLCustomField.ToString)
-                                                    ' has field name been defined ?
-                                                    If GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") <> "" Then
-                                                        ' does it exist ?
-                                                        bCustomFieldExists = False ' TJS 21/04/09
-                                                        For iColumnLoop = 0 To .CustomerSalesOrderDetailView.Columns.Count - 1 ' TJS 21/04/09
-                                                            If .CustomerSalesOrderDetailView.Columns(iColumnLoop).ColumnName = GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") Then ' TJS 21/04/09
-                                                                bCustomFieldExists = True ' TJS 21/04/09
-                                                                Exit For ' TJS 21/04/09
-                                                            End If
-                                                        Next
-                                                        If bCustomFieldExists Then ' TJS 21/04/09
-                                                            .CustomerSalesOrderDetailView(iRowLoop)(GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName")) = GetXMLElementText(XMLTemp, "CustomField")
-                                                        Else
-                                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Custom Field " & GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") & " not found on CustomerSalesOrderDetailView", _
-                                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 21/04/09
-
-                                                        End If
-                                                    Else
-                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Field Name attribute not provided for Item Custom Field", _
-                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-
-                                                    End If
-
-                                                Catch ex As Exception
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "005", "Custom Field could not be processed due to XML error - " & ex.Message.Replace(vbCrLf, ""), _
-                                                         m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 29/05/09
-
-                                                End Try
-                                            Next
-                                        End If
-                                        ' end of code added TJS 03/04/09
-
-                                        ' start of code added TJS 18/01/13
-                                        If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOCATE_AND_RESERVE_STOCK).ToUpper = "YES" Then
-                                            SalesOrderFacade.AllocateStock(.CustomerSalesOrderDetailView(iRowLoop))
-                                            SalesOrderFacade.ReserveStock(.CustomerSalesOrderDetailView(iRowLoop))
-                                        End If
-                                        ' end of code added TJS 18/01/13
-
-                                        ' TJS/FA 19/04/12 Note for future  Add non stock correction figure here
-                                        ' and reset the correction flag
-                                        If decKitTotalRemaining <> 0 Then
-                                            m_ImportExportConfigFacade.WriteLogProgressRecord("Rounding differential in Kit calculation - " & decKitTotalRemaining)
-                                        End If
-                                    Next
-                                    iLineNum = iLineNum + iItemRowsAdded ' TJS 18/03/11
-
-                                Else
-                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "015", strItemID & " not found", _
-                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-
-                                End If
-
-                            Catch ex As Exception
-                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "005", "Inventory Item could not be processed due to XML error - " & ex.Message.Replace(vbCrLf, ""), _
-                                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 29/05/09 TJS 18/04/11
-
-                            End Try
-                        Next
-                    Else
-                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "No Order Items found", _
-                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                    End If
-
-                    ' RCD 2019/08/13 Start SalesRepGroupCode
-                    Dim commissionTotal As Decimal = 0
-                    Dim commissionTotalRate As Decimal = 0
-                    For counter As Integer = 0 To .CustomerSalesOrderDetailView.Rows.Count - 1
-                        commissionTotal += .CustomerSalesOrderDetailView(counter).CommissionAmount
-                        commissionTotalRate += .CustomerSalesOrderDetailView(counter).CommissionAmountRate
-                    Next
-                    .CustomerSalesRepCommissionView(0).CommissionPercent = 100
-                    .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
-                    .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
-                    ' RCD 2019/08/13 End SalesRepGroupCode
-
-                    .CustomerSalesOrderView(0).SubTotal = dblOrderTotal
-                    .CustomerSalesOrderView(0).SubTotalRate = dblOrderTotalRate ' TJS 26/05/09
-
-                    strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_TOTALS & "/Shipping") ' TJS 09/03/09
-                    ' has shipping charge been supplied ?
-                    If strTempValue <> "" Then ' TJS 09/03/09
-                        ' yes, must be numeric and not contain any commas
-                        If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 09/03/09 TJS 29/05/09
-                            ' must not be negative
-                            If CDec(strTempValue) >= 0 Then ' TJS 09/03/09
-                                ' shipping charge valid, overwrite customer default
-                                ' do prices include tax >
-                                If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 08/06/09 
-                                    ' yes, get price before tax
-                                    .CustomerSalesOrderView(0).FreightRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, _
-                                        .TransactionItemTaxDetailView, TRANSACTION_TAX_ITEM_FREIGHT, 0, 1, CDec(strTempValue), _
-                                        .CustomerSalesOrderView(0).FreightTaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
-                                        .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, True) ' TJS 08/06/09
-                                Else
-                                    .CustomerSalesOrderView(0).FreightRate = CDec(strTempValue) ' TJS 09/03/09 TJS 26/05/09
-                                End If
-                            Else
-                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Order Shipping charge must not be negative", _
-                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                            End If
-                        Else
-                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Order Shipping charge must be numeric", _
-                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                        End If
-                    Else
-                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Order Shipping charge is blank in input XML", _
-                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
-                    End If
-                    .CustomerSalesOrderView(0).Freight = RoundDecimalValue(.CustomerSalesOrderView(0).FreightRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 26/05/09
-                    .CustomerSalesOrderView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).FreightTax ' TJS 02/12/11
-
-                    ' now calculate Sales Tax on freight (VAT)
-                    ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderView(0).FreightTaxCode & "'").Length - 1)
-                    index = 0
-                    ' Get the detail rows for freight tax code.
-                    For detailRowIndex As Integer = 0 To taxSchemeDataset.SystemTaxSchemeDetailView.Count - 1
-                        If taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex).TaxCode.ToUpper = .CustomerSalesOrderView(0).FreightTaxCode.ToUpper Then
-                            detailRows(index) = taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex)
-                            index += 1
-                        End If
-                    Next
-                    dblFreight = .CustomerSalesOrderView(0).Freight
-                    dblFreightRate = .CustomerSalesOrderView(0).FreightRate
-                    ' get tax values
-                    taxValue = taxFacade.CalculateTransactionTax(.CustomerSalesOrderView(0).FreightTaxCode, dblFreight, _
-                        dblFreightRate, TRANSACTION_TAX_ITEM_FREIGHT, .CustomerSalesOrderView(0).SalesOrderCode, _
-                        detailRows, .TransactionItemTaxDetailView, .CustomerSalesOrderView(0).CurrencyCode, _
-                        .CustomerSalesOrderView(0).ExchangeRate)
-                    ' are we accepting the source tax calculation ?
-                    If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ACCEPT_SOURCE_SALES_TAX_CALCULATION).ToUpper = "YES" Or _
-                        GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 26/05/09 TJS 26/10/11
-                        ' yes, get total tax value
-                        strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_TOTALS & "/Tax") ' TJS 26/05/09
-                        ' has tax value been supplied ?
-                        If strTempValue <> "" Then ' TJS 26/05/09
-                            ' yes, must be numeric and not contain any commas
-                            If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 26/05/09 TJS 29/05/09
-                                ' must not be negative
-                                If CDec(strTempValue) >= 0 Then ' TJS 26/05/09
-                                    ' total tax value valid, use it
-                                    .CustomerSalesOrderView(0).FreightTaxRate = CDec(strTempValue) - dblOrderTaxRate ' TJS 26/05/09
-                                    .TransactionTaxDetailView(0).TaxAmountRate = .CustomerSalesOrderView(0).FreightTaxRate ' TJS 26/05/09 TJS 11/06/09
-                                    dblOrderTaxRate += .CustomerSalesOrderView(0).FreightTaxRate ' TJS 26/05/09
-                                    .CustomerSalesOrderView(0).FreightTax = RoundDecimalValue(.CustomerSalesOrderView(0).FreightTaxRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 26/05/09
-                                    .TransactionTaxDetailView(0).TaxAmount = .CustomerSalesOrderView(0).FreightTax ' TJS 26/05/09 TJS 11/06/09
-                                    dblOrderTax += .CustomerSalesOrderView(0).FreightTax ' TJS 26/05/09
-                                    .TransactionTaxDetailView(0)("TaxValueIsFromSource_DEV000221") = True ' TJS 14/07/09
-                                    .TransactionTaxDetailView(0).IsTAOverridden = True ' TJS 24/02/12
-                                Else
-                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Order Total Tax Value must not be negative", _
-                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 26/05/09 TJS 27/02/10
-                                End If
-                            Else
-                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Order Total Tax Value must be numeric", _
-                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 26/05/09 TJS 27/02/10
-                            End If
-                        Else
-                            ' no, use values from tax facade
-                            .CustomerSalesOrderView(0).FreightTax = taxValue.taxAmount ' TJS 26/05/09
-                            dblOrderTax += .CustomerSalesOrderView(0).FreightTax ' TJS 26/05/09
-                            .CustomerSalesOrderView(0).FreightTaxRate = taxValue.taxAmountRate ' TJS 26/05/09
-                            dblOrderTaxRate += .CustomerSalesOrderView(0).FreightTaxRate ' TJS 26/05/09
-                            .TransactionTaxDetailView(0)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09
-                        End If
-                    Else
-                        ' no, use values from tax facade
-                        .CustomerSalesOrderView(0).FreightTax = taxValue.taxAmount
-                        dblOrderTax = dblOrderTax + .CustomerSalesOrderView(0).FreightTax
-                        .CustomerSalesOrderView(0).FreightTaxRate = taxValue.taxAmountRate
-                        dblOrderTaxRate = dblOrderTaxRate + .CustomerSalesOrderView(0).FreightTaxRate
-                        .TransactionTaxDetailView(0)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09
-                    End If
-
-                    SalesOrderFacade.ComputeTotals() ' TJS 08/06/09
-                    ' start of code removed TJS 08/06/09
-                    '.CustomerSalesOrderView(0).Tax = dblOrderTax
-                    '.CustomerSalesOrderView(0).TaxRate = dblOrderTaxRate
-                    '.CustomerSalesOrderView(0).Total = .CustomerSalesOrderView(0).SubTotal + .CustomerSalesOrderView(0).Freight + _
-                    '    .CustomerSalesOrderView(0).Tax + .CustomerSalesOrderView(0).FreightTax
-                    '.CustomerSalesOrderView(0).TotalRate = .CustomerSalesOrderView(0).SubTotalRate + .CustomerSalesOrderView(0).FreightRate + _
-                    '    .CustomerSalesOrderView(0).TaxRate + .CustomerSalesOrderView(0).FreightTaxRate
-                    '.CustomerSalesOrderView(0).Balance = .CustomerSalesOrderView(0).Total - .CustomerSalesOrderView(0).CouponDiscount ' TJS 08/06/09
-                    '.CustomerSalesOrderView(0).BalanceRate = .CustomerSalesOrderView(0).TotalRate - .CustomerSalesOrderView(0).CouponDiscountRate ' TJS 08/06/09
-                    ' end of code removed TJS 08/06/09
-
-                    If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PAYMENT_METHOD).ToUpper = "CREDIT CARD" Then ' TJS 29/05/09
-                        .CustomerSalesOrderView(0).PaymentTermCode = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DEFAULT_CREDIT_CARD_PAYMENT_TERM) ' TJS 20/02/09
-                    End If
-
-                    ' start of code added TJS 08/06/09
-                    dblCouponDiscount = 0
-                    ' is there a Discount Coupon ?
-                    If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_DISCOUNT_COUPON_DESCRIPTION) <> "" Or _
-                        GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_DISCOUNT_COUPON_VALUE) <> "" Then
-                        ' yes, has a Coupon Code been included ?
-                        If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_CUSTOMER_SALES_COUPON) = "" Then
-                            ' no, get discount value
-                            strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_DISCOUNT_COUPON_VALUE)
-                            ' has discount vale been supplied ?
-                            If strTempValue <> "" Then
-                                ' yes, must be numeric and not contain any commas
-                                If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then
-                                    ' must not be negative
-                                    If CDbl(strTempValue) >= 0 Then
-                                        ' discount value valid, save it for later
-                                        dblCouponDiscount = CDec(strTempValue)
                                     Else
-                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "027", "Discount Coupon Value must not be negative", _
-                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 27/02/10
+                                        ' no, use values from tax facade
+                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount ' TJS 17/05/09
+                                        dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09
+                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate ' TJS 17/05/09
+                                        dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09
+                                        For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
+                                            If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
+                                                .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
+                                                .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
+                                                .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
+                                            End If
+                                        Next
                                     End If
                                 Else
-                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "027", "Discount Coupon Value must be numeric", _
-                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 27/02/10
+                                    ' no, use values from tax facade
+                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount
+                                    dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount
+                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate
+                                    dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
+                                    For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
+                                        If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
+                                            .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
+                                            .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
+                                            .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
+                                        End If
+                                    Next
+                                    ' start of code added TJS 14/07/09
+                                    strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX)
+                                    ' has sales tax value been supplied ?
+                                    If strTempValue <> "" Then
+                                        ' yes, must be numeric
+                                        If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then
+                                            ' must not be negative
+                                            If CDec(strTempValue) >= 0 Then
+                                                ' is value same as IS calculation (ignore roundings of 0.01 or less) ?
+                                                If CDec(strTempValue) > .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate + 0.01 Or CDec(strTempValue) < .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate - 0.01 Then
+                                                    ' no, 
+                                                    If strWarningMessage <> "" Then
+                                                        strWarningMessage = strWarningMessage & vbCrLf
+                                                    End If
+                                                    strWarningMessage = strWarningMessage & "Sales Tax corrected for " & strItemID & ", XML file contained " & strTempValue & ", Tax Facade calculated " & .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 24/08/12
+                                                End If
+                                            Else
+                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
+                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
+                                            End If
+                                        Else
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
+                                        End If
+                                    End If
+                                    ' end of code added TJS 14/07/09
                                 End If
+
+                                ' start of code added TJS 03/04/09
+                                ' Check for any CustomerSalesOrderDetail table Custom Fields
+                                XMLCustomFields = XMLItemTemp.XPathSelectElements(GENERIC_XML_ORDER_INVOICE_ITEM_CUSTOM_FIELDS)
+                                If XMLCustomFields IsNot Nothing Then
+                                    For Each XMLCustomField In XMLCustomFields
+                                        Try
+                                            XMLTemp = XDocument.Parse(XMLCustomField.ToString)
+                                            ' has field name been defined ?
+                                            If GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") <> "" Then
+                                                ' does it exist ?
+                                                bCustomFieldExists = False ' TJS 21/04/09
+                                                For iColumnLoop = 0 To .CustomerSalesOrderDetailView.Columns.Count - 1 ' TJS 21/04/09
+                                                    If .CustomerSalesOrderDetailView.Columns(iColumnLoop).ColumnName = GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") Then ' TJS 21/04/09
+                                                        bCustomFieldExists = True ' TJS 21/04/09
+                                                        Exit For ' TJS 21/04/09
+                                                    End If
+                                                Next
+                                                If bCustomFieldExists Then ' TJS 21/04/09
+                                                    .CustomerSalesOrderDetailView(iRowLoop)(GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName")) = GetXMLElementText(XMLTemp, "CustomField")
+                                                Else
+                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Custom Field " & GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") & " not found on CustomerSalesOrderDetailView", _
+                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 21/04/09
+
+                                                End If
+                                            Else
+                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Field Name attribute not provided for Item Custom Field", _
+                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+
+                                            End If
+
+                                        Catch ex As Exception
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "005", "Custom Field could not be processed due to XML error - " & ex.Message.Replace(vbCrLf, ""), _
+                                                 m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 29/05/09
+
+                                        End Try
+                                    Next
+                                End If
+                                ' end of code added TJS 03/04/09
+
+                                ' start of code added TJS 18/01/13
+                                If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOCATE_AND_RESERVE_STOCK).ToUpper = "YES" Then
+                                    SalesOrderFacade.AllocateStock(.CustomerSalesOrderDetailView(iRowLoop))
+                                    SalesOrderFacade.ReserveStock(.CustomerSalesOrderDetailView(iRowLoop))
+                                End If
+                                ' end of code added TJS 18/01/13
+
+                                ' TJS/FA 19/04/12 Note for future  Add non stock correction figure here
+                                ' and reset the correction flag
+                                If decKitTotalRemaining <> 0 Then
+                                    m_ImportExportConfigFacade.WriteLogProgressRecord("Rounding differential in Kit calculation - " & decKitTotalRemaining)
+                                End If
+                            Next
+                            iLineNum = iLineNum + iItemRowsAdded ' TJS 18/03/11
+
+                        Else
+                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "015", strItemID & " not found", _
+                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+
+                        End If
+
+                    Catch ex As Exception
+                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "005", "Inventory Item could not be processed due to XML error - " & ex.Message.Replace(vbCrLf, ""), _
+                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 29/05/09 TJS 18/04/11
+
+                    End Try
+                Next
+            Else
+                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "No Order Items found", _
+                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+            End If
+
+            ' RCD 2019/08/13 Start SalesRepGroupCode
+            Dim commissionTotal As Decimal = 0
+            Dim commissionTotalRate As Decimal = 0
+            For counter As Integer = 0 To .CustomerSalesOrderDetailView.Rows.Count - 1
+                commissionTotal += .CustomerSalesOrderDetailView(counter).CommissionAmount
+                commissionTotalRate += .CustomerSalesOrderDetailView(counter).CommissionAmountRate
+            Next
+            .CustomerSalesRepCommissionView(0).CommissionPercent = 100
+            .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
+            .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+            ' RCD 2019/08/13 End SalesRepGroupCode
+
+            .CustomerSalesOrderView(0).SubTotal = dblOrderTotal
+            .CustomerSalesOrderView(0).SubTotalRate = dblOrderTotalRate ' TJS 26/05/09
+
+            strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_TOTALS & "/Shipping") ' TJS 09/03/09
+            ' has shipping charge been supplied ?
+            If strTempValue <> "" Then ' TJS 09/03/09
+                ' yes, must be numeric and not contain any commas
+                If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 09/03/09 TJS 29/05/09
+                    ' must not be negative
+                    If CDec(strTempValue) >= 0 Then ' TJS 09/03/09
+                        ' shipping charge valid, overwrite customer default
+                        ' do prices include tax >
+                        If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 08/06/09 
+                            ' yes, get price before tax
+                            .CustomerSalesOrderView(0).FreightRate = GetPriceBeforeTax(taxFacade, taxSchemeDataset, _
+                                .TransactionItemTaxDetailView, TRANSACTION_TAX_ITEM_FREIGHT, 0, 1, CDec(strTempValue), _
+                                .CustomerSalesOrderView(0).FreightTaxCode, .CustomerSalesOrderView(0).CurrencyCode, _
+                                .CustomerSalesOrderView(0).ExchangeRate, .CustomerSalesOrderView(0).SalesOrderCode, True) ' TJS 08/06/09
+                        Else
+                            .CustomerSalesOrderView(0).FreightRate = CDec(strTempValue) ' TJS 09/03/09 TJS 26/05/09
+                        End If
+                    Else
+                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Order Shipping charge must not be negative", _
+                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                    End If
+                Else
+                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Order Shipping charge must be numeric", _
+                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+                End If
+            Else
+                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Order Shipping charge is blank in input XML", _
+                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
+            End If
+            .CustomerSalesOrderView(0).Freight = RoundDecimalValue(.CustomerSalesOrderView(0).FreightRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 26/05/09
+            .CustomerSalesOrderView(0).FreightTaxCode = Me.m_ImportExportDataset.CustomerShipTo(0).FreightTax ' TJS 02/12/11
+
+            ' now calculate Sales Tax on freight (VAT)
+            ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderView(0).FreightTaxCode & "'").Length - 1)
+            index = 0
+            ' Get the detail rows for freight tax code.
+            For detailRowIndex As Integer = 0 To taxSchemeDataset.SystemTaxSchemeDetailView.Count - 1
+                If taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex).TaxCode.ToUpper = .CustomerSalesOrderView(0).FreightTaxCode.ToUpper Then
+                    detailRows(index) = taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex)
+                    index += 1
+                End If
+            Next
+            dblFreight = .CustomerSalesOrderView(0).Freight
+            dblFreightRate = .CustomerSalesOrderView(0).FreightRate
+            ' get tax values
+            taxValue = taxFacade.CalculateTransactionTax(.CustomerSalesOrderView(0).FreightTaxCode, dblFreight, _
+                dblFreightRate, TRANSACTION_TAX_ITEM_FREIGHT, .CustomerSalesOrderView(0).SalesOrderCode, _
+                detailRows, .TransactionItemTaxDetailView, .CustomerSalesOrderView(0).CurrencyCode, _
+                .CustomerSalesOrderView(0).ExchangeRate)
+            ' are we accepting the source tax calculation ?
+            If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ACCEPT_SOURCE_SALES_TAX_CALCULATION).ToUpper = "YES" Or _
+                GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 26/05/09 TJS 26/10/11
+                ' yes, get total tax value
+                strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_TOTALS & "/Tax") ' TJS 26/05/09
+                ' has tax value been supplied ?
+                If strTempValue <> "" Then ' TJS 26/05/09
+                    ' yes, must be numeric and not contain any commas
+                    If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 26/05/09 TJS 29/05/09
+                        ' must not be negative
+                        If CDec(strTempValue) >= 0 Then ' TJS 26/05/09
+                            ' total tax value valid, use it
+                            .CustomerSalesOrderView(0).FreightTaxRate = CDec(strTempValue) - dblOrderTaxRate ' TJS 26/05/09
+                            .TransactionTaxDetailView(0).TaxAmountRate = .CustomerSalesOrderView(0).FreightTaxRate ' TJS 26/05/09 TJS 11/06/09
+                            dblOrderTaxRate += .CustomerSalesOrderView(0).FreightTaxRate ' TJS 26/05/09
+                            .CustomerSalesOrderView(0).FreightTax = RoundDecimalValue(.CustomerSalesOrderView(0).FreightTaxRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 26/05/09
+                            .TransactionTaxDetailView(0).TaxAmount = .CustomerSalesOrderView(0).FreightTax ' TJS 26/05/09 TJS 11/06/09
+                            dblOrderTax += .CustomerSalesOrderView(0).FreightTax ' TJS 26/05/09
+                            .TransactionTaxDetailView(0)("TaxValueIsFromSource_DEV000221") = True ' TJS 14/07/09
+                            .TransactionTaxDetailView(0).IsTAOverridden = True ' TJS 24/02/12
+                        Else
+                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Order Total Tax Value must not be negative", _
+                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 26/05/09 TJS 27/02/10
+                        End If
+                    Else
+                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Order Total Tax Value must be numeric", _
+                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 26/05/09 TJS 27/02/10
+                    End If
+                Else
+                    ' no, use values from tax facade
+                    .CustomerSalesOrderView(0).FreightTax = taxValue.taxAmount ' TJS 26/05/09
+                    dblOrderTax += .CustomerSalesOrderView(0).FreightTax ' TJS 26/05/09
+                    .CustomerSalesOrderView(0).FreightTaxRate = taxValue.taxAmountRate ' TJS 26/05/09
+                    dblOrderTaxRate += .CustomerSalesOrderView(0).FreightTaxRate ' TJS 26/05/09
+                    .TransactionTaxDetailView(0)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09
+                End If
+            Else
+                ' no, use values from tax facade
+                .CustomerSalesOrderView(0).FreightTax = taxValue.taxAmount
+                dblOrderTax = dblOrderTax + .CustomerSalesOrderView(0).FreightTax
+                .CustomerSalesOrderView(0).FreightTaxRate = taxValue.taxAmountRate
+                dblOrderTaxRate = dblOrderTaxRate + .CustomerSalesOrderView(0).FreightTaxRate
+                .TransactionTaxDetailView(0)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09
+            End If
+
+            SalesOrderFacade.ComputeTotals() ' TJS 08/06/09
+            ' start of code removed TJS 08/06/09
+            '.CustomerSalesOrderView(0).Tax = dblOrderTax
+            '.CustomerSalesOrderView(0).TaxRate = dblOrderTaxRate
+            '.CustomerSalesOrderView(0).Total = .CustomerSalesOrderView(0).SubTotal + .CustomerSalesOrderView(0).Freight + _
+            '    .CustomerSalesOrderView(0).Tax + .CustomerSalesOrderView(0).FreightTax
+            '.CustomerSalesOrderView(0).TotalRate = .CustomerSalesOrderView(0).SubTotalRate + .CustomerSalesOrderView(0).FreightRate + _
+            '    .CustomerSalesOrderView(0).TaxRate + .CustomerSalesOrderView(0).FreightTaxRate
+            '.CustomerSalesOrderView(0).Balance = .CustomerSalesOrderView(0).Total - .CustomerSalesOrderView(0).CouponDiscount ' TJS 08/06/09
+            '.CustomerSalesOrderView(0).BalanceRate = .CustomerSalesOrderView(0).TotalRate - .CustomerSalesOrderView(0).CouponDiscountRate ' TJS 08/06/09
+            ' end of code removed TJS 08/06/09
+
+            If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PAYMENT_METHOD).ToUpper = "CREDIT CARD" Then ' TJS 29/05/09
+                .CustomerSalesOrderView(0).PaymentTermCode = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DEFAULT_CREDIT_CARD_PAYMENT_TERM) ' TJS 20/02/09
+            End If
+
+            ' start of code added TJS 08/06/09
+            dblCouponDiscount = 0
+            ' is there a Discount Coupon ?
+            If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_DISCOUNT_COUPON_DESCRIPTION) <> "" Or _
+                GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_DISCOUNT_COUPON_VALUE) <> "" Then
+                ' yes, has a Coupon Code been included ?
+                If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_CUSTOMER_SALES_COUPON) = "" Then
+                    ' no, get discount value
+                    strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_DISCOUNT_COUPON_VALUE)
+                    ' has discount vale been supplied ?
+                    If strTempValue <> "" Then
+                        ' yes, must be numeric and not contain any commas
+                        If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then
+                            ' must not be negative
+                            If CDbl(strTempValue) >= 0 Then
+                                ' discount value valid, save it for later
+                                dblCouponDiscount = CDec(strTempValue)
                             Else
-                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "027", "Discount Coupon Value must not be blank", _
+                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "027", "Discount Coupon Value must not be negative", _
                                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 27/02/10
                             End If
                         Else
-                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "025", "Cannot have both a Sales Coupon and a Discount Coupon", _
-                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "027", "Discount Coupon Value must be numeric", _
+                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 27/02/10
                         End If
+                    Else
+                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "027", "Discount Coupon Value must not be blank", _
+                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 27/02/10
                     End If
-                    ' end of code added TJS 08/06/09
+                Else
+                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "025", "Cannot have both a Sales Coupon and a Discount Coupon", _
+                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+                End If
+            End If
+            ' end of code added TJS 08/06/09
 
-                    ' save order - did it save ok ?
-                    strSalesOrderValidationErrorMessage = "" ' TJS 21/04/09
-                    SalesOrderFacade.IncrementSaveCounterID() ' TJS 02/04/14
-                    bSalesOrderSaved = SalesOrderFacade.UpdateDataSet(SalesOrderFacade.CreateParameterSet(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)), TransactionType.SalesOrder, m_BaseProductName & " Create Order", False) ' TJS 08/06/09
-                    ' start of code added TJS 08/06/09
-                    ' did it save and do we have a discount to apply ?
-                    If bSalesOrderSaved And dblCouponDiscount > 0 Then
-                        ' yes, create discount coupon
-                        strTempValue = CreateDiscountCoupon(dblCouponDiscount, .CustomerSalesOrderView(0).SalesOrderCode, CustomerCode, .CustomerSalesOrderView(0).CurrencyCode, .CustomerSalesOrderView(0).ExchangeRate, XMLGenericOrder, xmlResponseDetailNode)
-                        ' was it created successfully ?
-                        If strTempValue <> "" Then
-                            ' yes,  use it
-                            Me.LoadDataSet(New String()() {New String() {Me.m_ImportExportDataset.CustomerCouponView.TableName, _
-                                "ReadCustomerCouponView_DEV000221", AT_COUPON_CODE, strTempValue, AT_CUSTOMER_CODE, CustomerCode, _
-                                Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
-                                Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 13/02/14
-                            If Me.m_ImportExportDataset.CustomerCouponView.Count > 0 Then
-                                ' coupon valid for customer, check date range is valid
-                                SalesOrderFacade.AssignCoupon(Me.m_ImportExportDataset.CustomerCouponView(0), .CustomerSalesOrderView(0))
-                                SalesOrderFacade.ComputeTotals()
-                                strSalesOrderValidationErrorMessage = ""
-                                bSalesOrderSaved = SalesOrderFacade.UpdateDataSet(SalesOrderFacade.CreateParameterSet(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)), TransactionType.SalesOrder, m_BaseProductName & " Create Order", False)
+            ' save order - did it save ok ?
+            strSalesOrderValidationErrorMessage = "" ' TJS 21/04/09
+            SalesOrderFacade.IncrementSaveCounterID() ' TJS 02/04/14
+            bSalesOrderSaved = SalesOrderFacade.UpdateDataSet(SalesOrderFacade.CreateParameterSet(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)), TransactionType.SalesOrder, m_BaseProductName & " Create Order", False) ' TJS 08/06/09
+            ' start of code added TJS 08/06/09
+            ' did it save and do we have a discount to apply ?
+            If bSalesOrderSaved And dblCouponDiscount > 0 Then
+                ' yes, create discount coupon
+                strTempValue = CreateDiscountCoupon(dblCouponDiscount, .CustomerSalesOrderView(0).SalesOrderCode, CustomerCode, .CustomerSalesOrderView(0).CurrencyCode, .CustomerSalesOrderView(0).ExchangeRate, XMLGenericOrder, xmlResponseDetailNode)
+                ' was it created successfully ?
+                If strTempValue <> "" Then
+                    ' yes,  use it
+                    Me.LoadDataSet(New String()() {New String() {Me.m_ImportExportDataset.CustomerCouponView.TableName, _
+                        "ReadCustomerCouponView_DEV000221", AT_COUPON_CODE, strTempValue, AT_CUSTOMER_CODE, CustomerCode, _
+                        Interprise.Framework.Inventory.Shared.Const.AT_LANGUAGE_CODE, GetCacheField(SYSTEMCOMPANYINFORMATION_COMPANYLANGUAGE_COLUMN, SYSTEMCOMPANYINFORMATION_TABLE)}}, _
+                        Interprise.Framework.Base.Shared.ClearType.Specific) ' TJS 13/02/14
+                    If Me.m_ImportExportDataset.CustomerCouponView.Count > 0 Then
+                        ' coupon valid for customer, check date range is valid
+                        SalesOrderFacade.AssignCoupon(Me.m_ImportExportDataset.CustomerCouponView(0), .CustomerSalesOrderView(0))
+                        SalesOrderFacade.ComputeTotals()
+                        strSalesOrderValidationErrorMessage = ""
+                        bSalesOrderSaved = SalesOrderFacade.UpdateDataSet(SalesOrderFacade.CreateParameterSet(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)), TransactionType.SalesOrder, m_BaseProductName & " Create Order", False)
 
-                            Else
-                                SalesOrderFacade.VoidOrder()
-                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "025", "Sales Coupon not valid or not valid for Customer", _
-                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-                            End If
-                        Else
-                            SalesOrderFacade.VoidOrder()
-                            Return xmlResponseDetailNode
-                        End If
+                    Else
+                        SalesOrderFacade.VoidOrder()
+                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "025", "Sales Coupon not valid or not valid for Customer", _
+                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
                     End If
-                    ' end of code added TJS 08/06/09
+                Else
+                    SalesOrderFacade.VoidOrder()
+                    Return xmlResponseDetailNode
+                End If
+            End If
+            ' end of code added TJS 08/06/09
 
-                    If bSalesOrderSaved Then ' TJS 08/06/09
-                        ' yes, are there any payment details nodes ?
-                        XMLPaymentDetails = XMLGenericOrder.XPathSelectElements(GENERIC_XML_ORDER_PAYMENT_DETAILS_LIST) ' TJS 02/12/11
-                        If GetXMLElementListCount(XMLPaymentDetails) > 0 Then ' TJS 07/07/09 TJS 02/12/11
-                            ' yes
-                            For Each XMLPaymentNode As XElement In XMLPaymentDetails ' TJS 02/12/11
-                                XMLTemp = XDocument.Parse(XMLPaymentNode.ToString) ' TJS 02/12/11
-                                ' is payment method set to Credit card ?
-                                If GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_PAYMENT_METHOD).ToUpper = "CREDIT CARD" Then ' TJS 29/05/09 TJS 07/07/09 TJS 02/12/11
-                                    ' yes, is transaction status set for Card Authorisation
-                                    If GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "AUTHORISECARD" Or _
-                                        GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "" Then ' TJS 07/07/09
-                                        ' yes, is card authorisation enabled for this source ? TJS 02/12/11
-                                        If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_AUTHORISE_CARD_ON_IMPORT).ToUpper = "YES" Then ' TJS 07/07/09 TJS 02/12/11
-                                            ' yes, process card
-                                            xmlResponseDetailNode = AuthoriseCard(XMLGenericOrder, XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, .CustomerSalesOrderView(0).TotalRate, False) ' TJS 03/02/09 TJS 02/12/11 TJS 10/06/12 TJS 18/01/13
+            If bSalesOrderSaved Then ' TJS 08/06/09
+                ' yes, are there any payment details nodes ?
+                XMLPaymentDetails = XMLGenericOrder.XPathSelectElements(GENERIC_XML_ORDER_PAYMENT_DETAILS_LIST) ' TJS 02/12/11
+                If GetXMLElementListCount(XMLPaymentDetails) > 0 Then ' TJS 07/07/09 TJS 02/12/11
+                    ' yes
+                    For Each XMLPaymentNode As XElement In XMLPaymentDetails ' TJS 02/12/11
+                        XMLTemp = XDocument.Parse(XMLPaymentNode.ToString) ' TJS 02/12/11
+                        ' is payment method set to Credit card ?
+                        If GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_PAYMENT_METHOD).ToUpper = "CREDIT CARD" Then ' TJS 29/05/09 TJS 07/07/09 TJS 02/12/11
+                            ' yes, is transaction status set for Card Authorisation
+                            If GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "AUTHORISECARD" Or _
+                                GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "" Then ' TJS 07/07/09
+                                ' yes, is card authorisation enabled for this source ? TJS 02/12/11
+                                If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_AUTHORISE_CARD_ON_IMPORT).ToUpper = "YES" Then ' TJS 07/07/09 TJS 02/12/11
+                                    ' yes, process card
+                                    xmlResponseDetailNode = AuthoriseCard(XMLGenericOrder, XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, .CustomerSalesOrderView(0).TotalRate, False) ' TJS 03/02/09 TJS 02/12/11 TJS 10/06/12 TJS 18/01/13
 
-                                        Else
-                                            ' card processing not enabled for this source
-                                            xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 29/01/09
-                                            xmlResponseDetailNode.Add(New XElement("Status", "Success")) ' TJS 29/01/09
-                                            xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 29/01/09
-                                            xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 29/01/09
-                                            If strWarningMessage <> "" Then ' TJS 29/01/09
-                                                xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage)) ' TJS 29/01/09
-                                            End If
-                                            Return xmlResponseDetailNode
-                                        End If
-
-                                    ElseIf GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "CARDAUTHORISED" Or _
-                                        GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "PAYMENTRECEIVED" Then ' TJS 07/07/09 TJS 02/12/11
-                                        ' no, card has been processed by external system
-                                        ' has payment been captured ?
-                                        If GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "CARDAUTHORISED" Then ' TJS 07/07/09 TJS 02/12/11
-                                            ' no
-                                            xmlResponseDetailNode = RecordCardAuthorisation(XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, .CustomerSalesOrderView(0).TotalRate, False) ' TJS 07/07/09 TJS 02/12/11 TJS 10/06/12
-                                        Else
-                                            ' yes
-                                            xmlResponseDetailNode = RecordCardPayment(XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, .CustomerSalesOrderView(0).TotalRate, False) ' TJS 07/07/09 TJS 02/12/11 TJS 10/06/12
-                                        End If
-
-                                    Else
-                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "103", "Invalid Credit Card TransactionStatus - " & GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS), _
-                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 07/07/09
-
-                                    End If
-                                    ' does response contain only a single node ?
-                                    If xmlResponseDetailNode.HasElements Then
-                                        ' no, update Order to Approve Credit stage and return error details as warning message
-                                        SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Approve Credit', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 06/02/09
-                                        If strWarningMessage <> "" Then ' TJS 20/02/09
-                                            strWarningMessage = strWarningMessage & vbCrLf ' TJS 20/02/09
-                                        End If
-                                        strWarningMessage = strWarningMessage & xmlResponseDetailNode.XPathSelectElement("/ErrorMessage").Value ' TJS 20/02/09
-
-                                    ElseIf .CustomerSalesOrderWorkflowView(0).Stage = "Approve Credit" Then ' TJS 27/09/10
-                                        SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Print Pick Note', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 27/09/10
-                                    End If
+                                Else
+                                    ' card processing not enabled for this source
                                     xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 29/01/09
                                     xmlResponseDetailNode.Add(New XElement("Status", "Success")) ' TJS 29/01/09
                                     xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 29/01/09
@@ -6045,87 +6054,126 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                         xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage)) ' TJS 29/01/09
                                     End If
                                     Return xmlResponseDetailNode
-
-                                ElseIf GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_PAYMENT_METHOD).ToUpper = "SOURCE" Then ' TJS 30/12/09
-                                    ' no, payment is taken by source so create payment record 
-                                    xmlResponseDetailNode = RecordSourcePayment(XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, SalesOrderDataset.CustomerSalesOrderView(0).TotalRate, False, False) ' TJS 30/12/09 TJS 10/6/12 TJS 02/08/12
-                                    ' does response contain only a single node ?
-                                    If xmlResponseDetailNode IsNot Nothing AndAlso xmlResponseDetailNode.HasElements Then ' TJS 30/12/09 TJS 29/01/14
-                                        ' no, update Order to Approve Credit stage and return error details as warning message
-                                        SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Approve Credit', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 30/12/09
-                                        If strWarningMessage <> "" Then  ' TJS 30/12/09
-                                            strWarningMessage = strWarningMessage & vbCrLf ' TJS 30/12/09
-                                        End If
-                                        strWarningMessage = strWarningMessage & xmlResponseDetailNode.XPathSelectElement("/ErrorMessage").Value ' TJS 30/12/09
-
-                                    ElseIf .CustomerSalesOrderWorkflowView(0).Stage = "Approve Credit" Then ' TJS 27/09/10
-                                        SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Print Pick Note', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 27/09/10
-                                    End If
-                                    xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 30/12/09
-                                    xmlResponseDetailNode.Add(New XElement("Status", "Success"))  ' TJS 30/12/09
-                                    xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 30/12/09
-                                    xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 30/12/09
-                                    If strWarningMessage <> "" Then ' TJS 29/01/09
-                                        xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage))  ' TJS 30/12/09
-                                    End If
-                                    Return xmlResponseDetailNode ' TJS 30/12/09
-
-                                Else
-                                    ' payment method not set to credit card
-                                    If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_AUTHORISE_CARD_ON_IMPORT).ToUpper = "YES" Then ' TJS 07/07/09
-                                        If strWarningMessage <> "" Then ' TJS 07/07/09
-                                            strWarningMessage += vbCrLf & "Also, Card Authorisation enabled, but Payment Method is not Credit Card" ' TJS 07/07/09
-                                        Else
-                                            strWarningMessage = "Card Authorisation enabled, but Payment Method is not Credit Card" ' TJS 07/07/09
-                                        End If
-                                    End If
-                                    xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 07/07/09
-                                    xmlResponseDetailNode.Add(New XElement("Status", "Success")) ' TJS 07/07/09
-                                    xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 07/07/09
-                                    xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 07/07/09
-                                    If strWarningMessage <> "" Then ' TJS 07/07/09
-                                        xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage)) ' TJS 07/07/09
-                                    End If
-                                    Return xmlResponseDetailNode ' TJS 07/07/09
-
                                 End If
-                            Next
+
+                            ElseIf GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "CARDAUTHORISED" Or _
+                                GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "PAYMENTRECEIVED" Then ' TJS 07/07/09 TJS 02/12/11
+                                ' no, card has been processed by external system
+                                ' has payment been captured ?
+                                If GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS).ToUpper = "CARDAUTHORISED" Then ' TJS 07/07/09 TJS 02/12/11
+                                    ' no
+                                    xmlResponseDetailNode = RecordCardAuthorisation(XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, .CustomerSalesOrderView(0).TotalRate, False) ' TJS 07/07/09 TJS 02/12/11 TJS 10/06/12
+                                Else
+                                    ' yes
+                                    xmlResponseDetailNode = RecordCardPayment(XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, .CustomerSalesOrderView(0).TotalRate, False) ' TJS 07/07/09 TJS 02/12/11 TJS 10/06/12
+                                End If
+
+                            Else
+                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "103", "Invalid Credit Card TransactionStatus - " & GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_CREDIT_CARD_TRANSACTION_STATUS), _
+                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 07/07/09
+
+                            End If
+                            ' does response contain only a single node ?
+                            If xmlResponseDetailNode.HasElements Then
+                                ' no, update Order to Approve Credit stage and return error details as warning message
+                                SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Approve Credit', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 06/02/09
+                                If strWarningMessage <> "" Then ' TJS 20/02/09
+                                    strWarningMessage = strWarningMessage & vbCrLf ' TJS 20/02/09
+                                End If
+                                strWarningMessage = strWarningMessage & xmlResponseDetailNode.XPathSelectElement("/ErrorMessage").Value ' TJS 20/02/09
+
+                            ElseIf .CustomerSalesOrderWorkflowView(0).Stage = "Approve Credit" Then ' TJS 27/09/10
+                                SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Print Pick Note', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 27/09/10
+                            End If
+                            xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 29/01/09
+                            xmlResponseDetailNode.Add(New XElement("Status", "Success")) ' TJS 29/01/09
+                            xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 29/01/09
+                            xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 29/01/09
+                            If strWarningMessage <> "" Then ' TJS 29/01/09
+                                xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage)) ' TJS 29/01/09
+                            End If
+                            Return xmlResponseDetailNode
+
+                        ElseIf GetXMLElementText(XMLTemp, GENERIC_XML_ORDER_PAYMENT_METHOD).ToUpper = "SOURCE" Then ' TJS 30/12/09
+                            ' no, payment is taken by source so create payment record 
+                            xmlResponseDetailNode = RecordSourcePayment(XMLTemp, SalesOrderFacade, SalesOrderDataset, CustomerCode, contactCode, .CustomerSalesOrderView(0).SalesOrderCode, SalesOrderDataset.CustomerSalesOrderView(0).TotalRate, False, False) ' TJS 30/12/09 TJS 10/6/12 TJS 02/08/12
+                            ' does response contain only a single node ?
+                            If xmlResponseDetailNode IsNot Nothing AndAlso xmlResponseDetailNode.HasElements Then ' TJS 30/12/09 TJS 29/01/14
+                                ' no, update Order to Approve Credit stage and return error details as warning message
+                                SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Approve Credit', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 30/12/09
+                                If strWarningMessage <> "" Then  ' TJS 30/12/09
+                                    strWarningMessage = strWarningMessage & vbCrLf ' TJS 30/12/09
+                                End If
+                                strWarningMessage = strWarningMessage & xmlResponseDetailNode.XPathSelectElement("/ErrorMessage").Value ' TJS 30/12/09
+
+                            ElseIf .CustomerSalesOrderWorkflowView(0).Stage = "Approve Credit" Then ' TJS 27/09/10
+                                SalesOrderFacade.ExecuteNonQuery(CommandType.Text, "UPDATE dbo.CustomerSalesOrderWorkflow SET Stage = 'Print Pick Note', DateModified = getdate() WHERE SalesOrderCode = '" & .CustomerSalesOrderView(0).SalesOrderCode & "'", Nothing) ' TJS 27/09/10
+                            End If
+                            xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 30/12/09
+                            xmlResponseDetailNode.Add(New XElement("Status", "Success"))  ' TJS 30/12/09
+                            xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 30/12/09
+                            xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 30/12/09
+                            If strWarningMessage <> "" Then ' TJS 29/01/09
+                                xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage))  ' TJS 30/12/09
+                            End If
+                            Return xmlResponseDetailNode ' TJS 30/12/09
+
                         Else
-                            ' no payment details provided 
+                            ' payment method not set to credit card
                             If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_AUTHORISE_CARD_ON_IMPORT).ToUpper = "YES" Then ' TJS 07/07/09
-                                If strWarningMessage <> "" Then ' TJS 29/01/09
-                                    strWarningMessage += vbCrLf & "Also, Card Authorisation enabled, but no Payment Details provided for card authorisation or Payment Method is not Credit Card" ' TJS 29/05/09 TJS 07/07/09
+                                If strWarningMessage <> "" Then ' TJS 07/07/09
+                                    strWarningMessage += vbCrLf & "Also, Card Authorisation enabled, but Payment Method is not Credit Card" ' TJS 07/07/09
                                 Else
-                                    strWarningMessage = "Card Authorisation enabled, but no Payment Details provided  for card authorisation or Payment Method is not Credit Card" ' TJS 29/05/09
+                                    strWarningMessage = "Card Authorisation enabled, but Payment Method is not Credit Card" ' TJS 07/07/09
                                 End If
                             End If
-                            xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 29/05/09
-                            xmlResponseDetailNode.Add(New XElement("Status", "Success")) ' TJS 29/05/09
-                            xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 29/05/09
-                            xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 29/05/09
+                            xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 07/07/09
+                            xmlResponseDetailNode.Add(New XElement("Status", "Success")) ' TJS 07/07/09
+                            xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 07/07/09
+                            xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 07/07/09
                             If strWarningMessage <> "" Then ' TJS 07/07/09
-                                xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage)) ' TJS 29/05/09
+                                xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage)) ' TJS 07/07/09
                             End If
-                            Return xmlResponseDetailNode ' TJS 29/05/09
+                            Return xmlResponseDetailNode ' TJS 07/07/09
 
                         End If
-
-                    Else
-                        For iTableLoop = 0 To SalesOrderFacade.RelatedTables(TransactionType.SalesOrder).Length - 1 ' TJS 21/04/09
-                            For iRowLoop = 0 To .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Rows.Count - 1 ' TJS 21/04/09
-                                For iColumnLoop = 0 To .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Columns.Count - 1 ' TJS 21/04/09
-                                    If .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Rows(iRowLoop).GetColumnError(iColumnLoop) <> "" Then ' TJS 10/02/09 TJS 21/04/09
-                                        strSalesOrderValidationErrorMessage = strSalesOrderValidationErrorMessage & .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).TableName & _
-                                            "." & .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Columns(iColumnLoop).ColumnName & ", " & _
-                                            .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Rows(iRowLoop).GetColumnError(iColumnLoop) & vbCrLf ' TJS 10/02/09 TJS 21/04/09 TJS 25/04/09
-                                    End If
-                                Next
-                            Next
-                        Next
-
-                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "020", "Failed to save Order - " & strSalesOrderValidationErrorMessage, _
-                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09 TJS 25/04/09
+                    Next
+                Else
+                    ' no payment details provided 
+                    If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_AUTHORISE_CARD_ON_IMPORT).ToUpper = "YES" Then ' TJS 07/07/09
+                        If strWarningMessage <> "" Then ' TJS 29/01/09
+                            strWarningMessage += vbCrLf & "Also, Card Authorisation enabled, but no Payment Details provided for card authorisation or Payment Method is not Credit Card" ' TJS 29/05/09 TJS 07/07/09
+                        Else
+                            strWarningMessage = "Card Authorisation enabled, but no Payment Details provided  for card authorisation or Payment Method is not Credit Card" ' TJS 29/05/09
+                        End If
                     End If
+                    xmlResponseDetailNode = New XElement("ImportResponse") ' TJS 29/05/09
+                    xmlResponseDetailNode.Add(New XElement("Status", "Success")) ' TJS 29/05/09
+                    xmlResponseDetailNode.Add(New XElement("OrderNumber", .CustomerSalesOrderView(0).SalesOrderCode)) ' TJS 29/05/09
+                    xmlResponseDetailNode.Add(New XElement("CustomerCode", CustomerCode)) ' TJS 29/05/09
+                    If strWarningMessage <> "" Then ' TJS 07/07/09
+                        xmlResponseDetailNode.Add(New XElement("WarningMessage", strWarningMessage)) ' TJS 29/05/09
+                    End If
+                    Return xmlResponseDetailNode ' TJS 29/05/09
+
+                End If
+
+            Else
+                For iTableLoop = 0 To SalesOrderFacade.RelatedTables(TransactionType.SalesOrder).Length - 1 ' TJS 21/04/09
+                    For iRowLoop = 0 To .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Rows.Count - 1 ' TJS 21/04/09
+                        For iColumnLoop = 0 To .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Columns.Count - 1 ' TJS 21/04/09
+                            If .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Rows(iRowLoop).GetColumnError(iColumnLoop) <> "" Then ' TJS 10/02/09 TJS 21/04/09
+                                strSalesOrderValidationErrorMessage = strSalesOrderValidationErrorMessage & .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).TableName & _
+                                    "." & .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Columns(iColumnLoop).ColumnName & ", " & _
+                                    .Tables(SalesOrderFacade.RelatedTables(TransactionType.SalesOrder)(iTableLoop)).Rows(iRowLoop).GetColumnError(iColumnLoop) & vbCrLf ' TJS 10/02/09 TJS 21/04/09 TJS 25/04/09
+                            End If
+                        Next
+                    Next
+                Next
+
+                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "020", "Failed to save Order - " & strSalesOrderValidationErrorMessage, _
+                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09 TJS 25/04/09
+            End If
                 End With
                 SalesOrderFacade.Dispose()
                 SalesOrderDataset.Dispose()
@@ -6315,6 +6363,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Dim strBuyerPhone As String = String.Empty ' RCD 08/13/2019
         Dim strBuyerEmail As String = String.Empty ' RCD 08/13/2019
         Dim strCreditCardToken As String = String.Empty ' RCD 08/13/2019
+        Dim strCustomerComments As String = String.Empty ' RCD 08/15/2019
         Dim strWarehouseCode As String, strItemKitPricing As String, iItemPtr As Integer, iBundlePtr As Integer ' TJS 08/06/09 TJS 22/09/10 TJS 02/04/14
         Dim iItemRowsAdded As Integer, iTaxLoop As Integer, iBundleRow As Integer, decSalesPriceRate As Decimal ' TJS 18/03/11 TJS 02/04/14
         Dim decKitPriceSumRate As Decimal, decKitTotalPriceRate As Decimal, bTaxRecordFound As Boolean ' TJS 18/03/11 TJS 02/12/11
@@ -6767,6 +6816,10 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         End If
 
                         Dim predefinedNotes As New StringBuilder()
+                        strCustomerComments = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_CUSTOMER_COMMENTS)
+                        If (Not String.IsNullOrEmpty(strCustomerComments)) Then
+                            predefinedNotes.AppendLine(strCustomerComments)
+                        End If
                         strNotes = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_CUSTOMER_NOTES)
                         If (Not String.IsNullOrEmpty(strNotes)) Then
                             predefinedNotes.AppendLine(strNotes)
@@ -6821,6 +6874,22 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             .CustomerSalesRepCommissionView(0).SalesRepGroupCode = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPCODE_COLUMN))
                             .CustomerSalesRepCommissionView(0).SalesRepGroupName = CStr(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_SALESREPGROUPNAME_COLUMN))
                             .CustomerSalesRepCommissionView(0).CommissionPercent = CDec(salesRepRow(Interprise.Framework.Base.Shared.Const.CUSTOMERSALESREPVIEW_COMMISSIONPERCENT_COLUMN))
+
+                            ' RCD 2019/08/15 Start - SalesRepCode Node
+                            Dim strSalesRepCode = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_CUSTOMER_SALES_REP_CODE)
+                            If (Not String.IsNullOrEmpty(strSalesRepCode)) Then
+                                Dim salesRepContactCode As String = Interprise.Facade.Base.SimpleFacade.Instance.GetField(Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_CONTACTCODE_COLUMN, _
+                                                                                                                Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_TABLE,
+                                                                                                                String.Format(Interprise.Framework.Base.Shared.Const.FORMAT_FILTER_2, _
+                                                                                                                              Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_ENTITYCODE_COLUMN, _
+                                                                                                                              strSalesRepGroupCode, _
+                                                                                                                              Interprise.Framework.Customer.Shared.Const.CUSTOMERSALESREPCONTACTVIEW_CONTACTCODE_COLUMN, _
+                                                                                                                              strSalesRepCode))
+                                If (Not String.IsNullOrEmpty(salesRepContactCode)) Then
+                                    .CustomerSalesRepCommissionView(0).ContactCode = salesRepContactCode
+                                End If
+                            End If
+                            ' RCD 2019/08/15 End - SalesRepCode Node
                         End If
                     End If
                     ' RCD 2019/08/12 End - SalesRepGroupCode Node
@@ -7170,7 +7239,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                                                 ' yes, set price as remainder to prevent rounding errors and divide by quantity ordered
                                                                 .CustomerInvoiceDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue(((decSalesPriceRate * CInt(strItemQty)) - decBundlePriceSumRate) / .CustomerInvoiceDetailView(iBundleRow).QuantityOrdered, 2)
 
-                                    						Else
+                                                            Else
                                                                 ' yes, set price as remainder to prevent rounding errors
                                                                 .CustomerInvoiceDetailView(iBundleRow).SalesPriceRate = RoundDecimalValue((decSalesPriceRate * CInt(strItemQty)) - decBundlePriceSumRate, 2)
                                                             End If

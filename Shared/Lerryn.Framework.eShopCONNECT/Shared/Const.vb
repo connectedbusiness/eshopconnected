@@ -92,6 +92,7 @@ Namespace [Shared]
         Public Const GENERIC_XML_QUOTE_CURRENCY As String = "Quote/QuoteCurrency"
         Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_COUPON As String = "Quote/CustomerSalesCoupon"
         Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_REP_GROUP_CODE As String = "Quote/SalesRepGroupCode" ' RCD 2019/08/12
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_REP_CODE As String = "Quote/SalesRepCode" ' RCD 2019/08/15
         Public Const GENERIC_XML_QUOTE_CUSTOMER_NOTES As String = "Quote/Notes" ' RCD 2019/08/13
         Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_AGENCY As String = "Quote/SalesAgency" ' RCD 2019/08/13
         Public Const GENERIC_XML_QUOTE_CUSTOMER_ORDER_TAKER As String = "Quote/OrderTaker" ' RCD 2019/08/13
@@ -131,6 +132,7 @@ Namespace [Shared]
         Public Const GENERIC_XML_ORDER_CURRENCY As String = "Order/OrderCurrency"
         Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_COUPON As String = "Order/CustomerSalesCoupon" ' TJS 09/03/096
         Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_REP_GROUP_CODE As String = "Order/SalesRepGroupCode" ' RCD 2019/08/12
+        Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_REP_CODE As String = "Order/SalesRepCode" ' RCD 2019/08/15
         Public Const GENERIC_XML_ORDER_CUSTOMER_NOTES As String = "Order/Notes" ' RCD 2019/08/13
         Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_AGENCY As String = "Order/SalesAgency" ' RCD 2019/08/13
         Public Const GENERIC_XML_ORDER_CUSTOMER_ORDER_TAKER As String = "Order/OrderTaker" ' RCD 2019/08/13
@@ -169,6 +171,7 @@ Namespace [Shared]
         Public Const GENERIC_XML_INVOICE_SOURCE_WEBSITE_REF As String = "Invoice/SourceWebSiteRef"
         Public Const GENERIC_XML_INVOICE_SOURCE_MERCHANT_ID As String = "Invoice/SourceMerchantID" ' TJS 24/01/09
         Public Const GENERIC_XML_INVOICE_CUSTOMER_SALES_REP_GROUP_CODE As String = "Invoice/SalesRepGroupCode" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_SALES_REP_CODE As String = "Invoice/SalesRepCode" ' RCD 2019/08/15
         Public Const GENERIC_XML_INVOICE_CUSTOMER_NOTES As String = "Invoice/Notes" ' RCD 2019/08/13
         Public Const GENERIC_XML_INVOICE_CUSTOMER_SALES_AGENCY As String = "Invoice/SalesAgency" ' RCD 2019/08/13
         Public Const GENERIC_XML_INVOICE_CUSTOMER_ORDER_TAKER As String = "Invoice/OrderTaker" ' RCD 2019/08/13
@@ -298,7 +301,7 @@ Namespace [Shared]
         Public Const GENERIC_XML_CUSTOMER_CURRENCY As String = "Customer/TradingCurrency"
         Public Const GENERIC_XML_CUSTOMER_ACTIVITY As String = "Customer/Activity"
 
-        ' Formatting - RCD 08/09/2019
+        ' Formatting and Validation - RCD 08/09/2019
         Public Const GENERIC_XML_YMD As String = "yyyy-MM-dd"
         Public Const GENERIC_XML_INVALID_SHIPPING_DATE As String = "Shipping Date Is Invalid! Should be yyyy-MM-dd."
         Public Const GENERIC_XML_INVALID_LATEST_SHIPPING_DATE As String = "Latest Shipping Date Is Invalid! Should be yyyy-MM-dd."

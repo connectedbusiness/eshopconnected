@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\DLL\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\eShopCONNECTED\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -27,6 +27,7 @@
     <DefineTrace>true</DefineTrace>
     <DocumentationFile>bin\Debug\Lerryn.Facade.eShopCONNECT.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
+    <DefineDebug>true</DefineDebug>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>None</DebugType>
