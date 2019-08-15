@@ -423,6 +423,7 @@ Namespace [Shared]
         Public Const LOG_MESSAGE_TYPE_WARNING As String = "!Warning"
         Public Const LOG_MESSAGE_TYPE_ERROR As String = "!Error!!"
         Public Const LOG_MESSAGE_TYPE_SOURCE_ERROR As String = "!SrcErr!"
+        Public Const LOG_MESSAGE_TYPE_SOURCE_INFO As String = "!SrcInfo!"
 
         'Stored Procedure Parameter
         Public Const AT_PRODUCT_CODE As String = "@ProductCode"
