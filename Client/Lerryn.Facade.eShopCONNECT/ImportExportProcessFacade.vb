@@ -2238,6 +2238,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
         Catch ex As Exception
             m_ImportExportConfigFacade.SendSourceErrorEmail(m_ImportExportConfigFacade.SourceConfig, _
                 "ImportExportProcessFacade - UpdateCustomerRecord", "Cannot create CustomerFacade - suspect Interprise Solutions Licence error or User count exceeded", XMLInvoiceOrOrder.ToString)
+            m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo(ex.Message & " | " & ex.StackTrace)
             Exit Sub
         End Try
 
@@ -2771,6 +2772,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     CustomerDetailFacade = New Interprise.Facade.Customer.CustomerDetailFacade(CustomerDetailDataset)
 
                 Catch ex As Exception
+                    m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo(ex.Message & " | " & ex.StackTrace)
                     Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "090", "Cannot create CustomerDetailFacade - suspect Interprise Solutions Licence error or User count exceeded", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateQuote", XMLGenericQuote.ToString)
                 End Try
@@ -4567,6 +4569,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     CustomerDetailFacade = New Interprise.Facade.Customer.CustomerDetailFacade(CustomerDetailDataset)
 
                 Catch ex As Exception ' TJS 16/10/09
+                    m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo(ex.Message & " | " & ex.StackTrace)
                     Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "090", "Cannot create CustomerDetailFacade - suspect Interprise Solutions Licence error or User count exceeded", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 16/10/09
                 End Try
@@ -6472,6 +6475,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     CustomerDetailFacade = New Interprise.Facade.Customer.CustomerDetailFacade(CustomerDetailDataset)
 
                 Catch ex As Exception ' TJS 16/10/09
+                    m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo(ex.Message & " | " & ex.StackTrace)
                     Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "090", "Cannot create CustomerDetailFacade - suspect Interprise Solutions Licence error or User count exceeded", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateInvoice", XMLGenericInvoice.ToString) ' TJS 16/10/09
                 End Try
@@ -8254,6 +8258,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     CustomerDetailFacade = New Interprise.Facade.Customer.CustomerDetailFacade(CustomerDetailDataset)
 
                 Catch ex As Exception ' TJS 16/10/09
+                    m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo(ex.Message & " | " & ex.StackTrace)
                     Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "090", "Cannot create CustomerDetailFacade - suspect Interprise Solutions Licence error or User count exceeded", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateCreditNote", XMLGenericCreditNote.ToString) ' TJS 16/10/09
                 End Try
@@ -9609,6 +9614,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 CustomerDetailFacade = New Interprise.Facade.Customer.CustomerDetailFacade(CustomerDetailDataset)
 
             Catch ex As Exception
+                m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo(ex.Message & " | " & ex.StackTrace)
                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "090", "Cannot create CustomerFacade - suspect Interprise Licence error or User count exceeded", _
                         m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - ConvertQuoteToOrder", XMLGenericOrder.ToString) ' TJS 16/10/09
             End Try

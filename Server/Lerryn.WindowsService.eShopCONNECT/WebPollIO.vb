@@ -1060,6 +1060,7 @@ Module WebPollIO
 
                     Catch ex As Exception
                         m_ImportExportConfigFacade.SendSourceErrorEmail(ActiveSource.XMLConfig, "PollMagento", "Unable to log in to Magento - URL " & ActiveSource.MagentoSettings(iMerchantLoop).APIURL & ", user " & ActiveSource.MagentoSettings(iMerchantLoop).APIUser & ", password *********") ' TJS 31/03/11 TJS 13/11/13
+                        m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo("SOAP XML to post: " & MagentoConnection.LastSOAPtoPost)  ' www.dynenttech.com
 
                     End Try
                     If bLoggedIn Then ' TJS 31/03/11
@@ -1101,6 +1102,8 @@ Module WebPollIO
                                             End If
                                         Else
                                             m_ImportExportConfigFacade.SendSourceErrorEmail(ActiveSource.XMLConfig, "PollMagento", MagentoConnection.LastError, "") ' TJS 10/06/12
+                                            m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo("SOAP XML to post: " & MagentoConnection.LastSOAPtoPost)  ' www.dynenttech.com
+
                                             ' stop Last Order Status Time being updated so missed orders get imported next time
                                             bInhibitLastOrderStatusTimeUpdate = True ' TJS 28/05/13
                                         End If
@@ -1122,6 +1125,7 @@ Module WebPollIO
                                         End If
                                     Catch ex As Exception
                                         m_ImportExportConfigFacade.SendSourceErrorEmail(ActiveSource.XMLConfig, "PollMagento", "Unable to log in to Magento - URL " & ActiveSource.MagentoSettings(iMerchantLoop).APIURL & ", user " & ActiveSource.MagentoSettings(iMerchantLoop).APIUser & ", password *********") ' TJS 13/11/13
+                                        m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo("SOAP XML to post: " & MagentoConnection.LastSOAPtoPost)  ' www.dynenttech.com
                                         Exit For
                                     End Try
                                 End If
@@ -1132,10 +1136,12 @@ Module WebPollIO
                             Next
                         Else
                             m_ImportExportConfigFacade.SendSourceErrorEmail(ActiveSource.XMLConfig, "PollMagento", MagentoConnection.LastError, "") ' TJS 10/06/12
+                            m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo("SOAP XML to post: " & MagentoConnection.LastSOAPtoPost)  ' www.dynenttech.com
                         End If
                         MagentoConnection.Logout()
                     Else
                         m_ImportExportConfigFacade.SendSourceErrorEmail(ActiveSource.XMLConfig, "PollMagento", MagentoConnection.LastError, "") ' TJS 18/03/11
+                        m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo("SOAP XML to post: " & MagentoConnection.LastSOAPtoPost)  ' www.dynenttech.com
                     End If
                     ActiveSource.MagentoSettings(iMerchantLoop).NextOrderPollTime = Date.Now.AddMinutes(ActiveSource.MagentoSettings(iMerchantLoop).OrderPollIntervalMinutes)
                 End If
@@ -1180,6 +1186,7 @@ Module WebPollIO
 
                     Catch ex As Exception
                         m_ImportExportConfigFacade.SendSourceErrorEmail(ActiveSource.XMLConfig, "PollMagento", "Unable to log in to Magento - URL " & ActiveSource.MagentoSettings(iMerchantLoop).APIURL & ", user " & ActiveSource.MagentoSettings(iMerchantLoop).APIUser & ", password *********")
+                        m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo("SOAP XML to post: " & MagentoConnection.LastSOAPtoPost)  ' www.dynenttech.com
 
                     End Try
                     If bLoggedIn Then
@@ -1196,6 +1203,7 @@ Module WebPollIO
                         MagentoConnection.Logout()
                     Else
                         m_ImportExportConfigFacade.SendSourceErrorEmail(ActiveSource.XMLConfig, "OpenMagentoConnection", MagentoConnection.LastError, "")
+                        m_ImportExportConfigFacade.WriteLogAdditionalErrorInfo("SOAP XML to post: " & MagentoConnection.LastSOAPtoPost)  ' www.dynenttech.com
                     End If
                 End If
             End If
