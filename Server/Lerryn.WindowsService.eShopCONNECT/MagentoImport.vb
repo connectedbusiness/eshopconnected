@@ -1208,6 +1208,9 @@ Module MagentoImport
         ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         Dim strStateCode As String()
+        If SourceStateOrCounty.Contains("'") Then
+            SourceStateOrCounty = SourceStateOrCounty.Replace("'", "''")
+        End If
 
         strStateCode = eShopCONNECTFacade.GetRow(New String() {"StateCode"}, "SystemPostalCode", "State = '" & SourceStateOrCounty & "' AND CountryCode = '" & SourceCountry & "'", False)
         If strStateCode IsNot Nothing AndAlso strStateCode(0) <> "" Then ' TJS 02/12/11

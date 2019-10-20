@@ -1589,7 +1589,8 @@ Imports System.Xml.XPath ' TJS 02/12/11
 
             'Assign city, postal code and country in order to apply the correct class template
             NewCustomerDataset.CustomerView(0).City = GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/Town_City")
-            strTempValue = GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/PostalCode") ' TJS 09/03/09
+            strTempValue = FormatPostalCode(GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/PostalCode"), strBillingCountry)
+
             If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "072", "Customer Billing Postal Code is blank in input XML", _
                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateCustomerRecord", XMLInvoiceOrOrder.ToString) ' TJS 09/03/09
@@ -1673,7 +1674,12 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         strShippingCustomerName = strShippingCustomerName & strTempValue & " "
                     End If
                     strTempValue = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsCustomerXMLPath & "/LastName")
-                    If strTempValue <> "" Then
+
+                    'dynenttech.com david 7/1/2018 Allow if first name is provided, because first name can have first and last
+                    'OLD CODE
+                    'If strTempValue <> "" Then
+                    'NEW CODE
+                    If strTempValue <> "" Or strShippingCustomerName.Length > 0 Then
                         strShippingCustomerName = strShippingCustomerName & strTempValue
                     Else
                         Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "072", "Customer Shipping Last Name is blank in input XML", _
@@ -1703,7 +1709,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     NewCustomerDataset.CustomerShipToView(0).City = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/Town_City")
                     NewCustomerDataset.CustomerShipToView(0).County = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/County")
                     NewCustomerDataset.CustomerShipToView(0).State = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/State")
-                    strTempValue = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/PostalCode") ' TJS 09/03/09
+                    strTempValue = FormatPostalCode(GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/PostalCode"), GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/Country"))
                     If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                         Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "072", "Customer Shipping Postal Code is blank in input XML", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateCustomerRecord", XMLInvoiceOrOrder.ToString) ' TJS 09/03/09
@@ -1920,6 +1926,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 If strPaymentMethodXMLPath <> "" Then ' TJS 14/07/09
                     If GetXMLElementText(XMLInvoiceOrOrder, strPaymentMethodXMLPath).ToUpper = "CREDIT CARD" Then
                         NewCustomerDataset.CustomerShipToView(0).PaymentTermCode = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DEFAULT_CREDIT_CARD_PAYMENT_TERM) ' TJS 20/02/09 TJS 02/12/11
+                        'www.dynenttech.com set payment term to empty when PaymentType=purchaseorder
+                    ElseIf GetXMLElementText(XMLInvoiceOrOrder, "Order/PaymentDetails/PaymentType").ToLower = "purchaseorder" Then ' TJS 29/05/09
+                        NewCustomerDataset.CustomerShipToView(0).PaymentTermCode = NewCustomerDataset.CustomerShipToView(0).PaymentTermCode
                     End If
                 End If
 
@@ -2096,7 +2105,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
             NewLeadDataset.CRMLeadView(0).City = GetXMLElementText(XMLLead, GENERIC_XML_LEAD_ADDRESS_DETAILS & "/Town_City") ' TJS 29/01/13
             NewLeadDataset.CRMLeadView(0).County = GetXMLElementText(XMLLead, GENERIC_XML_LEAD_ADDRESS_DETAILS & "/County") ' TJS 29/01/13
             NewLeadDataset.CRMLeadView(0).State = GetXMLElementText(XMLLead, GENERIC_XML_LEAD_ADDRESS_DETAILS & "/State") ' TJS 29/01/13
-            NewLeadDataset.CRMLeadView(0).PostalCode = GetXMLElementText(XMLLead, GENERIC_XML_LEAD_ADDRESS_DETAILS & "/PostalCode") ' TJS 29/01/13
+            NewLeadDataset.CRMLeadView(0).PostalCode = FormatPostalCode(GetXMLElementText(XMLLead, GENERIC_XML_LEAD_ADDRESS_DETAILS & "/PostalCode"), GetXMLElementText(XMLLead, GENERIC_XML_LEAD_ADDRESS_DETAILS & "/Country"))
             ' check Country is valid 
             If Me.GetField("CountryCode", "SystemCountry", "CountryCode = '" & GetXMLElementText(XMLLead, GENERIC_XML_LEAD_ADDRESS_DETAILS & "/Country") & "'") = "" Then ' TJS 14/08/09
                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "72", "Lead Country is not a valid IS Country", _
@@ -2414,7 +2423,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
             CustomerDetailDataset.CustomerView(0).City = GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/Town_City")
             CustomerDetailDataset.CustomerView(0).County = GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/County")
             CustomerDetailDataset.CustomerView(0).State = GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/State")
-            strTempValue = GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/PostalCode")
+            strTempValue = FormatPostalCode(GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/PostalCode"), GetXMLElementText(XMLInvoiceOrOrder, strBillingDetailsAddressXMLPath & "/Country"))
             If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then
                 m_ImportExportConfigFacade.SendSourceErrorEmail(m_ImportExportConfigFacade.SourceConfig, _
                     "ImportExportProcessFacade - UpdateCustomerRecord", "Customer Billing Postal Code is blank in input XML", XMLInvoiceOrOrder.ToString)
@@ -2475,7 +2484,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 CustomerDetailDataset.CustomerShipToView(0).City = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/Town_City")
                 CustomerDetailDataset.CustomerShipToView(0).County = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/County")
                 CustomerDetailDataset.CustomerShipToView(0).State = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/State")
-                strTempValue = GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/PostalCode")
+                strTempValue = FormatPostalCode(GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/PostalCode"), GetXMLElementText(XMLInvoiceOrOrder, strShippingDetailsAddressXMLPath & "/Country"))
                 If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then
                     m_ImportExportConfigFacade.SendSourceErrorEmail(m_ImportExportConfigFacade.SourceConfig, _
                         "ImportExportProcessFacade - UpdateCustomerRecord", "Customer Shipping Postal Code is blank in input XML", XMLInvoiceOrOrder.ToString)
@@ -2959,7 +2968,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         .CustomerSalesOrderView(0).BillToCity = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_BILLING_DETAILS_ADDRESS & "/Town_City")
                         .CustomerSalesOrderView(0).BillToCounty = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_BILLING_DETAILS_ADDRESS & "/County")
                         .CustomerSalesOrderView(0).BillToState = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_BILLING_DETAILS_ADDRESS & "/State")
-                        strTempValue = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_BILLING_DETAILS_ADDRESS & "/PostalCode")
+                        strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_BILLING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_BILLING_DETAILS_ADDRESS & "/Country"))
                         If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 13/01/10
                             Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Customer Billing Postal Code is blank in input XML", _
                                 m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateQuote", XMLGenericQuote.ToString)
@@ -3038,7 +3047,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             .CustomerSalesOrderView(0).ShipToCity = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_ADDRESS & "/Town_City")
                             .CustomerSalesOrderView(0).ShipToCounty = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_ADDRESS & "/County")
                             .CustomerSalesOrderView(0).ShipToState = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_ADDRESS & "/State")
-                            strTempValue = GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_ADDRESS & "/PostalCode")
+                            strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericQuote, GENERIC_XML_QUOTE_SHIPPING_DETAILS_ADDRESS & "/Country"))
                             If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 13/01/10
                                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Customer Shipping Postal Code is blank in input XML", _
                                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateQuote", XMLGenericQuote.ToString)
@@ -4757,7 +4766,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         .CustomerSalesOrderView(0).BillToCity = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/Town_City") ' TJS 08/02/09
                         .CustomerSalesOrderView(0).BillToCounty = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/County") ' TJS 08/02/09
                         .CustomerSalesOrderView(0).BillToState = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/State") ' TJS 08/02/09
-                        strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/PostalCode") ' TJS 09/03/09
+                        strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/Country"))
                         If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                             Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Customer Billing Postal Code is blank in input XML", _
                                 m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
@@ -4799,7 +4808,12 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             strShippingCustomerName = strShippingCustomerName & strTempValue & " " ' TJS 08/02/09
                         End If
                         strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_CUSTOMER & "/LastName") ' TJS 08/02/09 
-                        If strTempValue <> "" Then ' TJS 08/02/09
+
+                        'www.dynenttech.com 7/1/2018 Allow if first name is provided, because first name can have first and last
+                        'OLD CODE
+                        'If strTempValue <> "" Then ' TJS 08/02/09
+                        'NEW CODE
+                        If strTempValue <> "" Or strShippingCustomerName.Length > 0 Then ' TJS 08/02/09
                             strShippingCustomerName = strShippingCustomerName & strTempValue ' TJS 08/02/09
                         Else
                             Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Customer Last Name for Shipping is blank in input XML", _
@@ -4836,7 +4850,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             .CustomerSalesOrderView(0).ShipToCity = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/Town_City") ' TJS 08/02/09
                             .CustomerSalesOrderView(0).ShipToCounty = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/County") ' TJS 08/02/09
                             .CustomerSalesOrderView(0).ShipToState = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/State") ' TJS 08/02/09
-                            strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/PostalCode") ' TJS 09/03/09
+                            strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/Country"))
                             If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Customer Shipping Postal Code is blank in input XML", _
                                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
@@ -5956,6 +5970,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
 
             If GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PAYMENT_METHOD).ToUpper = "CREDIT CARD" Then ' TJS 29/05/09
                 .CustomerSalesOrderView(0).PaymentTermCode = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DEFAULT_CREDIT_CARD_PAYMENT_TERM) ' TJS 20/02/09
+                        'STW set payment term to empty when PaymentType=purchaseorder
+                    ElseIf GetXMLElementText(XMLGenericOrder, "Order/PaymentDetails/PaymentType").ToLower = "purchaseorder" Then ' TJS 29/05/09
+                        .CustomerSalesOrderView(0).PaymentTermCode = SalesOrderDataset.CustomerSalesOrderView(0).PaymentTermCode
             End If
 
             ' start of code added TJS 08/06/09
@@ -6663,7 +6680,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         .CustomerInvoiceView(0).BillToCity = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_BILLING_DETAILS_ADDRESS & "/Town_City") ' TJS 08/02/09
                         .CustomerInvoiceView(0).BillToCounty = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_BILLING_DETAILS_ADDRESS & "/County") ' TJS 08/02/09
                         .CustomerInvoiceView(0).BillToState = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_BILLING_DETAILS_ADDRESS & "/State") ' TJS 08/02/09
-                        strTempValue = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_BILLING_DETAILS_ADDRESS & "/PostalCode") ' TJS 09/03/09
+                        strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_BILLING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_BILLING_DETAILS_ADDRESS & "/Country"))
                         If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                             Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "033", "Customer Billing Postal Code is blank in input XML", _
                                 m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateInvoice", XMLGenericInvoice.ToString) ' TJS 09/03/09
@@ -6742,7 +6759,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             .CustomerInvoiceView(0).ShipToCity = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_ADDRESS & "/Town_City") ' TJS 08/02/09
                             .CustomerInvoiceView(0).ShipToCounty = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_ADDRESS & "/County") ' TJS 08/02/09
                             .CustomerInvoiceView(0).ShipToState = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_ADDRESS & "/State") ' TJS 08/02/09
-                            strTempValue = GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_ADDRESS & "/PostalCode") ' TJS 09/03/09
+                            strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericInvoice, GENERIC_XML_INVOICE_SHIPPING_DETAILS_ADDRESS & "/Country"))
                             If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "033", "Customer Shipping Postal Code is blank in input XML", _
                                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateInvoice", XMLGenericInvoice.ToString) ' TJS 09/03/09
@@ -8450,7 +8467,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         .CustomerInvoiceView(0).BillToCity = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_BILLING_DETAILS_ADDRESS & "/Town_City") ' TJS 08/02/09
                         .CustomerInvoiceView(0).BillToCounty = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_BILLING_DETAILS_ADDRESS & "/County") ' TJS 08/02/09
                         .CustomerInvoiceView(0).BillToState = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_BILLING_DETAILS_ADDRESS & "/State") ' TJS 08/02/09
-                        strTempValue = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_BILLING_DETAILS_ADDRESS & "/PostalCode") ' TJS 09/03/09
+                        strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_BILLING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_BILLING_DETAILS_ADDRESS & "/Country"))
                         If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                             Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "053", "Customer Billing Postal Code is blank in input XML", _
                                 m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateCreditNote", XMLGenericCreditNote.ToString) ' TJS 09/03/09
@@ -8529,7 +8546,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                             .CustomerInvoiceView(0).ShipToCity = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_SHIPPING_DETAILS_ADDRESS & "/Town_City") ' TJS 08/02/09
                             .CustomerInvoiceView(0).ShipToCounty = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_SHIPPING_DETAILS_ADDRESS & "/County") ' TJS 08/02/09
                             .CustomerInvoiceView(0).ShipToState = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_SHIPPING_DETAILS_ADDRESS & "/State") ' TJS 08/02/09
-                            strTempValue = GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_SHIPPING_DETAILS_ADDRESS & "/PostalCode") ' TJS 03/04/09
+                            strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_SHIPPING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericCreditNote, GENERIC_XML_CREDITNOTE_SHIPPING_DETAILS_ADDRESS & "/Country"))
                             If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "053", "Customer Shipping Postal Code is blank in input XML", _
                                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateCreditNote", XMLGenericCreditNote.ToString) ' TJS 03/04/09
@@ -9713,7 +9730,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 CustomerDetailDataset.CustomerView(0).City = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/Town_City")
                 CustomerDetailDataset.CustomerView(0).County = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/County")
                 CustomerDetailDataset.CustomerView(0).State = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/State")
-                strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/PostalCode")
+                strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_BILLING_DETAILS_ADDRESS & "/PostalCode"), strBillingCountry)
                 If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then
                     Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "072", "Customer Billing Postal Code is blank in input XML", _
                         m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - ConvertQuoteToOrder", XMLGenericOrder.ToString)
@@ -9775,7 +9792,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     CustomerDetailDataset.CustomerShipToView(0).City = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/Town_City")
                     CustomerDetailDataset.CustomerShipToView(0).County = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/County")
                     CustomerDetailDataset.CustomerShipToView(0).State = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/State")
-                    strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/PostalCode")
+                    strTempValue = FormatPostalCode(GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/PostalCode"), GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS & "/Country"))
                     If strTempValue = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then
                         Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "072", "Customer Shipping Postal Code is blank in input XML", _
                             m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - ConvertQuoteToOrder", XMLGenericOrder.ToString)
@@ -10249,7 +10266,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "102", "Customer Billing Country is blank in input XML", _
                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - AuthoriseCard", XMLGenericOrderInvoice.ToString) ' TJS 09/03/09
             End If
-            strTemp = GetXMLElementText(XMLGenericOrderInvoice, strBillingAddressXMLPath & "/PostalCode") ' TJS 09/03/09
+            strTemp = FormatPostalCode(GetXMLElementText(XMLGenericOrderInvoice, strBillingAddressXMLPath & "/PostalCode"), GetXMLElementText(XMLGenericOrderInvoice, strBillingAddressXMLPath & "/Country"))
             If strTemp = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 09/03/09 TJS 13/01/10
                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "102", "Customer Billing Postal Code is blank in input XML", _
                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - AuthoriseCard", XMLGenericOrderInvoice.ToString) ' TJS 09/03/09
@@ -10501,7 +10518,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "102", "Customer Billing Country is blank in input XML", _
                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - RecordCardAuthorisation", XMLGenericOrderInvoice.ToString)
             End If
-            strTemp = GetXMLElementText(XMLGenericOrderInvoice, strBillingAddressXMLPath & "/PostalCode") '
+            strTemp = FormatPostalCode(GetXMLElementText(XMLGenericOrderInvoice, strBillingAddressXMLPath & "/PostalCode"), GetXMLElementText(XMLGenericOrderInvoice, strBillingAddressXMLPath & "/Country"))
             If strTemp = "" And GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOW_BLANK_POSTALCODE).ToUpper <> "YES" Then ' TJS 13/01/10
                 Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "102", "Customer Billing Postal Code is blank in input XML", _
                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - RecordCardAuthorisation", XMLGenericOrderInvoice.ToString)
@@ -10806,7 +10823,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                 CreditCardReceiptDataset.PaymentMethodView(0).CreditCardState = GetXMLElementText(XMLPayment, strBillingAddressXMLPath & "/State")
             End If
             CreditCardReceiptDataset.PaymentMethodView(0).CreditCardCountry = GetXMLElementText(XMLPayment, strBillingAddressXMLPath & "/Country")
-            CreditCardReceiptDataset.PaymentMethodView(0).CreditCardPostalCode = GetXMLElementText(XMLPayment, strBillingAddressXMLPath & "/PostalCode")
+            CreditCardReceiptDataset.PaymentMethodView(0).CreditCardPostalCode = FormatPostalCode(GetXMLElementText(XMLPayment, strBillingAddressXMLPath & "/PostalCode"), GetXMLElementText(XMLPayment, strBillingAddressXMLPath & "/Country"))
 
             strTemp = GetXMLElementText(XMLPayment, strBillingCustomerXMLPath & "/Email")
             If strTemp <> "" Then
@@ -10999,15 +11016,18 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     True, ReceiptValue, "Payment Due on Order", SalesOrderInvoiceCode, ContactCode) ' TJS 27/09/10 TJS 10/06/12
             End If
 
+            sTemp = GetXMLElementText(XMLPayment, strPaymentDetailsXMLPath & "/PaymentType")
             Me.LoadDataSet(New String()() {New String() {m_ImportExportDataset.SystemPaymentTypeView.TableName, "ReadSystemPaymentTypeView_DEV000221", _
-                AT_PAYMENT_TYPE_CODE, GetXMLElementText(XMLPayment, strPaymentDetailsXMLPath & "/PaymentType")}}, _
+                AT_PAYMENT_TYPE_CODE, sTemp}}, _
                 Interprise.Framework.Base.Shared.ClearType.Specific)
             ' is payment type recognised and active ?
             If Me.m_ImportExportDataset.SystemPaymentTypeView.Count = 0 Then
                 ' no
-                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "101", "Source Payment Type not found / not active for Order/Invoice Code " & SalesOrderInvoiceCode, _
+                'www.dynenttech.com exclude warning log for paymenttype purchaseorder
+                If sTemp <> "purchaseorder" Then
+                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "101", sTemp & " Payment Type not found / not active for Order/Invoice Code " & SalesOrderInvoiceCode, _
                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - RecordSourcePayment", XMLPayment.ToString) ' TJS 23/01/14
-
+                End If
             Else
                 ' yes, use it
                 Try ' TJS 24/09/10
@@ -11918,5 +11938,20 @@ Imports System.Xml.XPath ' TJS 02/12/11
 
     End Sub
 #End Region
+
+    Private Function FormatPostalCode(ByVal PostalCode As String, ByVal Country As String) As String
+
+        FormatPostalCode = PostalCode
+
+        'dynenttech.com david 7/2/2018
+        ' If the canadian postal code does not have a space in the middle, add it
+        If Country.ToUpper = "CANADA" Then
+            If PostalCode.Trim.Length = 6 Then
+                FormatPostalCode = String.Format("{0} {1}", Left(PostalCode.Trim, 3), Right(PostalCode.Trim, 3))
+            End If
+        End If
+
+    End Function
 End Class
+
 #End Region

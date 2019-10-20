@@ -48,7 +48,6 @@ www.dynenttech.com
 	Add reference path
 		..\..\DLL\     (browse and select the path)
 		C:\Program Files (x86)\Connected Business Client\
-		C:\Program Files (x86)\Connected Business Server\eShopConnected   (to pick up lerrynftp.dll)
 
     Lerryn.WindowsService.eShopCONNECT.UnitTest
 	Add reference path
