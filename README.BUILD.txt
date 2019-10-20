@@ -5,36 +5,53 @@ Below are the references needed for my environment.
 David Nelson
 www.dynenttech.com
 
-
+    IN THIS ORDER
 
     Lerryn.Framework.ImportExport
+	Compile, Build output path: 
+		..\..\DLL\
 	Add reference path
 		C:\Program Files (x86)\Connected Business Client\
+	Build
 
     Lerryn.Extendable.ImportExport
-	Add reference path
+	Compile, Build output path: 
 		..\..\DLL\
+	Add reference path
+		..\..\DLL\     (browse and select the path)
 		C:\Program Files (x86)\Connected Business Client\
+	Build
 
     Lerryn.Facade.ImportExport
+	Compile, Build output path: 
+		..\..\DLL\
 	Add reference path
 		C:\Program Files (x86)\Connected Business Client\
+	Build
 
     Lerryn.Presentation.eShopCONNECT
-	Add reference path
+	Compile, Build output path: 
 		..\..\DLL\
+	Add reference path
+		..\..\DLL\     (browse and select the path)
 		C:\Program Files (x86)\Connected Business Client\
+	Build
 
     Lerryn.Business.ImportExport
+	Compile, Build output path: 
+		..\..\DLL\
+	Build
 
     Lerryn.WindowsService.eShopCONNECT
-	Add reference path
+	Compile, Build output path: 
 		..\..\DLL\
+	Add reference path
+		..\..\DLL\     (browse and select the path)
 		C:\Program Files (x86)\Connected Business Client\
-		C:\Program Files (x86)\Connected Business Server\		
+		C:\Program Files (x86)\Connected Business Server\eShopConnected   (to pick up lerrynftp.dll)
 
     Lerryn.WindowsService.eShopCONNECT.UnitTest
 	Add reference path
-		..\..\DLL\
+		..\..\DLL\     (browse and select the path)
 		C:\Program Files (x86)\Connected Business Client\
 
