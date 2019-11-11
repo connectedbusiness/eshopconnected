@@ -3825,7 +3825,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                         End If
 
                                         ' RCD 2019/08/13 Start SalesRepGroupCode
-                                        .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        If (.CustomerSalesRepCommissionView IsNot Nothing AndAlso .CustomerSalesRepCommissionView.Count > 0) Then
+                                            .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        End If
                                         ' RCD 2019/08/13 End SalesRepGroupCode
 
                                         SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.Quote) ' TJS 13/01/10
@@ -4477,9 +4479,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
             bCustomerCreditHoldOrOverLimit = False ' TJS 06/10/09
             strCreditMessage = "" ' TJS 06/10/09
 
-#If DEBUG Then
-        System.Diagnostics.Debugger.Launch()
-#End If
+            '#If DEBUG Then
+            '        System.Diagnostics.Debugger.Launch()
+            '#End If
             ' first check if order already entered but source hasn't received acknowledgement
             Me.m_ImportExportDataset.EnforceConstraints = False
             strWarningMessage = "" ' TJS 29/01/09
@@ -5609,224 +5611,226 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                     SalesOrderFacade.ComputeKitItemsSalesPrice(itemView(iRowLoop).Row) ' FA 18/10/10
                                 End If
 
-                                ' RCD 2019/08/13 Start SalesRepGroupCode
-                                .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
-                                ' RCD 2019/08/13 End SalesRepGroupCode
+                                        ' RCD 2019/08/13 Start SalesRepGroupCode
+                                        If (.CustomerSalesRepCommissionView IsNot Nothing AndAlso .CustomerSalesRepCommissionView.Count > 0) Then
+                                            .CustomerSalesOrderDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        End If
+                                        ' RCD 2019/08/13 End SalesRepGroupCode
 
-                                SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.SalesOrder) ' TJS 26/05/09
+                                        SalesOrderFacade.Compute(itemView(iRowLoop).Row, TransactionType.SalesOrder) ' TJS 26/05/09
 
-                                ' code removed TJS 26/05/09
-                                .CustomerSalesOrderDetailView(iRowLoop).IsConvert = False
-                                .CustomerSalesOrderDetailView(iRowLoop).IsConverted = False
-                                .CustomerSalesOrderDetailView(iRowLoop).IsPickingNotePrinted = False
-                                .CustomerSalesOrderDetailView(iRowLoop).IsPackingListPrinted = False
-                                .CustomerSalesOrderDetailView(iRowLoop).IsConfirmedPickedPacked = False
+                                        ' code removed TJS 26/05/09
+                                        .CustomerSalesOrderDetailView(iRowLoop).IsConvert = False
+                                        .CustomerSalesOrderDetailView(iRowLoop).IsConverted = False
+                                        .CustomerSalesOrderDetailView(iRowLoop).IsPickingNotePrinted = False
+                                        .CustomerSalesOrderDetailView(iRowLoop).IsPackingListPrinted = False
+                                        .CustomerSalesOrderDetailView(iRowLoop).IsConfirmedPickedPacked = False
 
-                                ' is Item Drop Ship ?
-                                sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_IS_DROP_SHIP) ' TJS 17/03/09
-                                If sTemp.ToUpper = "YES" Then ' TJS 17/03/09
-                                    ' yes, set flag
-                                    .CustomerSalesOrderDetailView(iRowLoop).IsDropShip = True ' TJS 17/03/09
-                                    ' has a Drop Ship REference been supplied ?
-                                    If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) <> "" Then ' TJS 17/03/09
-                                        ' yes, set it
-                                        .CustomerSalesOrderDetailView(iRowLoop).DropShipReference = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) ' TJS 17/03/09
-                                    End If
-                                ElseIf sTemp.ToUpper <> "" And sTemp.ToUpper <> "NO" Then ' TJS 17/03/09
-                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Drop Ship must be Yes, No or blank " & strItemID, _
-                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/03/09
-                                End If
+                                        ' is Item Drop Ship ?
+                                        sTemp = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_IS_DROP_SHIP) ' TJS 17/03/09
+                                        If sTemp.ToUpper = "YES" Then ' TJS 17/03/09
+                                            ' yes, set flag
+                                            .CustomerSalesOrderDetailView(iRowLoop).IsDropShip = True ' TJS 17/03/09
+                                            ' has a Drop Ship REference been supplied ?
+                                            If GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) <> "" Then ' TJS 17/03/09
+                                                ' yes, set it
+                                                .CustomerSalesOrderDetailView(iRowLoop).DropShipReference = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_DROP_SHIP_REF) ' TJS 17/03/09
+                                            End If
+                                        ElseIf sTemp.ToUpper <> "" And sTemp.ToUpper <> "NO" Then ' TJS 17/03/09
+                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Drop Ship must be Yes, No or blank " & strItemID, _
+                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/03/09
+                                        End If
 
-                                ' get Due Date offset config value
-                                sTemp = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DUE_DATE_OFFSET)
-                                If sTemp = "" Then
-                                    sTemp = "1"
-                                End If
-                                .CustomerSalesOrderDetailView(iRowLoop).DueDate = .CustomerSalesOrderView(0).SalesOrderDate.AddDays(CDec(sTemp))
-                                .CustomerSalesOrderDetailView(iRowLoop).Pricing = CustomerDetailDataset.CustomerView(0).DefaultPrice
-                                ' now calculate Sales Tax (VAT)
-                                ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderDetailView(iRowLoop).TaxCode & "'").Length - 1)
-                                index = 0
-                                'Get the detail rows for this tax code.
-                                For detailRowIndex As Integer = 0 To taxSchemeDataset.SystemTaxSchemeDetailView.Count - 1
-                                    If taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex).TaxCode.ToUpper = .CustomerSalesOrderDetailView(iRowLoop).TaxCode.ToUpper Then
-                                        detailRows(index) = taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex)
-                                        index += 1
-                                    End If
-                                Next
-                                ' get tax values
-                                taxValue = taxFacade.CalculateItemTax(.CustomerSalesOrderDetailView(iRowLoop).TaxCode, .CustomerSalesOrderDetailView(iRowLoop).SalesPrice, _
-                                    .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate, .CustomerSalesOrderDetailView(iRowLoop).ItemCode, _
-                                    .CustomerSalesOrderDetailView(iRowLoop).LineNum, .CustomerSalesOrderView(0).SalesOrderCode, detailRows, .TransactionItemTaxDetailView, _
-                                    .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered, .CustomerSalesOrderDetailView(iRowLoop).ExtPrice, _
-                                    .CustomerSalesOrderDetailView(iRowLoop).ExtPriceRate, .CustomerSalesOrderView(0).CurrencyCode, _
-                                    .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09
-                                ' are we accepting the source tax calculation ?
-                                If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ACCEPT_SOURCE_SALES_TAX_CALCULATION).ToUpper = "YES" Or _
-                                    GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 17/05/09 TJS 26/10/11
-                                    ' yes, get value
-                                    strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX) ' TJS 17/05/09
-                                    ' has tax value been supplied ?
-                                    If strTempValue <> "" Then ' TJS 17/05/09
-                                        ' yes, must be numeric and not contain any commas
-                                        If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 17/05/09 TJS 29/05/09
-                                            ' must not be negative
-                                            If CDec(strTempValue) >= 0 Then ' TJS 17/05/09
-                                                ' Unit price valid, use it
-                                                ' start of code added FA 17/10/11
-                                                If strItemKitPricing = "Item Price" Then
-                                                    ' is this the last row of the kit ?
-                                                    If iRowLoop < (iLineNum - 1) + (iItemRowsAdded - 1) Then
-                                                        ' no, set tax as relevant fraction of total tax price
-                                                        If decKitTotalPriceRate = 0 Then
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) / iItemRowsAdded, 2)
+                                        ' get Due Date offset config value
+                                        sTemp = GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_DUE_DATE_OFFSET)
+                                        If sTemp = "" Then
+                                            sTemp = "1"
+                                        End If
+                                        .CustomerSalesOrderDetailView(iRowLoop).DueDate = .CustomerSalesOrderView(0).SalesOrderDate.AddDays(CDec(sTemp))
+                                        .CustomerSalesOrderDetailView(iRowLoop).Pricing = CustomerDetailDataset.CustomerView(0).DefaultPrice
+                                        ' now calculate Sales Tax (VAT)
+                                        ReDim detailRows(taxSchemeDataset.SystemTaxSchemeDetailView.Select("TaxCode = '" & .CustomerSalesOrderDetailView(iRowLoop).TaxCode & "'").Length - 1)
+                                        index = 0
+                                        'Get the detail rows for this tax code.
+                                        For detailRowIndex As Integer = 0 To taxSchemeDataset.SystemTaxSchemeDetailView.Count - 1
+                                            If taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex).TaxCode.ToUpper = .CustomerSalesOrderDetailView(iRowLoop).TaxCode.ToUpper Then
+                                                detailRows(index) = taxSchemeDataset.SystemTaxSchemeDetailView(detailRowIndex)
+                                                index += 1
+                                            End If
+                                        Next
+                                        ' get tax values
+                                        taxValue = taxFacade.CalculateItemTax(.CustomerSalesOrderDetailView(iRowLoop).TaxCode, .CustomerSalesOrderDetailView(iRowLoop).SalesPrice, _
+                                            .CustomerSalesOrderDetailView(iRowLoop).SalesPriceRate, .CustomerSalesOrderDetailView(iRowLoop).ItemCode, _
+                                            .CustomerSalesOrderDetailView(iRowLoop).LineNum, .CustomerSalesOrderView(0).SalesOrderCode, detailRows, .TransactionItemTaxDetailView, _
+                                            .CustomerSalesOrderDetailView(iRowLoop).QuantityOrdered, .CustomerSalesOrderDetailView(iRowLoop).ExtPrice, _
+                                            .CustomerSalesOrderDetailView(iRowLoop).ExtPriceRate, .CustomerSalesOrderView(0).CurrencyCode, _
+                                            .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09
+                                        ' are we accepting the source tax calculation ?
+                                        If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ACCEPT_SOURCE_SALES_TAX_CALCULATION).ToUpper = "YES" Or _
+                                            GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_PRICES_INCLUDE_TAX).ToUpper = "YES" Then ' TJS 17/05/09 TJS 26/10/11
+                                            ' yes, get value
+                                            strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX) ' TJS 17/05/09
+                                            ' has tax value been supplied ?
+                                            If strTempValue <> "" Then ' TJS 17/05/09
+                                                ' yes, must be numeric and not contain any commas
+                                                If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then ' TJS 17/05/09 TJS 29/05/09
+                                                    ' must not be negative
+                                                    If CDec(strTempValue) >= 0 Then ' TJS 17/05/09
+                                                        ' Unit price valid, use it
+                                                        ' start of code added FA 17/10/11
+                                                        If strItemKitPricing = "Item Price" Then
+                                                            ' is this the last row of the kit ?
+                                                            If iRowLoop < (iLineNum - 1) + (iItemRowsAdded - 1) Then
+                                                                ' no, set tax as relevant fraction of total tax price
+                                                                If decKitTotalPriceRate = 0 Then
+                                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) / iItemRowsAdded, 2)
+                                                                Else
+                                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) * decSalesPriceRate / decKitTotalPriceRate, 2)
+                                                                End If
+                                                                decKitPriceTaxSumRate = decKitPriceTaxSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
+                                                            Else
+                                                                ' yes, set price as remainder to prevent rounding errors
+                                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) - decKitPriceTaxSumRate, 2)
+                                                            End If
                                                         Else
-                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) * decSalesPriceRate / decKitTotalPriceRate, 2)
+                                                            ' end of code added FA 17/10/11
+                                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = CDec(strTempValue) ' TJS 17/05/09 TJS 26/05/09
                                                         End If
-                                                        decKitPriceTaxSumRate = decKitPriceTaxSumRate + .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
+                                                        dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09
+                                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09 TJS 26/05/09
+                                                        dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09
+                                                        ' find relevant tax detail record
+                                                        bTaxRecordFound = False ' TJS 02/12/11
+                                                        For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
+                                                            If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
+                                                                .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
+                                                                .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
+                                                                bTaxRecordFound = True ' TJS 02/12/11
+                                                                .TransactionItemTaxDetailView(iTaxLoop).TaxAmountRate = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09 TJS 18/03/11
+                                                                .TransactionItemTaxDetailView(iTaxLoop).TaxAmount = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09 TJS 26/05/09 TJS 18/03/11
+                                                                .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = True ' TJS 14/07/09 TJS 18/03/11
+                                                                .TransactionItemTaxDetailView(iTaxLoop).IsTAOverridden = True ' TJS 24/02/12
+                                                            End If
+                                                        Next
+                                                        If Not bTaxRecordFound Then ' TJS 02/12/11
+                                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "038", "Cannot apply Sales Tax to an Item with no active Tax Code - " & strItemID, _
+                                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 02/12/11
+                                                        End If
                                                     Else
-                                                        ' yes, set price as remainder to prevent rounding errors
-                                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = RoundDecimalValue(CDec(strTempValue) - decKitPriceTaxSumRate, 2)
+                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
+                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
                                                     End If
                                                 Else
-                                                    ' end of code added FA 17/10/11
-                                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = CDec(strTempValue) ' TJS 17/05/09 TJS 26/05/09
+                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
+                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
                                                 End If
-                                                dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09
-                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = RoundDecimalValue(.CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate / .CustomerSalesOrderView(0).ExchangeRate) ' TJS 17/05/09 TJS 26/05/09
+                                            Else
+                                                ' no, use values from tax facade
+                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount ' TJS 17/05/09
                                                 dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09
-                                                ' find relevant tax detail record
-                                                bTaxRecordFound = False ' TJS 02/12/11
+                                                .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate ' TJS 17/05/09
+                                                dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09
                                                 For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
                                                     If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
                                                         .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
                                                         .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
-                                                        bTaxRecordFound = True ' TJS 02/12/11
-                                                        .TransactionItemTaxDetailView(iTaxLoop).TaxAmountRate = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09 TJS 18/03/11
-                                                        .TransactionItemTaxDetailView(iTaxLoop).TaxAmount = .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09 TJS 26/05/09 TJS 18/03/11
-                                                        .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = True ' TJS 14/07/09 TJS 18/03/11
-                                                        .TransactionItemTaxDetailView(iTaxLoop).IsTAOverridden = True ' TJS 24/02/12
+                                                        .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
                                                     End If
                                                 Next
-                                                If Not bTaxRecordFound Then ' TJS 02/12/11
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "038", "Cannot apply Sales Tax to an Item with no active Tax Code - " & strItemID, _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 02/12/11
-                                                End If
-                                            Else
-                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
-                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
                                             End If
                                         Else
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 17/05/09
-                                        End If
-                                    Else
-                                        ' no, use values from tax facade
-                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount ' TJS 17/05/09
-                                        dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount ' TJS 17/05/09
-                                        .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate ' TJS 17/05/09
-                                        dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 17/05/09
-                                        For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
-                                            If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
-                                                .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
-                                                .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
-                                                .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
-                                            End If
-                                        Next
-                                    End If
-                                Else
-                                    ' no, use values from tax facade
-                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount
-                                    dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount
-                                    .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate
-                                    dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
-                                    For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
-                                        If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
-                                            .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
-                                            .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
-                                            .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
-                                        End If
-                                    Next
-                                    ' start of code added TJS 14/07/09
-                                    strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX)
-                                    ' has sales tax value been supplied ?
-                                    If strTempValue <> "" Then
-                                        ' yes, must be numeric
-                                        If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then
-                                            ' must not be negative
-                                            If CDec(strTempValue) >= 0 Then
-                                                ' is value same as IS calculation (ignore roundings of 0.01 or less) ?
-                                                If CDec(strTempValue) > .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate + 0.01 Or CDec(strTempValue) < .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate - 0.01 Then
-                                                    ' no, 
-                                                    If strWarningMessage <> "" Then
-                                                        strWarningMessage = strWarningMessage & vbCrLf
-                                                    End If
-                                                    strWarningMessage = strWarningMessage & "Sales Tax corrected for " & strItemID & ", XML file contained " & strTempValue & ", Tax Facade calculated " & .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 24/08/12
+                                            ' no, use values from tax facade
+                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount = taxValue.taxAmount
+                                            dblOrderTax += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmount
+                                            .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate = taxValue.taxAmountRate
+                                            dblOrderTaxRate += .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate
+                                            For iTaxLoop = 0 To .TransactionItemTaxDetailView.Count - 1 ' TJS 18/03/11
+                                                If .TransactionItemTaxDetailView(iTaxLoop).DocumentCode = .CustomerSalesOrderDetailView(iRowLoop).SalesOrderCode And _
+                                                    .TransactionItemTaxDetailView(iTaxLoop).LineNum = .CustomerSalesOrderDetailView(iRowLoop).LineNum And _
+                                                    .TransactionItemTaxDetailView(iTaxLoop).ItemCode = .CustomerSalesOrderDetailView(iRowLoop).ItemCode Then ' TJS 18/03/11
+                                                    .TransactionItemTaxDetailView(iTaxLoop)("TaxValueIsFromSource_DEV000221") = False ' TJS 14/07/09 TJS 18/03/11
                                                 End If
-                                            Else
-                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
-                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
-                                            End If
-                                        Else
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
-                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
-                                        End If
-                                    End If
-                                    ' end of code added TJS 14/07/09
-                                End If
-
-                                ' start of code added TJS 03/04/09
-                                ' Check for any CustomerSalesOrderDetail table Custom Fields
-                                XMLCustomFields = XMLItemTemp.XPathSelectElements(GENERIC_XML_ORDER_INVOICE_ITEM_CUSTOM_FIELDS)
-                                If XMLCustomFields IsNot Nothing Then
-                                    For Each XMLCustomField In XMLCustomFields
-                                        Try
-                                            XMLTemp = XDocument.Parse(XMLCustomField.ToString)
-                                            ' has field name been defined ?
-                                            If GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") <> "" Then
-                                                ' does it exist ?
-                                                bCustomFieldExists = False ' TJS 21/04/09
-                                                For iColumnLoop = 0 To .CustomerSalesOrderDetailView.Columns.Count - 1 ' TJS 21/04/09
-                                                    If .CustomerSalesOrderDetailView.Columns(iColumnLoop).ColumnName = GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") Then ' TJS 21/04/09
-                                                        bCustomFieldExists = True ' TJS 21/04/09
-                                                        Exit For ' TJS 21/04/09
+                                            Next
+                                            ' start of code added TJS 14/07/09
+                                            strTempValue = GetXMLElementText(XMLItemTemp, GENERIC_XML_ORDER_INVOICE_ITEM_TAX)
+                                            ' has sales tax value been supplied ?
+                                            If strTempValue <> "" Then
+                                                ' yes, must be numeric
+                                                If IsNumeric(strTempValue) And InStr(strTempValue, ",") >= 0 Then
+                                                    ' must not be negative
+                                                    If CDec(strTempValue) >= 0 Then
+                                                        ' is value same as IS calculation (ignore roundings of 0.01 or less) ?
+                                                        If CDec(strTempValue) > .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate + 0.01 Or CDec(strTempValue) < .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate - 0.01 Then
+                                                            ' no, 
+                                                            If strWarningMessage <> "" Then
+                                                                strWarningMessage = strWarningMessage & vbCrLf
+                                                            End If
+                                                            strWarningMessage = strWarningMessage & "Sales Tax corrected for " & strItemID & ", XML file contained " & strTempValue & ", Tax Facade calculated " & .CustomerSalesOrderDetailView(iRowLoop).SalesTaxAmountRate ' TJS 24/08/12
+                                                        End If
+                                                    Else
+                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must not be negative for " & strItemID, _
+                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
                                                     End If
-                                                Next
-                                                If bCustomFieldExists Then ' TJS 21/04/09
-                                                    .CustomerSalesOrderDetailView(iRowLoop)(GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName")) = GetXMLElementText(XMLTemp, "CustomField")
                                                 Else
-                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Custom Field " & GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") & " not found on CustomerSalesOrderDetailView", _
-                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 21/04/09
-
+                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "018", "Item Tax Value must be numeric for " & strItemID, _
+                                                        m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) '  TJS 27/02/10
                                                 End If
-                                            Else
-                                                Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Field Name attribute not provided for Item Custom Field", _
-                                                    m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
-
                                             End If
+                                            ' end of code added TJS 14/07/09
+                                        End If
 
-                                        Catch ex As Exception
-                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "005", "Custom Field could not be processed due to XML error - " & ex.Message.Replace(vbCrLf, ""), _
-                                                 m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 29/05/09
+                                        ' start of code added TJS 03/04/09
+                                        ' Check for any CustomerSalesOrderDetail table Custom Fields
+                                        XMLCustomFields = XMLItemTemp.XPathSelectElements(GENERIC_XML_ORDER_INVOICE_ITEM_CUSTOM_FIELDS)
+                                        If XMLCustomFields IsNot Nothing Then
+                                            For Each XMLCustomField In XMLCustomFields
+                                                Try
+                                                    XMLTemp = XDocument.Parse(XMLCustomField.ToString)
+                                                    ' has field name been defined ?
+                                                    If GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") <> "" Then
+                                                        ' does it exist ?
+                                                        bCustomFieldExists = False ' TJS 21/04/09
+                                                        For iColumnLoop = 0 To .CustomerSalesOrderDetailView.Columns.Count - 1 ' TJS 21/04/09
+                                                            If .CustomerSalesOrderDetailView.Columns(iColumnLoop).ColumnName = GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") Then ' TJS 21/04/09
+                                                                bCustomFieldExists = True ' TJS 21/04/09
+                                                                Exit For ' TJS 21/04/09
+                                                            End If
+                                                        Next
+                                                        If bCustomFieldExists Then ' TJS 21/04/09
+                                                            .CustomerSalesOrderDetailView(iRowLoop)(GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName")) = GetXMLElementText(XMLTemp, "CustomField")
+                                                        Else
+                                                            Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Custom Field " & GetXMLElementAttribute(XMLTemp, "CustomField", "FieldName") & " not found on CustomerSalesOrderDetailView", _
+                                                                m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 21/04/09
 
-                                        End Try
+                                                        End If
+                                                    Else
+                                                        Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "013", "Field Name attribute not provided for Item Custom Field", _
+                                                            m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString)
+
+                                                    End If
+
+                                                Catch ex As Exception
+                                                    Return m_ImportExportConfigFacade.BuildXMLErrorResponseNodeAndEmail("Error", "005", "Custom Field could not be processed due to XML error - " & ex.Message.Replace(vbCrLf, ""), _
+                                                         m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 29/05/09
+
+                                                End Try
+                                            Next
+                                        End If
+                                        ' end of code added TJS 03/04/09
+
+                                        ' start of code added TJS 18/01/13
+                                        If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOCATE_AND_RESERVE_STOCK).ToUpper = "YES" Then
+                                            SalesOrderFacade.AllocateStock(.CustomerSalesOrderDetailView(iRowLoop))
+                                            SalesOrderFacade.ReserveStock(.CustomerSalesOrderDetailView(iRowLoop))
+                                        End If
+                                        ' end of code added TJS 18/01/13
+
+                                        ' TJS/FA 19/04/12 Note for future  Add non stock correction figure here
+                                        ' and reset the correction flag
+                                        If decKitTotalRemaining <> 0 Then
+                                            m_ImportExportConfigFacade.WriteLogProgressRecord("Rounding differential in Kit calculation - " & decKitTotalRemaining)
+                                        End If
                                     Next
-                                End If
-                                ' end of code added TJS 03/04/09
-
-                                ' start of code added TJS 18/01/13
-                                If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOCATE_AND_RESERVE_STOCK).ToUpper = "YES" Then
-                                    SalesOrderFacade.AllocateStock(.CustomerSalesOrderDetailView(iRowLoop))
-                                    SalesOrderFacade.ReserveStock(.CustomerSalesOrderDetailView(iRowLoop))
-                                End If
-                                ' end of code added TJS 18/01/13
-
-                                ' TJS/FA 19/04/12 Note for future  Add non stock correction figure here
-                                ' and reset the correction flag
-                                If decKitTotalRemaining <> 0 Then
-                                    m_ImportExportConfigFacade.WriteLogProgressRecord("Rounding differential in Kit calculation - " & decKitTotalRemaining)
-                                End If
-                            Next
                             iLineNum = iLineNum + iItemRowsAdded ' TJS 18/03/11
 
                         Else
@@ -7461,7 +7465,9 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                         End If
 
                                         ' RCD 2019/08/13 Start SalesRepGroupCode
-                                        .CustomerInvoiceDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        If (.CustomerSalesRepCommissionView IsNot Nothing AndAlso .CustomerSalesRepCommissionView.Count > 0) Then
+                                            .CustomerInvoiceDetailView(iRowLoop).CommissionPercent = .CustomerSalesRepCommissionView(0).CommissionPercent
+                                        End If
                                         ' RCD 2019/08/13 End SalesRepGroupCode
 
                                         InvoiceFacade.Compute(itemView(iRowLoop).Row, TransactionType.Invoice) ' TJS 26/05/09
