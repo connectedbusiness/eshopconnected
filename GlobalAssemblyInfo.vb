@@ -11,10 +11,10 @@ Imports System.Security.Permissions
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCompanyAttribute("Connected Business")> 
-<Assembly: AssemblyCopyrightAttribute("Copyright © 2018 Connected Business, All rights reserved.")> 
+<Assembly: AssemblyCompanyAttribute("Connected Business")>
+<Assembly: AssemblyCopyrightAttribute("Copyright © 2020 Connected Business, All rights reserved.")>
 <Assembly: AssemblyProductAttribute("Connected Business")> 
-<Assembly: ComVisible(True)> 
+<Assembly: ComVisible(True)>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -25,4 +25,4 @@ Imports System.Security.Permissions
 '
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
-<Assembly: AssemblyVersion("18.2.*")> 
+<Assembly: AssemblyVersion("20.0.*")>

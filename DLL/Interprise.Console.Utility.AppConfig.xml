@@ -1,0 +1,115 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Interprise.Console.Utility.AppConfig
+</name>
+</assembly>
+<members>
+<member name="P:Interprise.Console.Utility.AppConfig.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Interprise.Console.Utility.AppConfig.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Interprise.Console.Utility.AppConfig.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member><member name="P:Interprise.Console.Utility.AppConfig.Main.WebServiceBusiness">
+	<summary>
+	</summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Interprise.Console.Utility.AppConfig.Main.WorkingDirectory">
+	<summary>
+	</summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.AddConfiguration(Interprise.Connectivity.Database.Configuration.Design.InterpriseConfigurationManager,System.String[])">
+	<summary>
+	</summary>
+	<param name="configManager"></param>
+	<param name="args"></param>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.IsBackupExist(System.String)">
+	<summary>
+	</summary>
+	<param name="databaseName"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.IsISSIDEMOUKBackupExist">
+	<summary>
+	</summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.IsISSIDEMOUSBackupExist">
+	<summary>
+	</summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.IsISSIMODELBackupExist">
+	<summary>
+	</summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.CreateConnectionString(System.String,System.String,System.String)">
+	<summary>
+	</summary>
+	<param name="serverInstance"></param>
+	<param name="userID"></param>
+	<param name="password"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.CreateUKConfigArgs(System.Data.SqlClient.SqlConnectionStringBuilder)">
+	<summary>
+	</summary>
+	<param name="connectionStringBuilder"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.CreateUSConfigArgs(System.Data.SqlClient.SqlConnectionStringBuilder)">
+	<summary>
+	</summary>
+	<param name="connectionStringBuilder"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.CreateDemoStoreConfigArgs(System.Boolean)">
+	<summary>
+	</summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.CreateWebConfigArgs(System.String,System.String,System.Boolean)">
+	<summary>
+	</summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.CreateDatabaseConfigArgs(System.String,System.String,System.Data.SqlClient.SqlConnectionStringBuilder,System.Boolean)">
+	<summary>
+	</summary>
+	<param name="connectionStringBuilder"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.ModifyConfig(System.String,System.String,System.String)">
+	<summary>
+	</summary>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.GetExeConfigFiles">
+	<summary>
+	</summary>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Console.Utility.AppConfig.Main.GetDatabasePath(System.String)">
+	<summary>
+ Database Path Location.
+ </summary>
+	<param name="ServerName">The server name to be connected.</param>
+	<returns>Database path.</returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>

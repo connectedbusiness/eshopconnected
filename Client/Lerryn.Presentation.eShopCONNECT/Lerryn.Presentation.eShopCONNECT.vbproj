@@ -11,7 +11,7 @@
     <RootNamespace>Lerryn.Presentation.eShopCONNECT</RootNamespace>
     <AssemblyName>Lerryn.Presentation.eShopCONNECT</AssemblyName>
     <SignAssembly>false</SignAssembly>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -166,52 +166,67 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="DevExpress.Data.v13.2">
+    <Reference Include="DevExpress.Data.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Utils.v13.2">
+    <Reference Include="DevExpress.Utils.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraBars.v13.2">
+    <Reference Include="DevExpress.XtraBars.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v13.2">
+    <Reference Include="DevExpress.XtraEditors.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraGrid.v13.2">
+    <Reference Include="DevExpress.XtraGrid.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraLayout.v13.2">
+    <Reference Include="DevExpress.XtraLayout.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraNavBar.v13.2">
+    <Reference Include="DevExpress.XtraNavBar.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraCharts.v13.2">
+    <Reference Include="DevExpress.Charts.v19.2.Core">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraCharts.v13.2">
+    <Reference Include="DevExpress.XtraCharts.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraPivotGrid.v13.2">
+    <Reference Include="DevExpress.Pdf.v19.2.Core">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v13.2">
+    <Reference Include="DevExpress.Office.v19.2.Core">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Utils.v13.2">
+    <Reference Include="DevExpress.RichEdit.v19.2.Core">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraReports.v13.2">
+    <Reference Include="DevExpress.RichEdit.v19.2.Export">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraPrinting.v13.2">
+    <Reference Include="DevExpress.Printing.v19.2.Core">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraTreeList.v13.2">
+    <Reference Include="DevExpress.PivotGrid.v19.2.Core">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraVerticalGrid.v13.2">
+    <Reference Include="DevExpress.XtraPivotGrid.v19.2">
+      <SpecificVersion>false</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v19.2">
+      <SpecificVersion>false</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v19.2">
+      <SpecificVersion>false</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v19.2">
+      <SpecificVersion>false</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v19.2">
+      <SpecificVersion>false</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraVerticalGrid.v19.2">
       <SpecificVersion>false</SpecificVersion>
     </Reference>
     <Reference Include="System.Xml.Linq" />

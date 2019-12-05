@@ -1,0 +1,89 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+Interprise.Presentation.Utility.PluginManager
+</name>
+</assembly>
+<members>
+<member name="P:Interprise.Presentation.Utility.PluginManager.PluginHelper.AssemblyPath">
+	<summary>
+	</summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Interprise.Presentation.Utility.PluginManager.PluginHelper.PluginHelper">
+	<summary>
+	</summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:Interprise.Presentation.Utility.PluginManager.PluginHelper.PluginFacade">
+	<summary>
+	</summary>
+	<value></value>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.#ctor(System.String,Interprise.Presentation.Base.PluginManager.PluginState,System.String,System.String)">
+	<summary>
+	</summary>
+	<param name="configPath"></param>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.#ctor">
+	<summary>
+	</summary>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.WriteConfiguration(System.String)">
+	<summary>
+	</summary>
+	<param name="configPath"></param>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.StartProcessing">
+	<summary>
+	</summary>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.Main(System.String[])">
+	<summary>
+	</summary>
+	<param name="args"></param>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.CachingManager_OnUpdatingCacheDatabase(System.Object,Interprise.Framework.Base.EventArguments.UpdateCacheEventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.SimpleFacadeInstance_OnUserSignedIn(System.Object,System.EventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.SimpleFacadeInstance_OnSignInError(System.Object,Interprise.Framework.Base.EventArguments.SignInErrorEventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="M:Interprise.Presentation.Utility.PluginManager.PluginHelper.m_pluginHelper_WorkCompleted(System.Object,Interprise.Presentation.Base.PluginManager.WorkCompletedEventArgs)">
+	<summary>
+	</summary>
+	<param name="sender"></param>
+	<param name="e"></param>
+	<remarks></remarks>
+</member><member name="P:Interprise.Presentation.Utility.PluginManager.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:Interprise.Presentation.Utility.PluginManager.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:Interprise.Presentation.Utility.PluginManager.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>
