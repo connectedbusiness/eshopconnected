@@ -4,6 +4,11 @@
     <name>DevExpress.XtraGrid.v19.2</name>
   </assembly>
   <members>
+    <member name="N:DevExpress.XtraEditors">
+      <summary>
+        <para>Contains editor classes. They provide the functionality for corresponding controls. Editor specific information is stored within the Persistent classes that are implemented in the <see cref="N:DevExpress.XtraEditors.Persistent"/> namespace.</para>
+      </summary>
+    </member>
     <member name="T:DevExpress.XtraEditors.FindMode">
       <summary>
         <para>Contains values that specify how data searching is initiated within specific controls.</para>
@@ -51,7 +56,7 @@
     </member>
     <member name="E:DevExpress.XtraEditors.GridLookUpEdit.AutoSuggestComplete">
       <summary>
-        <para></para>
+        <para>Fires after the <see cref="E:DevExpress.XtraEditors.GridLookUpEdit.AutoSuggest"/> event is finished, and allows you to additionally customize the editor.</para>
       </summary>
     </member>
     <member name="P:DevExpress.XtraEditors.GridLookUpEdit.EditorTypeName">
@@ -97,6 +102,11 @@
     <member name="M:DevExpress.XtraEditors.GridLookUpEditBase.ShowPopup">
       <summary>
         <para>Opens the popup window.</para>
+      </summary>
+    </member>
+    <member name="N:DevExpress.XtraEditors.Repository">
+      <summary>
+        <para>Contains classes representing repository items that store editor-specific settings.</para>
       </summary>
     </member>
     <member name="T:DevExpress.XtraEditors.Repository.GridLookUpViewType">
@@ -174,7 +184,7 @@
     </member>
     <member name="E:DevExpress.XtraEditors.Repository.RepositoryItemGridLookUpEdit.AutoSuggestComplete">
       <summary>
-        <para></para>
+        <para>Fires after the AutoSuggest event is finished. Allows you to additionally customize the editor.</para>
       </summary>
     </member>
     <member name="P:DevExpress.XtraEditors.Repository.RepositoryItemGridLookUpEdit.EditorTypeName">
@@ -526,6 +536,11 @@
         <para>Specifies settings specific to the current editor.</para>
       </summary>
       <value>A <see cref="T:DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit"/> object containing settings for the editor.</value>
+    </member>
+    <member name="N:DevExpress.XtraGrid">
+      <summary>
+        <para>Contains classes that provide information about the grid control, grid levels and implement the functionality for summaries, styles and style conditions.</para>
+      </summary>
     </member>
     <member name="N:DevExpress.XtraGrid.Columns">
       <summary>
@@ -1138,6 +1153,12 @@ If this parameter has a value (it&#39;s not null or an empty string) the val par
         <para>Gets this column&#39;s description, assigned using the [Display(Description = &quot;. . .&quot;)] data attribute.</para>
       </summary>
       <returns>A String value that is the column&#39;s description.</returns>
+    </member>
+    <member name="M:DevExpress.XtraGrid.Columns.GridColumn.GetHeaderBestWidth">
+      <summary>
+        <para></para>
+      </summary>
+      <returns></returns>
     </member>
     <member name="M:DevExpress.XtraGrid.Columns.GridColumn.GetTextCaption">
       <summary>
@@ -2437,7 +2458,7 @@ It specifies whether selecting a date or date range via the embedded calendar fi
     </member>
     <member name="T:DevExpress.XtraGrid.FilterEditor.ViewFilterColumnCollection">
       <summary>
-        <para>This class is used to retrieve columns from a <see cref="T:DevExpress.XtraGrid.Views.Base.ColumnView"/> object and populate a <see cref="T:DevExpress.XtraEditors.FilterControl"/> with these columns via the  method.</para>
+        <para>This class is used to retrieve columns from a <see cref="T:DevExpress.XtraGrid.Views.Base.ColumnView"/> object and populate a <see cref="T:DevExpress.XtraEditors.FilterControl"/> with these columns via the FilterControl.SetFilterColumnsCollection method.</para>
       </summary>
     </member>
     <member name="M:DevExpress.XtraGrid.FilterEditor.ViewFilterColumnCollection.#ctor(DevExpress.XtraGrid.Views.Base.ColumnView)">
@@ -7692,6 +7713,13 @@ The DefaultBoolean.Default value is equivalent to DefaultBoolean.True if the sta
       <param name="column">A <see cref="T:DevExpress.XtraGrid.Columns.GridColumn"/> object identifying the cell within the focused row.</param>
       <returns>An <see cref="T:DevExpress.XtraEditors.DXErrorProvider.ErrorType"/> value that specifies the type of error.</returns>
     </member>
+    <member name="M:DevExpress.XtraGrid.Views.Base.ColumnView.GetColumnHeaderBestWidth(DevExpress.XtraGrid.Columns.GridColumn)">
+      <summary>
+        <para></para>
+      </summary>
+      <param name="column"></param>
+      <returns></returns>
+    </member>
     <member name="M:DevExpress.XtraGrid.Views.Base.ColumnView.GetDataRow(System.Int32)">
       <summary>
         <para>Returns a <see cref="T:System.Data.DataRow"/> object that represents the specified row.</para>
@@ -8480,7 +8508,7 @@ The DefaultBoolean.Default value is equivalent to DefaultBoolean.True if the sta
     </member>
     <member name="E:DevExpress.XtraGrid.Views.Base.ColumnView.SubstituteFilter">
       <summary>
-        <para>Allows you to replace a filter applied with another filter.</para>
+        <para>Allows you to update or replace the filter that is about to be applied with a custom filter.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraGrid.Views.Base.ColumnView.SubstituteSortInfo">
@@ -8838,6 +8866,12 @@ The DefaultBoolean.Default value is equivalent to DefaultBoolean.True if the sta
         <para>Gets or sets whether the Find Panel can be invoked by an end-user.</para>
       </summary>
       <value>true if the Find Panel can be invoked by an end-user; otherwise, false.</value>
+    </member>
+    <member name="P:DevExpress.XtraGrid.Views.Base.ColumnViewOptionsFind.AllowMruItems">
+      <summary>
+        <para>Gets or sets whether the Find Panel keeps the history of recently used search items. Users can access and re-apply these items from a dropdown list.</para>
+      </summary>
+      <value>true, to allow users to access and re-apply recently used items; otherwise, false.</value>
     </member>
     <member name="P:DevExpress.XtraGrid.Views.Base.ColumnViewOptionsFind.AlwaysVisible">
       <summary>
@@ -11849,34 +11883,34 @@ In server mode, this option is not in effect.</para>
     </member>
     <member name="T:DevExpress.XtraGrid.Views.Grid.EditFormEventArgsBase">
       <summary>
-        <para></para>
+        <para>Provides data for the <see cref="E:DevExpress.XtraGrid.Views.Grid.GridView.EditFormPrepared"/> and <see cref="E:DevExpress.XtraGrid.Views.Grid.GridView.EditFormHidden"/> events.</para>
       </summary>
     </member>
     <member name="M:DevExpress.XtraGrid.Views.Grid.EditFormEventArgsBase.#ctor(System.Int32,System.Windows.Forms.Control,DevExpress.XtraGrid.EditForm.Helpers.EditFormBindableControlsCollection)">
       <summary>
-        <para></para>
+        <para>Initializes a new <see cref="T:DevExpress.XtraGrid.Views.Grid.EditFormEventArgsBase"/> class instance.</para>
       </summary>
-      <param name="rowHandle"></param>
-      <param name="panel"></param>
-      <param name="bindableControls"></param>
+      <param name="rowHandle">The handle that identifies the processed grid row.</param>
+      <param name="panel">The container that arranges editors and buttons on the Edit Form.</param>
+      <param name="bindableControls">An object that specifies the collection of controls used to edit the data record.</param>
     </member>
     <member name="P:DevExpress.XtraGrid.Views.Grid.EditFormEventArgsBase.BindableControls">
       <summary>
-        <para></para>
+        <para>Provides access to the collection of controls used to edit the processed data record. Controls are indexed by field names or grid columns.</para>
       </summary>
-      <value></value>
+      <value>An object that specifies the collection of controls used to edit the processed data record.</value>
     </member>
     <member name="P:DevExpress.XtraGrid.Views.Grid.EditFormEventArgsBase.Panel">
       <summary>
-        <para></para>
+        <para>Gets the container that arranges editors and buttons on the Edit Form.</para>
       </summary>
-      <value></value>
+      <value>The container that arranges editors and buttons on the Edit Form.</value>
     </member>
     <member name="P:DevExpress.XtraGrid.Views.Grid.EditFormEventArgsBase.RowHandle">
       <summary>
-        <para></para>
+        <para>Gets the handle that identifies the grid row for which the Edit From is  displayed/hidden.</para>
       </summary>
-      <value></value>
+      <value>The handle that identifies the grid row for which the Edit From is displayed/hidden.</value>
     </member>
     <member name="T:DevExpress.XtraGrid.Views.Grid.EditFormHiddenEventArgs">
       <summary>
@@ -12247,6 +12281,23 @@ In server mode, this option is not in effect.</para>
       <param name="sender">The event source. Identifies the View that raised the event.</param>
       <param name="e">An object that provides data for the event.</param>
     </member>
+    <member name="T:DevExpress.XtraGrid.Views.Grid.FilterPopupExcelParseFilterCriteriaEventArgs">
+      <summary>
+        <para>Provides data for the <see cref="E:DevExpress.XtraGrid.Views.Base.ColumnView.FilterPopupExcelParseFilterCriteria"/> event.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraGrid.Views.Grid.FilterPopupExcelParseFilterCriteriaEventArgs.Column">
+      <summary>
+        <para>Gets the processed grid column.</para>
+      </summary>
+      <value>An object that specifies the processed grid column.</value>
+    </member>
+    <member name="P:DevExpress.XtraGrid.Views.Grid.FilterPopupExcelParseFilterCriteriaEventArgs.View">
+      <summary>
+        <para>Gets the view that raised the event.</para>
+      </summary>
+      <value>An object that specifies the view that raised the event.</value>
+    </member>
     <member name="T:DevExpress.XtraGrid.Views.Grid.FilterPopupListBoxEventArgs">
       <summary>
         <para>Provides data for the <see cref="E:DevExpress.XtraGrid.Views.Base.ColumnView.ShowFilterPopupListBox"/> event.</para>
@@ -12328,6 +12379,26 @@ In server mode, this option is not in effect.</para>
     <member name="F:DevExpress.XtraGrid.Views.Grid.GridEditingMode.Inplace">
       <summary>
         <para>Directly in grid cells.</para>
+      </summary>
+    </member>
+    <member name="T:DevExpress.XtraGrid.Views.Grid.GridFindPanelLocation">
+      <summary>
+        <para>Enumerates values that specify whether the find panel is embedded into the group panel or displayed in a separate panel.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.XtraGrid.Views.Grid.GridFindPanelLocation.Default">
+      <summary>
+        <para>The default location depends on the Version Compatibility setting. Since version 19.2, the find panel is embedded into the group panel.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.XtraGrid.Views.Grid.GridFindPanelLocation.GroupPanel">
+      <summary>
+        <para>The find panel is embedded into the group panel. This mode is only available if the <see cref="P:DevExpress.XtraGrid.Views.Grid.GridOptionsView.ShowGroupPanel"/> option is enabled.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.XtraGrid.Views.Grid.GridFindPanelLocation.Panel">
+      <summary>
+        <para>The find panel is displayed in a separate panel.</para>
       </summary>
     </member>
     <member name="T:DevExpress.XtraGrid.Views.Grid.GridMenuEventArgs">
@@ -13104,9 +13175,9 @@ In server mode, this option is not in effect.</para>
     </member>
     <member name="P:DevExpress.XtraGrid.Views.Grid.GridOptionsNavigation.EnterMoveNextColumn">
       <summary>
-        <para>Gets or sets a value specifying whether the ENTER key can be used to move cell focus.</para>
+        <para>Gets or sets whether the Enter key moves focus to the next cell.</para>
       </summary>
-      <value>true to enable focus moving using the ENTER key; otherwise, false.</value>
+      <value>true, if the Enter key moves focus to the next cell; otherwise, false.</value>
     </member>
     <member name="P:DevExpress.XtraGrid.Views.Grid.GridOptionsNavigation.UseOfficePageNavigation">
       <summary>
@@ -13923,6 +13994,12 @@ This option is in effect when the <see cref="P:DevExpress.XtraGrid.Views.Grid.Gr
         <para>Clears sorting applied to the View.</para>
       </summary>
     </member>
+    <member name="P:DevExpress.XtraGrid.Views.Grid.GridView.ClipboardDataProvider">
+      <summary>
+        <para></para>
+      </summary>
+      <value></value>
+    </member>
     <member name="E:DevExpress.XtraGrid.Views.Grid.GridView.ClipboardRowCopying">
       <summary>
         <para>Fires before a data row, group row, column headers, or band headers are copied to the clipboard. Allows you to apply a format, change the copied data, or skip a data row or header.</para>
@@ -14130,7 +14207,7 @@ This event also allows you to change editors within an Edit Form.</para>
     </member>
     <member name="E:DevExpress.XtraGrid.Views.Grid.GridView.CustomSummaryCalculate">
       <summary>
-        <para>Allows you to manually calculate summaries. Fires for summaries whose <see cref="F:DevExpress.Data.SummaryItemType.Custom"/> is <see cref="F:DevExpress.Data.SummaryItemType.Custom"/>. Does not occur when the Data Grid functions in server mode.</para>
+        <para>Allows you to manually calculate summaries. Fires for summaries whose <see cref="F:DevExpress.Data.SummaryItemType.Custom"/> is <see cref="F:DevExpress.Data.SummaryItemType.Custom"/>.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraGrid.Views.Grid.GridView.CustomSummaryExists">
@@ -15448,7 +15525,7 @@ descendant (a <see cref="T:DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo"/
       </summary>
       <param name="rowHandle">An integer value identifying the master row by its handle.</param>
       <param name="relationIndex">A zero-based integer specifying the index of the relationship in the data source.
-If set to -1, the method acts like the  method.</param>
+If set to -1, the method acts like the GridView.SetMasterRowExpanded method.</param>
       <param name="expand">true to open the specified detail; false to hide it.</param>
     </member>
     <member name="M:DevExpress.XtraGrid.Views.Grid.GridView.SetRowExpanded(System.Int32,System.Boolean)">
@@ -19658,7 +19735,7 @@ This value is used to initialize the <see cref="P:DevExpress.XtraGrid.Views.Prin
     </member>
     <member name="E:DevExpress.XtraGrid.Views.Tile.TileView.EditFormHidden">
       <summary>
-        <para></para>
+        <para>Fires after the Edit Form is closed.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraGrid.Views.Tile.TileView.EditFormPrepared">
@@ -21286,6 +21363,17 @@ This value is used to initialize the <see cref="P:DevExpress.XtraGrid.Views.Prin
         <para>Gets or sets the distance that specifies how much this <see cref="T:DevExpress.XtraGrid.Views.WinExplorer.WinExplorerView"/> is scrolled down, counting from the View client area&#39;s top edge.</para>
       </summary>
       <value>An Int32 value that is the distance between the current <see cref="T:DevExpress.XtraGrid.Views.WinExplorer.WinExplorerView"/> viewport and the View top edge.</value>
+    </member>
+    <member name="M:DevExpress.XtraGrid.Views.WinExplorer.WinExplorerView.RefreshContextButtons">
+      <summary>
+        <para></para>
+      </summary>
+    </member>
+    <member name="M:DevExpress.XtraGrid.Views.WinExplorer.WinExplorerView.RefreshContextButtons(System.Int32)">
+      <summary>
+        <para></para>
+      </summary>
+      <param name="rowHandle"></param>
     </member>
     <member name="M:DevExpress.XtraGrid.Views.WinExplorer.WinExplorerView.RefreshData">
       <summary>

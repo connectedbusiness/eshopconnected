@@ -18,14 +18,14 @@
       <summary>
         <para>Initializes a new instance of the <see cref="T:DevExpress.XtraScheduler.AdditionalAppointmentsDragEventArgs"/> class with the specified settings.</para>
       </summary>
-      <param name="primaryInfos">A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>,&gt; collection containing characteristics of the primary dragged appointments.</param>
-      <param name="additionalInfos">A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>,&gt; collection containing characteristics of the appointments which have been added to the initially dragged appointments in the <see cref="E:DevExpress.XtraScheduler.SchedulerControl.AppointmentDrag"/> event.</param>
+      <param name="primaryInfos">A List&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>&gt; collection containing characteristics of the primary dragged appointments.</param>
+      <param name="additionalInfos">A List&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>&gt; collection containing characteristics of the appointments which have been added to the initially dragged appointments in the <see cref="E:DevExpress.XtraScheduler.SchedulerControl.AppointmentDrag"/> event.</param>
     </member>
     <member name="P:DevExpress.XtraScheduler.AdditionalAppointmentsDragEventArgs.AdditionalAppointmentInfos">
       <summary>
         <para>Provides access to the properties of the additional dragged appointments.</para>
       </summary>
-      <value>A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>,&gt; collection containing properties of additional dragged appointments.</value>
+      <value>A List&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>&gt; collection containing properties of additional dragged appointments.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.AdditionalAppointmentsDragEventArgs.Data">
       <summary>
@@ -37,7 +37,7 @@
       <summary>
         <para>Provides access to the properties of the primary dragged appointments.</para>
       </summary>
-      <value>A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>,&gt; collection containing properties of the primary dragged appointments.</value>
+      <value>A List&lt;<see cref="T:DevExpress.XtraScheduler.AppointmentDragInfo"/>&gt; collection containing properties of the primary dragged appointments.</value>
     </member>
     <member name="T:DevExpress.XtraScheduler.AgendaViewAppointmentDisplayOptions">
       <summary>
@@ -67,18 +67,6 @@
       </summary>
       <param name="options">An <see cref="T:DevExpress.XtraScheduler.AgendaViewAppointmentDisplayOptions"/> object (which is the <see cref="T:DevExpress.Utils.Controls.BaseOptions"/> descendant) whose settings are assigned to the current object. If null (Nothing in Visual Basic), then a <see cref="T:System.ArgumentNullException"/> will be thrown.</param>
     </member>
-    <member name="P:DevExpress.XtraScheduler.AgendaViewAppointmentDisplayOptions.ContinueArrowDisplayType">
-      <summary>
-        <para>This property has no effect for the Agenda View.</para>
-      </summary>
-      <value></value>
-    </member>
-    <member name="P:DevExpress.XtraScheduler.AgendaViewAppointmentDisplayOptions.EndTimeVisibility">
-      <summary>
-        <para>Overrides the property of the base class. This property has no effect for the Agenda View.</para>
-      </summary>
-      <value></value>
-    </member>
     <member name="P:DevExpress.XtraScheduler.AgendaViewAppointmentDisplayOptions.ShowLabel">
       <summary>
         <para>Gets or sets whether the colored circle indicating the appointment label is shown.</para>
@@ -94,12 +82,6 @@
     <member name="P:DevExpress.XtraScheduler.AgendaViewAppointmentDisplayOptions.SnapToCellsMode">
       <summary>
         <para>This property has no effect for the Agenda View.</para>
-      </summary>
-      <value></value>
-    </member>
-    <member name="P:DevExpress.XtraScheduler.AgendaViewAppointmentDisplayOptions.StartTimeVisibility">
-      <summary>
-        <para>Overrides the property of the base class. This property has no effect for the Agenda View.</para>
       </summary>
       <value></value>
     </member>
@@ -1175,6 +1157,15 @@
       <summary>
         <para>Provides data for the <see cref="E:DevExpress.XtraScheduler.SchedulerControl.AppointmentDrag"/> event.</para>
       </summary>
+    </member>
+    <member name="M:DevExpress.XtraScheduler.AppointmentDragEventArgs.#ctor(DevExpress.XtraScheduler.Appointment,DevExpress.XtraScheduler.Appointment,DevExpress.XtraScheduler.TimeInterval,DevExpress.XtraScheduler.Resource)">
+      <summary>
+        <para>Initializes a new instance of the <see cref="T:DevExpress.XtraScheduler.AppointmentDragEventArgs"/> class with specified settings.</para>
+      </summary>
+      <param name="sourceAppointment"></param>
+      <param name="editedAppointment"></param>
+      <param name="hitInterval"></param>
+      <param name="hitResource"></param>
     </member>
     <member name="P:DevExpress.XtraScheduler.AppointmentDragEventArgs.AdditionalAppointments">
       <summary>
@@ -11506,79 +11497,79 @@ See the How to: Split Appointments and Series article for more information.</par
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentConflicts">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to share the schedule time between two or more appointments.</para>
+        <para>Gets or sets whether a user is allowed to share the schedule time between two or more appointments.</para>
       </summary>
       <value>An <see cref="T:DevExpress.XtraScheduler.AppointmentConflictsMode"/> enumeration value specifying whether the time interval of two or more appointments can intersect or not, if these appointments belong to the same resource(s).</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentCopy">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to copy appointments.</para>
+        <para>Gets or sets whether a user is allowed to copy appointments.</para>
       </summary>
       <value>A <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies the type of appointment to which the action can be applied.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentCreate">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to create new appointments.</para>
+        <para>Gets or sets whether a user is allowed to create new appointments.</para>
       </summary>
       <value>A <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies the type of appointment which the action can be applied to.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentDelete">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to delete appointments.</para>
+        <para>Gets or sets whether a user is allowed to delete appointments.</para>
       </summary>
       <value>A <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies the types of appointment to which the action can be applied.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentDrag">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to drag and drop appointments to another time slot or date.</para>
+        <para>Gets or sets whether a user is allowed to drag and drop appointments to another time slot or date.</para>
       </summary>
-      <value>An <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies the type of appointment which the action can be applied to.</value>
+      <value>A value that specifies the type of appointment that can be dragged.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentDragBetweenResources">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to drag and drop appointments between resources.</para>
+        <para>Gets or sets whether a user is allowed to drag and drop appointments between resources.</para>
       </summary>
       <value>An <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies the type of appointment that the action can be applied to.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentEdit">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to edit appointments.</para>
+        <para>Gets or sets whether a user is allowed to edit appointments.</para>
       </summary>
       <value>An <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies the type of appointment which the action can be applied to.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentMultiSelect">
       <summary>
-        <para>Gets or sets a value that specifies whether an end-user is allowed to select more than one appointment simultaneously.</para>
+        <para>Gets or sets whether a user is allowed to select more than one appointment simultaneously.</para>
       </summary>
       <value>true if multiple appointments can be selected simultaneously; otherwise, false.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowAppointmentResize">
       <summary>
-        <para>Gets or set a value that specifies whether an end-user is allowed to change the time boundaries of appointments.</para>
+        <para>Gets or sets whether a user is allowed to change the time boundaries of appointments.</para>
       </summary>
       <value>A <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies to which appointment&#39;s type the action can be applied.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowDisplayAppointmentDependencyForm">
       <summary>
-        <para>Gets or sets the option specifying whether the Appointment Dependency dialog can be invoked.</para>
+        <para>Gets or sets whether a user can invoke the Appointment Dependency dialog.</para>
       </summary>
       <value>An <see cref="T:DevExpress.XtraScheduler.AllowDisplayAppointmentDependencyForm"/> enumeration member.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowDisplayAppointmentFlyout">
       <summary>
-        <para>Gets or sets the option specifying whether the appointment flyout can be displayed.</para>
+        <para>Gets or sets whether the appointment flyout can be displayed.</para>
       </summary>
-      <value>True to display an appointment flyout; otherwise, false.</value>
+      <value>true, to display an appointment flyout; otherwise, false.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowDisplayAppointmentForm">
       <summary>
-        <para>Gets or sets the option specifying whether the Appointment Form can be invoked.</para>
+        <para>Gets or sets whether the Appointment Form can be invoked.</para>
       </summary>
       <value>An <see cref="T:DevExpress.XtraScheduler.AllowDisplayAppointmentForm"/> enumeration member.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.AllowInplaceEditor">
       <summary>
-        <para>Gets or sets a value that specifies whether an inplace editor can be activated for an appointment.</para>
+        <para>Gets or sets whether an inplace editor can be activated for an appointment.</para>
       </summary>
       <value>An <see cref="T:DevExpress.XtraScheduler.UsedAppointmentType"/> enumeration value that specifies the type of appointment which the action can be applied to.</value>
     </member>
@@ -11590,9 +11581,9 @@ See the How to: Split Appointments and Series article for more information.</par
     </member>
     <member name="P:DevExpress.XtraScheduler.SchedulerOptionsCustomization.RecurrenceFormEditors">
       <summary>
-        <para></para>
+        <para>Gets or sets the recurrences that a user can enable in the Appointment Recurrence Form.</para>
       </summary>
-      <value></value>
+      <value>A value that specifies the recurrences that a user can enable in the Appointment Recurrence Form.</value>
     </member>
     <member name="M:DevExpress.XtraScheduler.SchedulerOptionsCustomization.ToString">
       <summary>

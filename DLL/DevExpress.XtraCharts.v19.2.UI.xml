@@ -90,7 +90,7 @@
     </member>
     <member name="P:DevExpress.XtraCharts.ChartControl.AutoLayoutSettingsEnabled">
       <summary>
-        <para>Specifies whether or not the chart&#39;s layout is automatically adjusted during the creation of a Pivot Chart.</para>
+        <para>Specifies whether the chart&#39;s layout is automatically adjusted when creating a Pivot Chart.</para>
       </summary>
       <value>true to automatically adjust the chart&#39;s layout settings; otherwise, false.</value>
     </member>
@@ -279,12 +279,12 @@
     </member>
     <member name="E:DevExpress.XtraCharts.ChartControl.CustomizePieTotalLabel">
       <summary>
-        <para></para>
+        <para>Occurs when the ChartControl draws total labels for Pie and Doughnut series.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraCharts.ChartControl.CustomizeResolveOverlappingMode">
       <summary>
-        <para>Occurs before an automatic setting is applied to the overlap resolving mode of series labels.</para>
+        <para>Occurs before the chart enables a mode that allows you to avoid overlapping series labels.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraCharts.ChartControl.CustomizeSimpleDiagramLayout">
@@ -294,7 +294,7 @@
     </member>
     <member name="E:DevExpress.XtraCharts.ChartControl.CustomizeStackedBarTotalLabel">
       <summary>
-        <para></para>
+        <para>Occurs when the ChartControl draws total labels for Stacked Bar series.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraCharts.ChartControl.CustomizeXAxisLabels">
@@ -806,7 +806,7 @@
     </member>
     <member name="E:DevExpress.XtraCharts.ChartControl.PivotChartingCustomizeResolveOverlappingMode">
       <summary>
-        <para>Occurs before an automatic setting is applied to the overlap resolving mode of series labels.</para>
+        <para>Occurs before the chart enables a mode that allows you to avoid overlapping series labels.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraCharts.ChartControl.PivotChartingCustomizeXAxisLabels">

@@ -2520,6 +2520,12 @@
       </summary>
       <value></value>
     </member>
+    <member name="M:DevExpress.XtraPivotGrid.Data.PivotGridCellItem.GetXlsxFormatString">
+      <summary>
+        <para></para>
+      </summary>
+      <returns></returns>
+    </member>
     <member name="P:DevExpress.XtraPivotGrid.Data.PivotGridCellItem.IsColumnCustomTotal">
       <summary>
         <para>For internal use.</para>
@@ -3980,7 +3986,27 @@
         <para>Default value: The following fields have circular dependency: {0}</para>
       </summary>
     </member>
+    <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationExpressionIsEmpty">
+      <summary>
+        <para></para>
+      </summary>
+    </member>
     <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationFunctionIsNotSupported">
+      <summary>
+        <para></para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationInvalidArgumentCount">
+      <summary>
+        <para></para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationInvalidExpression">
+      <summary>
+        <para></para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationInvalidFunctionArgument">
       <summary>
         <para></para>
       </summary>
@@ -3988,6 +4014,11 @@
     <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationInvalidProperty">
       <summary>
         <para>Default value: The {0} not found.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationInvalidWindowExpressionUsage">
+      <summary>
+        <para></para>
       </summary>
     </member>
     <member name="F:DevExpress.XtraPivotGrid.Localization.PivotGridStringId.ExpressionValidationNotSummaryExpressionExpected">
@@ -5350,7 +5381,7 @@
         <para>Returns all cells whose values match the specified condition.</para>
       </summary>
       <param name="isColumn">True to locate a column; false to locate a row.</param>
-      <param name="match">A <see cref="T:System.Predicate`1"/>&lt;<see cref="T:System.Object"/>,&gt; delegate that is the method that defines a set of criteria and determines whether the specified object meets those criteria.</param>
+      <param name="match">A Predicate&lt;<see cref="T:System.Object"/>&gt; delegate that is the method that defines a set of criteria and determines whether the specified object meets those criteria.</param>
       <returns>A list of cells whose values match the predicate.</returns>
     </member>
     <member name="M:DevExpress.XtraPivotGrid.PivotCustomFieldValueCellsEventArgsBase`2.FindCell(System.Boolean,System.Predicate{System.Object[]})">

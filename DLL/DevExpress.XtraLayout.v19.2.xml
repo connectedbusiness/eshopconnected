@@ -131,9 +131,101 @@
       </summary>
       <value>A System.ComponentModel.ISite object.</value>
     </member>
+    <member name="T:DevExpress.XtraDataLayout.FieldRetrievedEventArgs">
+      <summary>
+        <para>Provides data for the <see cref="E:DevExpress.XtraDataLayout.DataLayoutControl.FieldRetrieved"/> event.</para>
+      </summary>
+    </member>
+    <member name="M:DevExpress.XtraDataLayout.FieldRetrievedEventArgs.#ctor">
+      <summary>
+        <para>Initializes a new instance of the <see cref="T:DevExpress.XtraDataLayout.FieldRetrievedEventArgs"/> class.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievedEventArgs.Control">
+      <summary>
+        <para>Gets the control embedded in the layout item.</para>
+      </summary>
+      <value>The control embedded in the layout item.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievedEventArgs.FieldName">
+      <summary>
+        <para>Gets the data source field to which the editor is bound.</para>
+      </summary>
+      <value>The bound data source field.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievedEventArgs.Item">
+      <summary>
+        <para>Gets the created Layout Item.</para>
+      </summary>
+      <value>The created layout item.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievedEventArgs.RepositoryItem">
+      <summary>
+        <para>Gets a <see cref="T:DevExpress.XtraEditors.Repository.RepositoryItem"/> descendant that corresponds to the created editor. This property is in effect when a DevExpress editor (<see cref="T:DevExpress.XtraEditors.BaseEdit"/> descendant) is embedded in the created layout item.</para>
+      </summary>
+      <value>The Repository Item that corresponds to a DevExpress editor embedded in the created layout item.</value>
+    </member>
+    <member name="T:DevExpress.XtraDataLayout.FieldRetrievingEventArgs">
+      <summary>
+        <para>Provides data for the <see cref="E:DevExpress.XtraDataLayout.DataLayoutControl.FieldRetrieving"/> event.</para>
+      </summary>
+    </member>
+    <member name="M:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.#ctor">
+      <summary>
+        <para>Initializes a new instance of the <see cref="T:DevExpress.XtraDataLayout.FieldRetrievingEventArgs"/> class.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.DataSourceNullValue">
+      <summary>
+        <para>Gets or sets the value used to initialize the Binding.DataSourceNullValue property for the auto-generated editor.</para>
+      </summary>
+      <value>The value used to initialize the Binding.DataSourceNullValue  property of the auto-generated editor.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.DataSourceUpdateMode">
+      <summary>
+        <para>Gets or sets the value used to initialize the Binding.DataSourceUpdateMode property for the auto-generated editor.</para>
+      </summary>
+      <value>The value used to initialize the Binding.DataSourceUpdateMode property of the auto-generated editor.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.DataType">
+      <summary>
+        <para>Gets the bound field&#39;s data type.</para>
+      </summary>
+      <value>The bound field&#39;s data type.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.EditorType">
+      <summary>
+        <para>Gets or sets the type of the editor to be created.</para>
+      </summary>
+      <value>The type of the editor to be created.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.FieldName">
+      <summary>
+        <para>Gets the data source field to which the editor is bound.</para>
+      </summary>
+      <value>The bound data source field.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.Handled">
+      <summary>
+        <para>Gets or sets whether the event is handled and the customized event parameters must be applied after the event handler is completed.</para>
+      </summary>
+      <value>true, to apply the customized event parameters after your event handler is completed; false, to discard the customizations made via the event.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.PropertyName">
+      <summary>
+        <para>Gets or sets the name of the editor&#39;s property to which the data source field is bound.</para>
+      </summary>
+      <value>The name of the editor&#39;s property to which the data source field is bound.</value>
+    </member>
+    <member name="P:DevExpress.XtraDataLayout.FieldRetrievingEventArgs.Visible">
+      <summary>
+        <para>Gets or sets the layout item&#39;s (editor&#39;s) visibility.</para>
+      </summary>
+      <value>The layout item&#39;s (editor&#39;s) visibility.</value>
+    </member>
     <member name="T:DevExpress.XtraDataLayout.RetrieveFieldsParameters">
       <summary>
-        <para>Contains parameters for the  method.</para>
+        <para>Contains parameters for the DataLayoutControl.RetrieveFields method.</para>
       </summary>
     </member>
     <member name="M:DevExpress.XtraDataLayout.RetrieveFieldsParameters.#ctor">
@@ -163,9 +255,10 @@ This property identifies the value to be stored in the data source if the editor
     <member name="P:DevExpress.XtraDataLayout.RetrieveFieldsParameters.DataSourceUpdateMode">
       <summary>
         <para>Gets or sets the default value used to initialize the Binding.DataSourceUpdateMode property for all auto-generated editors.
+
 This property indicates when changes to the bound editor property are propagated to the data source.</para>
       </summary>
-      <value>The default value used to initialize the Binding.DataSourceNullValue property of all auto-generated editors.</value>
+      <value>The default value used to initialize the Binding.DataSourceUpdateMode property of all auto-generated editors.</value>
     </member>
     <member name="N:DevExpress.XtraLayout">
       <summary>

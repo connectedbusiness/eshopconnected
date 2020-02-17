@@ -5199,7 +5199,7 @@ The default value is <see cref="F:System.String.Empty"/>.</value>
     </member>
     <member name="P:DevExpress.Xpf.Charts.Bubble3DSeriesView.AutoSize">
       <summary>
-        <para>Gets or sets the value indicating whether bubble sizes are calculated automatically.</para>
+        <para>Indicates whether bubble sizes are calculated automatically.</para>
       </summary>
       <value>true, if bubble sizes should be calculated automatically; otherwise, false.</value>
     </member>
@@ -21057,6 +21057,12 @@ This value should be greater than 0.</value>
       </summary>
       <value></value>
     </member>
+    <member name="P:DevExpress.Xpf.Charts.Pane.SeriesContainers">
+      <summary>
+        <para>For internal use.</para>
+      </summary>
+      <value></value>
+    </member>
     <member name="P:DevExpress.Xpf.Charts.Pane.SeriesItems">
       <summary>
         <para>For internal use. Returns the pane&#39;s collection of Series items. This is a dependency property.</para>
@@ -27904,7 +27910,7 @@ This is a dependency property.</para>
     </member>
     <member name="P:DevExpress.Xpf.Charts.SeriesPoint.ToolTipHint">
       <summary>
-        <para>Gets or sets the data representing the content (a text, image, etc.) of the tooltip&#39;s hint for a series point.</para>
+        <para>Gets or sets the data that represents the content (text, image, etc.) of the tooltip&#39;s hint for a series point.</para>
       </summary>
       <value>A <see cref="T:System.Object"/> value that is the content of the tooltip&#39;s hint.</value>
     </member>
@@ -31529,6 +31535,31 @@ This is a dependency property.</para>
         <para>Initializes a new instance of the <see cref="T:DevExpress.Xpf.Charts.WaterfallAbsoluteValueOptions"/> class with default settings.</para>
       </summary>
     </member>
+    <member name="T:DevExpress.Xpf.Charts.WaterfallLabelPosition">
+      <summary>
+        <para>Lists the values used to specify the position of Waterfall labels.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.Xpf.Charts.WaterfallLabelPosition.Auto">
+      <summary>
+        <para>The label position is defined based on the series count. Labels are outside waterfall bars if the chart shows a single waterfall series. Labels are positioned in the bar center if the chart shows multiple waterfall series.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.Xpf.Charts.WaterfallLabelPosition.Center">
+      <summary>
+        <para>Labels are displayed in the center of waterfall bars.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.Xpf.Charts.WaterfallLabelPosition.InsideEnd">
+      <summary>
+        <para>Labels are displayed inside waterfall bars, at the bottom of falling bars and at the top of rising bars.</para>
+      </summary>
+    </member>
+    <member name="F:DevExpress.Xpf.Charts.WaterfallLabelPosition.InsideStart">
+      <summary>
+        <para>Labels are displayed inside waterfall bars, at the bottom of rising bars and at the top of falling bars.</para>
+      </summary>
+    </member>
     <member name="T:DevExpress.Xpf.Charts.WaterfallRelativeValueOptions">
       <summary>
         <para>Stores settings for a waterfall chart that is plotted based on relative data source values.</para>
@@ -31609,6 +31640,13 @@ This is a dependency property.</para>
       <param name="diagram">The diagram from which the property value is read.</param>
       <returns>The connectors&#39; style.</returns>
     </member>
+    <member name="M:DevExpress.Xpf.Charts.WaterfallSeries2D.GetLabelPosition(DevExpress.Xpf.Charts.SeriesLabel)">
+      <summary>
+        <para>Returns the attached <see cref="P:DevExpress.Xpf.Charts.WaterfallSeries2D.LabelPosition"/> property&#39;s value for a specified <see cref="T:DevExpress.Xpf.Charts.SeriesLabel"/>.</para>
+      </summary>
+      <param name="label">A series label whose LabelPosition property is to be returned.</param>
+      <returns>A value that defines the label position.</returns>
+    </member>
     <member name="M:DevExpress.Xpf.Charts.WaterfallSeries2D.GetStartBarBrush(DevExpress.Xpf.Charts.XYDiagram2D)">
       <summary>
         <para>Gets the value of the <see cref="P:DevExpress.Xpf.Charts.WaterfallSeries2D.StartBarBrush"/> attached property for a specified <see cref="T:DevExpress.Xpf.Charts.XYDiagram2D"/>.</para>
@@ -31636,6 +31674,11 @@ This is a dependency property.</para>
       </summary>
       <param name="diagram">The diagram from which the property value is read.</param>
       <returns>The waterfall value options.</returns>
+    </member>
+    <member name="F:DevExpress.Xpf.Charts.WaterfallSeries2D.LabelPositionProperty">
+      <summary>
+        <para>Identifies the <see cref="P:DevExpress.Xpf.Charts.WaterfallSeries2D.LabelPosition"/> dependency property.</para>
+      </summary>
     </member>
     <member name="P:DevExpress.Xpf.Charts.WaterfallSeries2D.Model">
       <summary>
@@ -31674,6 +31717,13 @@ This is a dependency property.</para>
       </summary>
       <param name="diagram">The diagram to which the attached property is written.</param>
       <param name="connectorStyle">The connectors&#39; line style.</param>
+    </member>
+    <member name="M:DevExpress.Xpf.Charts.WaterfallSeries2D.SetLabelPosition(DevExpress.Xpf.Charts.SeriesLabel,DevExpress.Xpf.Charts.WaterfallLabelPosition)">
+      <summary>
+        <para>Specifies the attached <see cref="P:DevExpress.Xpf.Charts.WaterfallSeries2D.LabelPosition"/> property&#39;s value for a specified <see cref="T:DevExpress.Xpf.Charts.SeriesLabel"/>.</para>
+      </summary>
+      <param name="label">A series label whose LabelPosition property is to be set.</param>
+      <param name="value">A value that defines the label position.</param>
     </member>
     <member name="M:DevExpress.Xpf.Charts.WaterfallSeries2D.SetStartBarBrush(DevExpress.Xpf.Charts.XYDiagram2D,System.Windows.Media.SolidColorBrush)">
       <summary>

@@ -4,6 +4,11 @@
     <name>DevExpress.SpellChecker.v19.2.Core</name>
   </assembly>
   <members>
+    <member name="N:DevExpress.XtraSpellChecker">
+      <summary>
+        <para>Contains classes which are used to implement the main functionality of the XtraSpellChecker.</para>
+      </summary>
+    </member>
     <member name="T:DevExpress.XtraSpellChecker.AfterCheckEventArgs">
       <summary>
         <para>Provides data for the <see cref="E:DevExpress.XtraSpellChecker.SpellCheckerBase.AfterCheck"/> event.</para>
@@ -956,7 +961,7 @@ When the IgnoreMarkupTags property is set to <see cref="F:DevExpress.Utils.Defau
       <summary>
         <para>Provides access to the list of words and their counterparts that replace them on every occurrence.</para>
       </summary>
-      <value>A <see cref="T:System.Collections.Generic.Dictionary`2"/>&lt;<see cref="T:System.String"/>,<see cref="T:System.String"/>,&gt; object, representing a collection of key words and their replacements.</value>
+      <value>A Dictionary&lt;<see cref="T:System.String"/>,<see cref="T:System.String"/>&gt; object, representing a collection of key words and their replacements.</value>
     </member>
     <member name="M:DevExpress.XtraSpellChecker.SpellCheckerBase.Check(DevExpress.XtraSpellChecker.Parser.ISpellCheckTextController)">
       <summary>
@@ -986,7 +991,7 @@ When the IgnoreMarkupTags property is set to <see cref="F:DevExpress.Utils.Defau
         <para>Checks the specified text to get a list of erroneous words and suggested corrections.</para>
       </summary>
       <param name="text">A string that is the text to be checked.</param>
-      <returns>A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/>,&gt; object that is a list of <see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/> items containing wrong words and suggestions.</returns>
+      <returns>A List&lt;<see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/>&gt; object that is a list of <see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/> items containing wrong words and suggestions.</returns>
     </member>
     <member name="M:DevExpress.XtraSpellChecker.SpellCheckerBase.CheckText(System.String,System.Boolean)">
       <summary>
@@ -994,7 +999,7 @@ When the IgnoreMarkupTags property is set to <see cref="F:DevExpress.Utils.Defau
       </summary>
       <param name="text">A string that is the text to be checked.</param>
       <param name="needSuggestions">true to calculate suggestions for a misspelled word; otherwise, false.</param>
-      <returns>A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/>,&gt; object that is a list of <see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/> items containing wrong words and suggestions.</returns>
+      <returns>A List&lt;<see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/>&gt; object that is a list of <see cref="T:DevExpress.XtraSpellChecker.WrongWordRecord"/> items containing wrong words and suggestions.</returns>
     </member>
     <member name="P:DevExpress.XtraSpellChecker.SpellCheckerBase.Culture">
       <summary>
@@ -1757,13 +1762,13 @@ When the IgnoreMarkupTags property is set to <see cref="F:DevExpress.Utils.Defau
       <summary>
         <para>Gets a list of words suggested to replace the current wrong word.</para>
       </summary>
-      <returns>A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:System.String"/>,&gt; containing suggested words.</returns>
+      <returns>A List&lt;<see cref="T:System.String"/>&gt; containing suggested words.</returns>
     </member>
     <member name="P:DevExpress.XtraSpellChecker.WrongWordRecord.Suggestions">
       <summary>
         <para>A list of suggested words to replace the misspelled word.</para>
       </summary>
-      <value>A <see cref="T:System.Collections.Generic.List`1"/>&lt;<see cref="T:System.String"/>,&gt; generic list containing suggested words.</value>
+      <value>A List&lt;<see cref="T:System.String"/>&gt; generic list containing suggested words.</value>
     </member>
     <member name="M:DevExpress.XtraSpellChecker.WrongWordRecord.ToString">
       <summary>

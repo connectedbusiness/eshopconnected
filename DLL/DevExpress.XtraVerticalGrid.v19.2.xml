@@ -1023,6 +1023,23 @@ The DefaultLevelIndent field is set to -1.</para>
       <param name="sender">The event source (typically the <see cref="T:DevExpress.XtraVerticalGrid.VGridControl"/> control).</param>
       <param name="e">A <see cref="T:DevExpress.XtraVerticalGrid.Events.StartDragRowEventArgs"/> class instance containing event data.</param>
     </member>
+    <member name="T:DevExpress.XtraVerticalGrid.FilterPopupExcelParseFilterCriteriaEventArgs">
+      <summary>
+        <para>Provides data for the <see cref="E:DevExpress.XtraVerticalGrid.VGridControl.FilterPopupExcelParseFilterCriteria"/> event.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraVerticalGrid.FilterPopupExcelParseFilterCriteriaEventArgs.Grid">
+      <summary>
+        <para>Gets the vertical grid that raised the event.</para>
+      </summary>
+      <value>An object that specifies the vertical grid that raised the event.</value>
+    </member>
+    <member name="P:DevExpress.XtraVerticalGrid.FilterPopupExcelParseFilterCriteriaEventArgs.Properties">
+      <summary>
+        <para>Gets the processed row&#39;s properties.</para>
+      </summary>
+      <value>An object that specifies the processed row&#39;s properties.</value>
+    </member>
     <member name="T:DevExpress.XtraVerticalGrid.FindMode">
       <summary>
         <para>Contains values that specify how data searching is initiated within <see cref="T:DevExpress.XtraVerticalGrid.VGridControlBase"/> descendants.</para>
@@ -1343,6 +1360,12 @@ The DefaultLevelIndent field is set to -1.</para>
       </summary>
       <value>A <see cref="T:DevExpress.XtraVerticalGrid.PropertySort"/> value that specifies the way properties are sorted in the Property Grid control.</value>
     </member>
+    <member name="P:DevExpress.XtraVerticalGrid.PGridOptionsBehavior.RefreshOnSelectedObjectChanges">
+      <summary>
+        <para>Gets or sets whether the control automatically updates the content when the selected object&#39;s property changes.</para>
+      </summary>
+      <value>true, if the control updates the content when the selected object&#39;s property changes; otherwise, false.</value>
+    </member>
     <member name="P:DevExpress.XtraVerticalGrid.PGridOptionsBehavior.ShowOnlyBrowsableProperties">
       <summary>
         <para>Gets or sets whether to show only browsable properties, as specified in the System.ComponentModel.BrowsableAttribute.</para>
@@ -1554,7 +1577,7 @@ The DefaultLevelIndent field is set to -1.</para>
       <summary>
         <para>Gets or sets whether rows are automatically created in the control for all fields in the bound object.</para>
       </summary>
-      <value>true if rows are automatically created in the control for all fields in the bound object; false if rows are only created  when an object is assigned to an empty <see cref="T:DevExpress.XtraVerticalGrid.PropertyGridControl"/>.</value>
+      <value>true, if the control automatically re-creates rows when you re-bind an object; false, if the control automatically creates rows only when you bind an object for the first time.</value>
     </member>
     <member name="P:DevExpress.XtraVerticalGrid.PropertyGridControl.BrowsableAttributes">
       <summary>
@@ -1936,7 +1959,7 @@ The DefaultLevelIndent field is set to -1.</para>
     </member>
     <member name="F:DevExpress.XtraVerticalGrid.RowChangeTypeEnum.Move">
       <summary>
-        <para>A row has been moved within the control. This can be performed using drag and drop or via the  method.</para>
+        <para>A row has been moved within the control. This can be performed using drag and drop or via the VGridControlBase.MoveRow method.</para>
       </summary>
     </member>
     <member name="F:DevExpress.XtraVerticalGrid.RowChangeTypeEnum.Name">
@@ -1956,7 +1979,7 @@ The DefaultLevelIndent field is set to -1.</para>
     </member>
     <member name="F:DevExpress.XtraVerticalGrid.RowChangeTypeEnum.PropertiesAdded">
       <summary>
-        <para>A new <see cref="T:DevExpress.XtraVerticalGrid.Rows.MultiEditorRowProperties"/> object or its descendant has been added to the multi-editor row&#39;s properties collection. This can be performed by calling the  method.</para>
+        <para>A new <see cref="T:DevExpress.XtraVerticalGrid.Rows.MultiEditorRowProperties"/> object or its descendant has been added to the multi-editor row&#39;s properties collection. This can be performed by calling the MultiEditorRowPropertiesCollection.Add method.</para>
       </summary>
     </member>
     <member name="F:DevExpress.XtraVerticalGrid.RowChangeTypeEnum.PropertiesAssigned">
@@ -2184,6 +2207,18 @@ The DefaultLevelIndent field is set to -1.</para>
         <para>Gets the appearance settings used to paint the row&#39;s cells.</para>
       </summary>
       <value>An <see cref="T:DevExpress.Utils.AppearanceObjectEx"/> object that provides the appearance settings used to paint the row&#39;s cells.</value>
+    </member>
+    <member name="P:DevExpress.XtraVerticalGrid.Rows.BaseRow.AppearanceCell">
+      <summary>
+        <para></para>
+      </summary>
+      <value></value>
+    </member>
+    <member name="P:DevExpress.XtraVerticalGrid.Rows.BaseRow.AppearanceHeader">
+      <summary>
+        <para></para>
+      </summary>
+      <value></value>
     </member>
     <member name="M:DevExpress.XtraVerticalGrid.Rows.BaseRow.AssignTo(DevExpress.XtraVerticalGrid.Rows.BaseRow)">
       <summary>
@@ -4892,7 +4927,7 @@ This property is only in effect for the <see cref="T:DevExpress.XtraVerticalGrid
       <summary>
         <para>Indicates whether the focused record or at least a single cell within the focused record has an error assigned.</para>
       </summary>
-      <value>true if the focused record contains errors set via the  method; otherwise, false.</value>
+      <value>true if the focused record contains errors set via the VGridControlBase.SetRowError method; otherwise, false.</value>
     </member>
     <member name="E:DevExpress.XtraVerticalGrid.VGridControlBase.HiddenEditor">
       <summary>

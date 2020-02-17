@@ -252,15 +252,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.AnnotationRepositoryModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created annotation model of an annotation of the specified type to the collection.</para>
+        <para>Adds a newly created model of an annotation to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">An <see cref="T:DevExpress.XtraCharts.Annotation"/> descendant class object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.AnnotationRepositoryModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Deletes the specified annotation from the annotation repository.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">An Annotation descendant that should be deleted.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.AnnotationRepositoryModel.Item(System.Int32)">
       <summary>
@@ -351,7 +351,7 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.AreaSeriesViewBaseModel.ShowIsolatedPoints">
       <summary>
-        <para></para>
+        <para>Overrides the <see cref="P:DevExpress.XtraCharts.Designer.LineSeriesViewModel.ShowIsolatedPoints"/> property to hide it.</para>
       </summary>
       <value></value>
     </member>
@@ -443,9 +443,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.Axis2DModel.LabelPosition">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Axis2D.LabelPosition"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>An <see cref="T:DevExpress.XtraCharts.AxisLabelPosition"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.Axis2DModel.LabelVisibilityMode">
       <summary>
@@ -455,9 +455,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.Axis2DModel.ShowBehind">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Axis2D.ShowBehind"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true if the axis draws behind chart series, axis labels, gridlines and tickmarks; otherwise false.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.Axis2DModel.Strips">
       <summary>
@@ -579,9 +579,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.AxisBaseModel.TimeSpanScaleOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.AxisBase.TimeSpanScaleOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The model of options for an axis with a time-span scale.</value>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.AxisBaseModel.ToString">
       <summary>
@@ -777,9 +777,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.AxisTitleModel.Position">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.AxisTitle.Position"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>An <see cref="T:DevExpress.XtraCharts.AxisTitlePosition"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.AxisTitleModel.Text">
       <summary>
@@ -851,9 +851,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.AxisXBaseModel.StickToEdge">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.AxisXBase.StickToEdge"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true if the visual range sticks to the whole range&#39;s edge; otherwise false.</value>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.AxisXBaseModel.ToString">
       <summary>
@@ -1172,6 +1172,78 @@
       </summary>
       <value>The value that specifies how bouncy the animation is.</value>
     </member>
+    <member name="T:DevExpress.XtraCharts.Designer.BreadcrumbsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.Breadcrumbs"/> model.</para>
+      </summary>
+    </member>
+    <member name="M:DevExpress.XtraCharts.Designer.BreadcrumbsModel.#ctor(DevExpress.XtraCharts.Breadcrumbs,DevExpress.XtraCharts.Designer.CustomModelProvider)">
+      <summary>
+        <para>Initializes a new instance of the <see cref="T:DevExpress.XtraCharts.Designer.BreadcrumbsModel"/> class with specified settings.</para>
+      </summary>
+      <param name="breadcrumbs"></param>
+      <param name="customModelProvider"></param>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.BackColor">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.BackColor"/> property value within the model.</para>
+      </summary>
+      <value>The color that specifies the background of breadcrumbs.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.Border">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.Border"/> property value within the model.</para>
+      </summary>
+      <value>A model for the border appearance settings.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.Font">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.Font"/> property value within the model.</para>
+      </summary>
+      <value>A font used to display the Breadcrumb Item and Breadcrumb Home Item text.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.ForeColor">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.ForeColor"/> property value within the model.</para>
+      </summary>
+      <value>A color used to paint the Breadcrumb Item and Breadcrumb Home Item text.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.HomeText">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.HomeText"/> property value within the model.</para>
+      </summary>
+      <value>The text that the Breadcrumb Home Item displays instead of its icon.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.HoverForeColor">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.HoverForeColor"/> property value within the model.</para>
+      </summary>
+      <value>A color used to paint the Breadcrumb Item and Breadcrumb Home Item text when a user interacts with breadcrumbs.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.InactiveForeColor">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.InactiveForeColor"/> property value within the model.</para>
+      </summary>
+      <value>A color that Breadcrumb Items and Breadcrumb Home Item use in the inactive state to display their text.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.Margins">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.Margins"/> property value within the model.</para>
+      </summary>
+      <value>The Breadcrumbs element&#39;s outer indents, measured in pixels.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.Padding">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.Padding"/> property value within the model.</para>
+      </summary>
+      <value>A model that specifies indents between the Breadcrumb element&#39;s content and its edge, in pixels.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.BreadcrumbsModel.Visibility">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Breadcrumbs.Visibility"/> property value within the model.</para>
+      </summary>
+      <value>Default - the adaptive layout algorithm defines the element visibility that depends on the chart size; True - the element is visible; False -  the element is hidden. The default value is DefaultBoolean.Default.</value>
+    </member>
     <member name="T:DevExpress.XtraCharts.Designer.BubbleSeriesLabelModel">
       <summary>
         <para>The <see cref="T:DevExpress.XtraCharts.BubbleSeriesLabel"/> model.</para>
@@ -1220,9 +1292,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.BubbleSeriesViewModel.SizeUnit">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.BubbleSeriesView.SizeUnit"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:DevExpress.XtraCharts.BubbleSizeUnit"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.BubbleSeriesViewModel.Transparency">
       <summary>
@@ -1287,20 +1359,20 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartCollectionBaseModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified chart element to the collection.</para>
+        <para>Adds a newly created model of the specified chart element to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A chart element whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartCollectionBaseModel.ClearElements">
       <summary>
-        <para></para>
+        <para>Clears the collection.</para>
       </summary>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartCollectionBaseModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes an item from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">An object to be removed.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartCollectionBaseModel.IndexOf(DevExpress.XtraCharts.Designer.ChartElementModel)">
       <summary>
@@ -1375,7 +1447,7 @@
     </member>
     <member name="E:DevExpress.XtraCharts.Designer.ChartDesigner.ChartStructureUpdating">
       <summary>
-        <para>Occurs when chart structure changes begin.</para>
+        <para>Used to customize the Chart Designer Elements&#39; Tree.</para>
       </summary>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartDesigner.EnableLargeDataSetWarning">
@@ -1386,7 +1458,7 @@
     </member>
     <member name="E:DevExpress.XtraCharts.Designer.ChartDesigner.HelpRequested">
       <summary>
-        <para></para>
+        <para>Occurs when a user requests help for the Chart Designer.</para>
       </summary>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartDesigner.Icon">
@@ -1402,16 +1474,16 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartDesigner.RegisterCustomModelType(System.Type,System.Type)">
       <summary>
-        <para>Registers the model of the specified type for use in the Designer for a chart element with the specified type.</para>
+        <para>Associates a model type with a chart element type.</para>
       </summary>
-      <param name="chartElementType">The type of a chart element.</param>
-      <param name="customModelType">The type of a model.</param>
+      <param name="chartElementType">The chart element type.</param>
+      <param name="customModelType">The model type.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartDesigner.ShowActualData">
       <summary>
-        <para></para>
+        <para>Specifies whether to use sample data or data from the underlying data source to build a chart for the Chart Designer&#39;s preview.</para>
       </summary>
-      <value></value>
+      <value>true, to show data from the underlying data source; otherwise, false.</value>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartDesigner.ShowDialog">
       <summary>
@@ -1446,6 +1518,13 @@
         <para>Gets or sets the value indicating whether the Designer form icon should be shown.</para>
       </summary>
       <value>true if the icon should be shown; otherwise false.</value>
+    </member>
+    <member name="T:DevExpress.XtraCharts.Designer.ChartDesignerHelpRequestedEventHandler">
+      <summary>
+        <para>Represents a method that will handle the <see cref="E:DevExpress.XtraCharts.Designer.ChartDesigner.HelpRequested"/> event.</para>
+      </summary>
+      <param name="sender">The event source.</param>
+      <param name="e">The event parameters.</param>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.ChartElementHighlightingEventArgs">
       <summary>
@@ -1666,9 +1745,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartModel.Breadcrumbs">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ChartControl.Breadcrumbs"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The Breadcrumbs&#39; model.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartModel.CacheToMemory">
       <summary>
@@ -1738,9 +1817,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartModel.OptionsPrint">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ChartControl.OptionsPrint"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The model of chart print options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartModel.Padding">
       <summary>
@@ -1798,9 +1877,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartModel.SeriesTemplate">
       <summary>
-        <para></para>
+        <para>Returns the <see cref="P:DevExpress.XtraCharts.ChartControl.SeriesTemplate"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The series template model.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartModel.SmallChartText">
       <summary>
@@ -1825,6 +1904,23 @@
         <para>Returns the model of the tooltip options of the modeled chart.</para>
       </summary>
       <value>The tooltip options model.</value>
+    </member>
+    <member name="T:DevExpress.XtraCharts.Designer.ChartMouseActionModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.ChartMouseAction"/> class model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.ChartMouseActionModel.ModifierKeys">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ChartMouseAction.ModifierKeys"/> property value within the model.</para>
+      </summary>
+      <value>The modifier keys.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.ChartMouseActionModel.MouseButton">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ChartMouseAction.MouseButton"/> property value within the model.</para>
+      </summary>
+      <value>The mouse button that should be used to interact with the chart.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.ChartPaletteColorizerBaseModel">
       <summary>
@@ -1949,15 +2045,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartTitleCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified chart title to the collection.</para>
+        <para>Adds a newly created model of the specified chart title to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.ChartTitle"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ChartTitleCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified chart title from the title collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.ChartTitle"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ChartTitleCollectionModel.Item(System.Int32)">
       <summary>
@@ -2126,15 +2222,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ConstantLineCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified constant line to the collection.</para>
+        <para>Adds a newly created model of the specified constant line to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.ConstantLine"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ConstantLineCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified constant line from the constant line collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.ConstantLine"/> to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ConstantLineCollectionModel.Item(System.Int32)">
       <summary>
@@ -2460,15 +2556,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.CustomAxisLabelCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified custom axis label to the collection.</para>
+        <para>Adds a newly created model of the specified custom axis label to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.CustomAxisLabel"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.CustomAxisLabelCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified custom axis label from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.CustomAxisLabel"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.CustomAxisLabelCollectionModel.Item(System.Int32)">
       <summary>
@@ -2542,15 +2638,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.CustomLegendItemCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified custom legend item to the collection.</para>
+        <para>Adds a newly created model of the specified custom legend item to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.CustomLegendItem"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.CustomLegendItemCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified custom legend item from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.CustomLegendItem"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.CustomLegendItemCollectionModel.Item(System.Int32)">
       <summary>
@@ -2660,9 +2756,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DataContainerModel.SeriesTemplate">
       <summary>
-        <para></para>
+        <para>Returns the series template used to generate series.</para>
       </summary>
-      <value></value>
+      <value>The series template model.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.DataFilterCollectionModel">
       <summary>
@@ -2671,28 +2767,28 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.DataFilterCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Adds a new data filter to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A DataFilter object to be added.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DataFilterCollectionModel.ConjunctionMode">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DataFilterCollection.ConjunctionMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:DevExpress.XtraCharts.ConjunctionTypes"/> enumeration value.</value>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.DataFilterCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified data filter from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.DataFilter"/> to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DataFilterCollectionModel.Item(System.Int32)">
       <summary>
-        <para></para>
+        <para>Returns a data filter model by its zero-based index.</para>
       </summary>
-      <param name="index"></param>
-      <value></value>
+      <param name="index">The zero-based index.</param>
+      <value>The data filter model.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.DataFilterModel">
       <summary>
@@ -2740,6 +2836,23 @@
       </summary>
       <value>The name of the data member storing the positive error values.</value>
     </member>
+    <member name="T:DevExpress.XtraCharts.Designer.DateTimeIntervalOptionsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.DateTimeIntervalOptions"/> model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.DateTimeIntervalOptionsModel.OverflowValue">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DateTimeIntervalOptions.OverflowValue"/> property value within the model.</para>
+      </summary>
+      <value>The date-time value that specifies the overflow interval&#39;s start value.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.DateTimeIntervalOptionsModel.UnderflowValue">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DateTimeIntervalOptions.UnderflowValue"/> property value within the model.</para>
+      </summary>
+      <value>The date-time value that specifies the underflow interval&#39;s start value.</value>
+    </member>
     <member name="T:DevExpress.XtraCharts.Designer.DateTimeScaleOptionsModel">
       <summary>
         <para>The <see cref="T:DevExpress.XtraCharts.DateTimeScaleOptions"/> model.</para>
@@ -2753,15 +2866,15 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DateTimeScaleOptionsModel.GridLayoutMode">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DateTimeScaleOptions.GridLayoutMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:DevExpress.XtraCharts.GridLayoutMode"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DateTimeScaleOptionsModel.IntervalOptions">
       <summary>
-        <para></para>
+        <para>Returns the <see cref="P:DevExpress.XtraCharts.DateTimeScaleOptions.IntervalOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The model of the date-time axis interval options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DateTimeScaleOptionsModel.MeasureUnit">
       <summary>
@@ -2806,21 +2919,21 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DateTimeSummaryOptionsModel.MeasureUnit">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Designer.DateTimeSummaryOptionsModel.MeasureUnit"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:DevExpress.XtraCharts.DateTimeMeasureUnit"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DateTimeSummaryOptionsModel.MeasureUnitMultiplier">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DateTimeSummaryOptions.MeasureUnitMultiplier"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The multiplier on which the measurement unit is multiplied to form a custom measurement unit.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.DateTimeSummaryOptionsModel.UseAxisMeasureUnit">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DateTimeSummaryOptions.UseAxisMeasureUnit"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true, if options should use the axis&#39;s measure unit; otherwise false.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.DetrendedPriceOscillatorModel">
       <summary>
@@ -3047,6 +3160,35 @@
       </summary>
       <value>The inner hole radius, as a percentage.</value>
     </member>
+    <member name="T:DevExpress.XtraCharts.Designer.DrillDownOptionsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.DrillDownOptions"/> model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.DrillDownOptionsModel.DrillDownMouseAction">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DrillDownOptions.DrillDownMouseAction"/> property value within the model.</para>
+      </summary>
+      <value>An object that stores keys that should be held down and a mouse button that a user should click to reveal the next drill-down level.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.DrillDownOptionsModel.DrillUpShortcuts">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DrillDownOptions.DrillUpShortcuts"/> property value within the model.</para>
+      </summary>
+      <value>A collection of shortcuts.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.DrillDownOptionsModel.UseKeyboard">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DrillDownOptions.UseKeyboard"/> property value within the model.</para>
+      </summary>
+      <value>true, if an end user can use the keyboard; otherwise, false.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.DrillDownOptionsModel.UseMouse">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DrillDownOptions.UseMouse"/> property value within the model.</para>
+      </summary>
+      <value>true, to allow using the mouse; otherwise, false.</value>
+    </member>
     <member name="T:DevExpress.XtraCharts.Designer.EasingFunctionBaseModel">
       <summary>
         <para>The <see cref="T:DevExpress.XtraCharts.EasingFunctionBase"/> model.</para>
@@ -3104,15 +3246,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ExplodedSeriesPointCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified exploded series point to the collection.</para>
+        <para>Adds a newly created model of the specified exploded series point to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesPoint"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ExplodedSeriesPointCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified series point from the collection of exploded pie series points.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesPoint"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ExplodedSeriesPointCollectionModel.Item(System.Int32)">
       <summary>
@@ -3695,27 +3837,27 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridLayoutOptionsModel.Column">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridLayoutOptions.Column"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The integer value that specifies the grid layout column&#39;s index. This value should be greater than or equal to 0.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridLayoutOptionsModel.ColumnSpan">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridLayoutOptions.ColumnSpan"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The integer value that defines the number of columns that the pane occupies.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridLayoutOptionsModel.Row">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridLayoutOptions.Row"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The integer value that specifies the grid layout row&#39;s index. This value should be greater than or equal to 0.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridLayoutOptionsModel.RowSpan">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridLayoutOptions.RowSpan"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The integer value that defines the number of rows that the pane occupies.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.GridLinesModel">
       <summary>
@@ -3775,27 +3917,27 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridPaneLayoutModel.AutoLayoutMode">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridPaneLayout.AutoLayoutMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:DevExpress.XtraCharts.PaneAutoLayoutMode"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridPaneLayoutModel.ColumnDefinitions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridPaneLayout.ColumnDefinitions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The collection of grid layout columns.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridPaneLayoutModel.Direction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridPaneLayout.Direction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:DevExpress.XtraCharts.PaneLayoutDirection"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.GridPaneLayoutModel.RowDefinitions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.GridPaneLayout.RowDefinitions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The collection of grid layout rows.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.HatchFillOptionsModel">
       <summary>
@@ -3842,15 +3984,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.IndicatorCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified indicator to the collection.</para>
+        <para>Adds a newly created model of the specified indicator to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">An <see cref="T:DevExpress.XtraCharts.Indicator"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.IndicatorCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified indicator from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">An <see cref="T:DevExpress.XtraCharts.Indicator"/> descendant object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.IndicatorCollectionModel.Item(System.Int32)">
       <summary>
@@ -3872,9 +4014,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.IndicatorDirectedAnimationBaseModel.Direction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.IndicatorDirectedAnimationBase.Direction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>An animation direction.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.IndicatorModel">
       <summary>
@@ -4003,9 +4145,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.IndicatorUnwrapAnimationModel.Direction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.IndicatorUnwrapAnimation.Direction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>An animation direction.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.InsideRectangularBorderModel">
       <summary>
@@ -4042,20 +4184,20 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.KnownDateCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified known date to the collection.</para>
+        <para>Adds a newly created model of the specified known date to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.KnownDate"/> object.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.KnownDateCollectionModel.ClearElements">
       <summary>
-        <para></para>
+        <para>Clears the collection of dates.</para>
       </summary>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.KnownDateCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified date from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.KnownDate"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.KnownDateCollectionModel.Item(System.Int32)">
       <summary>
@@ -4082,22 +4224,22 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.LayoutDefinitionCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Adds a new layout definition to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.LayoutDefinition"/> object to be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.LayoutDefinitionCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified layout definition from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.LayoutDefinition"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LayoutDefinitionCollectionModel.Item(System.Int32)">
       <summary>
-        <para></para>
+        <para>Returns a layout definition model by its zero-based index.</para>
       </summary>
-      <param name="index"></param>
-      <value></value>
+      <param name="index">The zero-based index.</param>
+      <value>The layout definition model.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.LayoutDefinitionModel">
       <summary>
@@ -4106,21 +4248,21 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LayoutDefinitionModel.SizeInPixels">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.LayoutDefinition.SizeInPixels"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>An integer value which specifies the pane&#39;s size, in pixels.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LayoutDefinitionModel.SizeMode">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.LayoutDefinition.SizeMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:DevExpress.XtraCharts.PaneSizeMode"/> enumeration value.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LayoutDefinitionModel.Weight">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.LayoutDefinition.SizeMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A layout definition&#39;s weight, in relation to other items.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.LegendAlignment">
       <summary>
@@ -4152,15 +4294,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.LegendCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified legend to the collection.</para>
+        <para>Adds a newly created model of the specified legend to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.Legend"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.LegendCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified legend from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.Legend"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LegendCollectionModel.Item(System.Int32)">
       <summary>
@@ -4342,12 +4484,6 @@
       </summary>
       <value>The maximum height of a legend, as a percentage.</value>
     </member>
-    <member name="P:DevExpress.XtraCharts.Designer.LegendModel.Name">
-      <summary>
-        <para>Gets or sets the name of the modeled legend.</para>
-      </summary>
-      <value>The legend name.</value>
-    </member>
     <member name="P:DevExpress.XtraCharts.Designer.LegendModel.Padding">
       <summary>
         <para>Gets or sets the model of the padding used by the modeled legend.</para>
@@ -4507,9 +4643,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LineSeriesViewModel.SegmentColorizer">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.LineSeriesView.SegmentColorizer"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A segment colorizer model.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LineSeriesViewModel.SeriesAnimation">
       <summary>
@@ -4519,9 +4655,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.LineSeriesViewModel.ShowIsolatedPoints">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.LineSeriesView.ShowIsolatedPoints"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true, if the Chart Control shows isolated points; otherwise, false</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.LineStyleModel">
       <summary>
@@ -4761,6 +4897,47 @@
       </summary>
       <value>true if the notification is visible; otherwise false.</value>
     </member>
+    <member name="T:DevExpress.XtraCharts.Designer.NumericIntervalOptionsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.NumericIntervalOptions"/> model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.NumericIntervalOptionsModel.Count">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericIntervalOptions.Count"/> property value within the model.</para>
+      </summary>
+      <value>The integer that specifies the number of intervals.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.NumericIntervalOptionsModel.DivisionMode">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericIntervalOptions.DivisionMode"/> property value within the model.</para>
+      </summary>
+      <value>Specifies the interval calculation method.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.NumericIntervalOptionsModel.GridLayoutMode">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericIntervalOptions.GridLayoutMode"/> property value within the model.</para>
+      </summary>
+      <value>Specifies the alignment of grid lines, major tickmarks and axis labels.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.NumericIntervalOptionsModel.OverflowValue">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericIntervalOptions.OverflowValue"/> property value within the model.</para>
+      </summary>
+      <value>A floating-point value that is the overflow interval&#39;s threshold.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.NumericIntervalOptionsModel.UnderflowValue">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericIntervalOptions.UnderflowValue"/> property value within the model.</para>
+      </summary>
+      <value>A floating-point value that is the underflow interval&#39;s threshold.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.NumericIntervalOptionsModel.Width">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericIntervalOptions.Width"/> property value within the model.</para>
+      </summary>
+      <value>The interval size in measurement units.</value>
+    </member>
     <member name="T:DevExpress.XtraCharts.Designer.NumericScaleOptionsModel">
       <summary>
         <para>The <see cref="T:DevExpress.XtraCharts.NumericScaleOptions"/> model.</para>
@@ -4786,9 +4963,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.NumericScaleOptionsModel.IntervalOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DataFilterCollection.ConjunctionMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model of numeric axis options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.NumericScaleOptionsModel.MeasureUnit">
       <summary>
@@ -4803,15 +4980,15 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.NumericSummaryOptionsModel.MeasureUnit">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericSummaryOptions.MeasureUnit"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The measurement unit that specifies the precision level of series points&#39; argument values.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.NumericSummaryOptionsModel.UseAxisMeasureUnit">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.NumericSummaryOptions.UseAxisMeasureUnit"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true, if options should use the axis&#39;s measure unit; otherwise false.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.OutsideRectangularBorderModel">
       <summary>
@@ -4858,37 +5035,37 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PaneTitleModel.Alignment">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.PaneTitle.Alignment"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The pane title alignment.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PaneTitleModel.Margins">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.PaneTitle.Margins"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The title outer indents in pixels.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PaneTitleModel.Text">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.Title.Text"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:System.String"/> value which represents the title&#39;s text.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PaneTitleModel.TextColor">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TitleBase.TextColor"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:System.Drawing.Color"/> object which specifies the color of a title&#39;s text.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PaneTitleModel.Visibility">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.PaneTitle.Visibility"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The value that defines the title visibility.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PaneTitleModel.Visible">
       <summary>
-        <para></para>
+        <para>This property is hidden and intended for internal use only. Normally you don&#39;t need to use it.</para>
       </summary>
       <value></value>
     </member>
@@ -5134,7 +5311,7 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.PieTotalLabelModel.#ctor(System.Object,DevExpress.XtraCharts.Designer.CustomModelProvider)">
       <summary>
-        <para></para>
+        <para>Initializes a new instance of the <see cref="T:DevExpress.XtraCharts.Designer.BreadcrumbsModel"/> class with specified settings.</para>
       </summary>
       <param name="element"></param>
       <param name="customModelProvider"></param>
@@ -5288,9 +5465,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PropertyDescriptorsCustomizingEventArgs.Element">
       <summary>
-        <para></para>
+        <para>Returns a chart element whose property descriptors are currently customized.</para>
       </summary>
-      <value></value>
+      <value>A chart element.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.PropertyDescriptorsCustomizingEventArgs.ElementModel">
       <summary>
@@ -5323,9 +5500,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.QualitativeScaleOptionsModel.GridLayoutMode">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.QualitativeScaleOptions.GridLayoutMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The value that specifies the alignment of grid lines, major tickmarks and axis labels.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.QualitativeSummaryOptionsModel">
       <summary>
@@ -5391,7 +5568,7 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RadarAreaSeriesViewModel.ShowIsolatedPoints">
       <summary>
-        <para></para>
+        <para>Overrides the <see cref="P:DevExpress.XtraCharts.Designer.LineSeriesViewModel.ShowIsolatedPoints"/> property to hide it.</para>
       </summary>
       <value></value>
     </member>
@@ -5577,9 +5754,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RadarDiagramModel.DrillDownOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.DataFilterCollection.ConjunctionMode"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model of the Drill-Down options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RadarDiagramModel.FillStyle">
       <summary>
@@ -5601,9 +5778,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RadarDiagramModel.SelectionOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.RadarDiagram.SelectionOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for selection options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RadarDiagramModel.Shadow">
       <summary>
@@ -5670,7 +5847,7 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RadarLineSeriesViewModel.ShowIsolatedPoints">
       <summary>
-        <para></para>
+        <para>Overrides the <see cref="P:DevExpress.XtraCharts.Designer.LineSeriesViewModel.ShowIsolatedPoints"/> property to hide it.</para>
       </summary>
       <value></value>
     </member>
@@ -5935,7 +6112,7 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RangeBarSeriesLabelModel.LineVisibility">
       <summary>
-        <para></para>
+        <para>Overrides the <see cref="P:DevExpress.XtraCharts.Designer.SeriesLabelBaseModel.LineVisibility"/> to hide it. This property is not intended to be used in this class.</para>
       </summary>
       <value></value>
     </member>
@@ -6266,9 +6443,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RotationOptionsModel.MouseAction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.RotationOptions.MouseAction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The action to rotate the chart.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.RotationOptionsModel.UseMouse">
       <summary>
@@ -6289,15 +6466,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ScaleBreakCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified scale break to the collection.</para>
+        <para>Adds a newly created model of the specified scale break to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.ScaleBreak"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.ScaleBreakCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified scale break from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.ScaleBreak"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScaleBreakCollectionModel.Item(System.Int32)">
       <summary>
@@ -6389,9 +6566,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScaleGridOptionsBaseModel.MinGridSpacingLength">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScaleGridOptionsBase.MinGridSpacingLength"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The minimum allowed distance between two neighboring major tick marks and grid lines, in pixels. The Chart Control uses the default value when this value is null (Nothing in Visual Basic).</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.ScaleOptionsBaseModel">
       <summary>
@@ -6425,6 +6602,41 @@
         <para>The <see cref="T:DevExpress.XtraCharts.ScatterRadarLineSeriesView"/> model.</para>
       </summary>
     </member>
+    <member name="T:DevExpress.XtraCharts.Designer.ScrollBarAnnotationOptionsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.ScrollBarAnnotationOptions"/> model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.ScrollBarAnnotationOptionsModel.ShowConstantLines">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollBarAnnotationOptions.ShowConstantLines"/> property value within the model.</para>
+      </summary>
+      <value>true, if scroll bar annotations for constant lines should be visible; otherwise, false.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.ScrollBarAnnotationOptionsModel.ShowCustomLabels">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollBarAnnotationOptions.ShowCustomLabels"/> property value within the model.</para>
+      </summary>
+      <value>true, if scroll bar annotations for custom labels should be visible; otherwise, false.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.ScrollBarAnnotationOptionsModel.ShowPaneAnnotations">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollBarAnnotationOptions.ShowPaneAnnotations"/> property value within the model.</para>
+      </summary>
+      <value>true, if scroll bar annotations should be visible; otherwise, false.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.ScrollBarAnnotationOptionsModel.ShowSeriesPointAnnotations">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollBarAnnotationOptions.ShowSeriesPointAnnotations"/> property value within the model.</para>
+      </summary>
+      <value>true, if scroll bar annotations should be visible; otherwise, false.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.ScrollBarAnnotationOptionsModel.ShowStrips">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeInterval.StartSecond"/> property value within the model.</para>
+      </summary>
+      <value>true, if scroll bar annotations for strips should be visible; otherwise, false.</value>
+    </member>
     <member name="T:DevExpress.XtraCharts.Designer.ScrollBarOptionsModel">
       <summary>
         <para>The <see cref="T:DevExpress.XtraCharts.ScrollBarOptions"/> model.</para>
@@ -6456,9 +6668,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollBarOptionsModel.XAxisAnnotationOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollBarOptions.XAxisAnnotationOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for the x-axis scroll bar annotation options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollBarOptionsModel.XAxisScrollBarAlignment">
       <summary>
@@ -6474,9 +6686,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollBarOptionsModel.YAxisAnnotationOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollBarOptions.YAxisAnnotationOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for the y-axis scroll bar annotation options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollBarOptionsModel.YAxisScrollBarAlignment">
       <summary>
@@ -6514,33 +6726,33 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollingOptionsModel.ScrollDownShortcuts">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollingOptions.ScrollDownShortcuts"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A collection of chart shortcuts.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollingOptionsModel.ScrollLeftShortcuts">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollingOptions.ScrollLeftShortcuts"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A collection of chart shortcuts.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollingOptionsModel.ScrollMouseAction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollingOptions.ScrollMouseAction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for the mouse action used to scroll the diagram.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollingOptionsModel.ScrollRightShortcuts">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollingOptions.ScrollRightShortcuts"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A collection of chart shortcuts.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollingOptionsModel.ScrollUpShortcuts">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ScrollingOptions.ScrollUpShortcuts"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A collection of chart shortcuts.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ScrollingOptionsModel.UseKeyboard">
       <summary>
@@ -6573,15 +6785,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SecondaryAxisXCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified secondary X-axis to the collection.</para>
+        <para>Adds a newly created model of the specified secondary X-axis to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SecondaryAxisX"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SecondaryAxisXCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified secondary x-axis from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SecondaryAxisX"/> to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SecondaryAxisXCollectionModel.Item(System.Int32)">
       <summary>
@@ -6614,15 +6826,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SecondaryAxisYCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified secondary Y-axis to the collection.</para>
+        <para>Adds a newly created model of the specified secondary Y-axis to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SecondaryAxisY"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SecondaryAxisYCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified secondary y-axis from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SecondaryAxisY"/> to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SecondaryAxisYCollectionModel.Item(System.Int32)">
       <summary>
@@ -6658,6 +6870,17 @@
         <para>The <see cref="T:DevExpress.XtraCharts.SecondaryGridLinesY"/> model.</para>
       </summary>
     </member>
+    <member name="T:DevExpress.XtraCharts.Designer.SegmentColorizerBaseModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.SegmentColorizerBase"/> model.</para>
+      </summary>
+    </member>
+    <member name="M:DevExpress.XtraCharts.Designer.SegmentColorizerBaseModel.ToString">
+      <summary>
+        <para>Returns the textual representation of the <see cref="T:DevExpress.XtraCharts.Designer.SegmentColorizerBaseModel"/>.</para>
+      </summary>
+      <returns>The <see cref="T:DevExpress.XtraCharts.Designer.SegmentColorizerBaseModel"/> textual representation.</returns>
+    </member>
     <member name="T:DevExpress.XtraCharts.Designer.SelectionOptionsModel">
       <summary>
         <para>The <see cref="T:DevExpress.XtraCharts.SelectionOptions"/> model.</para>
@@ -6665,15 +6888,15 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SelectionOptionsModel.ExtendedModeMouseAction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SelectionOptions.ExtendedModeMouseAction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>An object that stores keys that should be held down and mouse buttons that a user should click to select multiple chart elements in the Extended selection mode.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SelectionOptionsModel.MouseAction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SelectionOptions.MouseAction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The action that should be performed to select a chart element.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.SeparatePaneIndicatorModel">
       <summary>
@@ -6782,9 +7005,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.DateTimeSummaryOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesBase.DateTimeSummaryOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model of date-time summary options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.FilterCriteria">
       <summary>
@@ -6794,9 +7017,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.FilterString">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesBase.FilterString"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The current filter expression.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.Label">
       <summary>
@@ -6824,15 +7047,15 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.NumericSummaryOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesBase.NumericSummaryOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for numeric summary options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.QualitativeSummaryOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesBase.QualitativeSummaryOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for qualitative summary options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.SeriesPointsSorting">
       <summary>
@@ -6854,9 +7077,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.TimeSpanSummaryOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesBase.TimeSpanSummaryOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for time-span summary options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.ToolTipEnabled">
       <summary>
@@ -6890,9 +7113,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.ValueDataMembers">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesBase.ValueDataMembers"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A collection that contains names of data fields providing series point values.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesBaseModel.ValueScaleType">
       <summary>
@@ -6925,15 +7148,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified series to the collection.</para>
+        <para>Adds a newly created model of the specified series to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.Series"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified series from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesBase"/> descendant object to be removed.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesCollectionModel.IsCompatibleViewType(DevExpress.XtraCharts.ViewType)">
       <summary>
@@ -7201,15 +7424,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesPointCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified series point to the collection.</para>
+        <para>Adds a newly created model of the specified series point to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesPoint"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesPointCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified series point from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesPoint"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesPointCollectionModel.Item(System.Int32)">
       <summary>
@@ -7230,9 +7453,9 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesPointFilterCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified series point filter to the collection.</para>
+        <para>Adds a newly created model of the specified series point filter to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesPointFilter"/> object whose model should be added.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesPointFilterCollectionModel.ConjunctionMode">
       <summary>
@@ -7242,9 +7465,9 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesPointFilterCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified series point filter from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesPointFilter"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesPointFilterCollectionModel.Item(System.Int32)">
       <summary>
@@ -7319,15 +7542,15 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesPointModel.TimeSpanArgument">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesPoint.TimeSpanArgument"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A <see cref="T:System.TimeSpan"/> value that represents the series data point&#39;s time-span argument.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesPointModel.TimeSpanValues">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesPoint.TimeSpanValues"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>An array of <see cref="T:System.TimeSpan"/> values that represents the series data point&#39;s time-span value(s).</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesPointModel.ToolTipHint">
       <summary>
@@ -7348,15 +7571,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesPointRelationCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified relation to the collection.</para>
+        <para>Adds a newly created model of the specified relation to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.Relation"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesPointRelationCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified series point relation from the title collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.Relation"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesPointRelationCollectionModel.Item(System.Int32)">
       <summary>
@@ -7372,9 +7595,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesTemplateModel.ArgumentDrillTemplate">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesTemplate.ArgumentDrillTemplate"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A series template&#39;s model.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesTemplateModel.SeriesColorizer">
       <summary>
@@ -7390,15 +7613,15 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesTemplateModel.SeriesDrillTemplate">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesTemplate.SeriesDrillTemplate"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A series template&#39;s model.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesTemplateModel.SeriesPointDrillTemplate">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesTemplate.SeriesPointDrillTemplate"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A series template&#39;s model.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.SeriesTitleCollectionModel">
       <summary>
@@ -7407,15 +7630,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesTitleCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified series title to the collection.</para>
+        <para>Adds a newly created model of the specified series title to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesTitle"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SeriesTitleCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified series title from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SeriesTitle"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesTitleCollectionModel.Item(System.Int32)">
       <summary>
@@ -7448,9 +7671,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SeriesViewBaseModel.Colorizer">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SeriesViewBase.Colorizer"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A series colorizer.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.ShadowModel">
       <summary>
@@ -7718,9 +7941,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SimpleDiagramModel.DrillDownOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SimpleDiagram.DrillDownOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for Drill-Down Options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SimpleDiagramModel.EqualPieSize">
       <summary>
@@ -7742,9 +7965,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SimpleDiagramModel.SelectionOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SimpleDiagram.SelectionOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for selection options.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.SimpleDiagramSeriesViewBaseModel">
       <summary>
@@ -7987,7 +8210,7 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.StackedBarTotalLabelModel.#ctor(System.Object,DevExpress.XtraCharts.Designer.CustomModelProvider)">
       <summary>
-        <para></para>
+        <para>Initializes a new instance of the <see cref="T:DevExpress.XtraCharts.Designer.BreadcrumbsModel"/> class with specified settings.</para>
       </summary>
       <param name="element"></param>
       <param name="customModelProvider"></param>
@@ -8193,15 +8416,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.StripCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified strip to the collection.</para>
+        <para>Adds a newly created model of the specified strip to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.Strip"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.StripCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified strip from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.Strip"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.StripCollectionModel.Item(System.Int32)">
       <summary>
@@ -8328,9 +8551,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SummaryOptionsBaseModel.SummaryFunction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SummaryOptionsBase.SummaryFunction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A summary function name.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.SwiftPlotDiagramAxisModel">
       <summary>
@@ -8344,9 +8567,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SwiftPlotDiagramAxisXBaseModel.StickToEdge">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SwiftPlotDiagramAxisXBase.StickToEdge"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true, if the visual range sticks to the whole range&#39;s edge; otherwise false.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.SwiftPlotDiagramAxisXModel">
       <summary>
@@ -8417,15 +8640,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SwiftPlotDiagramSecondaryAxisXCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified secondary X-axis to the collection.</para>
+        <para>Adds a newly created model of the specified secondary X-axis to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SwiftPlotDiagramSecondaryAxisX"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SwiftPlotDiagramSecondaryAxisXCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified secondary x-axis from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SwiftPlotDiagramAxisX"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SwiftPlotDiagramSecondaryAxisXCollectionModel.Item(System.Int32)">
       <summary>
@@ -8458,15 +8681,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SwiftPlotDiagramSecondaryAxisYCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified secondary Y-axis to the collection.</para>
+        <para>Adds a newly created model of the specified secondary Y-axis to the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SwiftPlotDiagramSecondaryAxisY"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.SwiftPlotDiagramSecondaryAxisYCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified secondary y-axis from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.SwiftPlotDiagramAxisY"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SwiftPlotDiagramSecondaryAxisYCollectionModel.Item(System.Int32)">
       <summary>
@@ -8534,9 +8757,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.SwiftPlotSeriesViewModel.ShowIsolatedPoints">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.SwiftPlotSeriesView.ShowIsolatedPoints"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true, if the Chart Control shows isolated points; otherwise, false.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.TaskLinkModel">
       <summary>
@@ -8741,20 +8964,20 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.TimeIntervalCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Adds a newly created time interval to the collection.</para>
       </summary>
       <param name="parameter"></param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.TimeIntervalCollectionModel.ClearElements">
       <summary>
-        <para></para>
+        <para>Clears the collection of time intervals.</para>
       </summary>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.TimeIntervalCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified time interval from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.TimeInterval"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.TimeIntervalCollectionModel.Item(System.Int32)">
       <summary>
@@ -8803,6 +9026,64 @@
         <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeInterval.StartSecond"/> property value within the model.</para>
       </summary>
       <value>The second component, expressed as a value between 0 and 59.</value>
+    </member>
+    <member name="T:DevExpress.XtraCharts.Designer.TimeSpanScaleOptionsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.TimeSpanScaleOptions"/> model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanScaleOptionsModel.GridAlignment">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanScaleOptions.GridAlignment"/> property value within the model.</para>
+      </summary>
+      <value>A time-span measurement unit to which the beginning of an axis&#39; gridlines and labels should be aligned.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanScaleOptionsModel.GridLayoutMode">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanScaleOptions.GridLayoutMode"/> property value within the model.</para>
+      </summary>
+      <value>Specifies the alignment of grid lines, major tickmarks and axis labels.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanScaleOptionsModel.IntervalOptions">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanScaleOptions.IntervalOptions"/> property value within the model.</para>
+      </summary>
+      <value>A model for time-span axis scale options.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanScaleOptionsModel.MeasureUnit">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanScaleOptions.MeasureUnit"/> property value within the model.</para>
+      </summary>
+      <value>A measurement unit that specifies the precision level of series points&#39; argument values.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanScaleOptionsModel.MeasureUnitMultiplier">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanScaleOptions.MeasureUnitMultiplier"/> property value within the model.</para>
+      </summary>
+      <value>The multiplier used to form a custom measurement unit.</value>
+    </member>
+    <member name="T:DevExpress.XtraCharts.Designer.TimeSpanSummaryOptionsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.TimeSpanSummaryOptions"/> model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanSummaryOptionsModel.MeasureUnit">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanSummaryOptions.MeasureUnit"/> property value within the model.</para>
+      </summary>
+      <value>A date-time value that specifies the axis detail level.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanSummaryOptionsModel.MeasureUnitMultiplier">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanSummaryOptions.MeasureUnitMultiplier"/> property value within the model.</para>
+      </summary>
+      <value>The multiplier used to form a custom measurement unit.</value>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.TimeSpanSummaryOptionsModel.UseAxisMeasureUnit">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.TimeSpanSummaryOptions.UseAxisMeasureUnit"/> property value within the model.</para>
+      </summary>
+      <value>true, if options should use the axis&#39;s measure unit; otherwise the <see cref="P:DevExpress.XtraCharts.TimeSpanSummaryOptions.MeasureUnit"/> property is used.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.TitleBaseModel">
       <summary>
@@ -8970,7 +9251,7 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.TotalLabelModel.#ctor(System.Object,DevExpress.XtraCharts.Designer.CustomModelProvider)">
       <summary>
-        <para></para>
+        <para>Initializes a new instance of the <see cref="T:DevExpress.XtraCharts.Designer.BreadcrumbsModel"/> class with specified settings.s</para>
       </summary>
       <param name="element"></param>
       <param name="customModelProvider"></param>
@@ -9186,20 +9467,20 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.WorkTimeRuleCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Adds a newly created worktime rule to the collection.</para>
       </summary>
       <param name="parameter"></param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.WorkTimeRuleCollectionModel.ClearElements">
       <summary>
-        <para></para>
+        <para>Clears the collection of working time rules.</para>
       </summary>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.WorkTimeRuleCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified working time rule from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.WorkTimeRule"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.WorkTimeRuleCollectionModel.Item(System.Int32)">
       <summary>
@@ -9286,9 +9567,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagram2DModel.PaneLayout">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYDiagram2D.PaneLayout"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The pane layout options&#39; storage.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagram2DModel.Panes">
       <summary>
@@ -9310,9 +9591,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagram2DModel.RangeControlTimeSpanGridOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYDiagram2D.RangeControlTimeSpanGridOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The time-span grid options of the chart range control client.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagram2DModel.RuntimePaneCollapse">
       <summary>
@@ -9322,9 +9603,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagram2DModel.RuntimePaneResize">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYDiagram2D.RuntimePaneResize"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>true, if a user can resize chart panes; otherwise, false.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagram2DModel.ScrollingOptions">
       <summary>
@@ -9467,9 +9748,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramModel.DrillDownOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYDiagram.DrillDownOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for the chart drill-down options.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramModel.Rotated">
       <summary>
@@ -9491,9 +9772,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramModel.SelectionOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYDiagram.SelectionOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>Selection options for an XYDiagram.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.XYDiagramPaneBaseModel">
       <summary>
@@ -9556,9 +9837,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramPaneBaseModel.LayoutOptions">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYDiagramPaneBase.LayoutOptions"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A storage of settings that configure the pane&#39;s position in the Grid Layout.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramPaneBaseModel.Name">
       <summary>
@@ -9604,9 +9885,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramPaneBaseModel.StackedBarTotalLabel">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYDiagramPaneBase.StackedBarTotalLabel"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The stacked bar total label model.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramPaneBaseModel.Title">
       <summary>
@@ -9645,15 +9926,15 @@
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.XYDiagramPaneCollectionModel.AddNewElement(System.Object)">
       <summary>
-        <para>Adds newly created model of the specified pane to the collection.</para>
+        <para>Adds a newly created model of the specified pane to the collection.</para>
       </summary>
-      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.XYDiagramPane"/> object which model should be added.</param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.XYDiagramPane"/> object whose model should be added.</param>
     </member>
     <member name="M:DevExpress.XtraCharts.Designer.XYDiagramPaneCollectionModel.DeleteElement(System.Object)">
       <summary>
-        <para></para>
+        <para>Removes the specified pane from the collection.</para>
       </summary>
-      <param name="parameter"></param>
+      <param name="parameter">A <see cref="T:DevExpress.XtraCharts.XYDiagramPane"/> object to be removed.</param>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.XYDiagramPaneCollectionModel.Item(System.Int32)">
       <summary>
@@ -9723,6 +10004,17 @@
         <para>The <see cref="T:DevExpress.XtraCharts.XYMarkerWidenAnimation"/> animation model.</para>
       </summary>
     </member>
+    <member name="T:DevExpress.XtraCharts.Designer.XYSelectionOptionsModel">
+      <summary>
+        <para>The <see cref="T:DevExpress.XtraCharts.XYSelectionOptions"/> model.</para>
+      </summary>
+    </member>
+    <member name="P:DevExpress.XtraCharts.Designer.XYSelectionOptionsModel.RectangleSelectionMouseAction">
+      <summary>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.XYSelectionOptions.RectangleSelectionMouseAction"/> property value within the model.</para>
+      </summary>
+      <value>Specifies keys that should be held down and mouse buttons that a user should click to begin selecting chart elements using the selection rectangle.</value>
+    </member>
     <member name="T:DevExpress.XtraCharts.Designer.XYSeriesAnimationBaseModel">
       <summary>
         <para>The <see cref="T:DevExpress.XtraCharts.XYSeriesAnimationBase"/> model.</para>
@@ -9789,9 +10081,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ZoomingOptions2DModel.ZoomToRectangleMouseAction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ZoomingOptions2D.ZoomToRectangleMouseAction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model for the mouse action used to zoom the rectangular area of the chart.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.ZoomingOptionsModel">
       <summary>
@@ -9800,9 +10092,9 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ZoomingOptionsModel.UndoZoomShortcuts">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ZoomingOptions.UndoZoomShortcuts"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The collection of shortcuts used to undo zoom operations.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ZoomingOptionsModel.UseKeyboard">
       <summary>
@@ -9830,27 +10122,27 @@
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ZoomingOptionsModel.ZoomInMouseAction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ZoomingOptions.ZoomInMouseAction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The action to zoom in the chart.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ZoomingOptionsModel.ZoomInShortcuts">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ZoomingOptions.ZoomInShortcuts"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>The shortcut key collection.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ZoomingOptionsModel.ZoomOutMouseAction">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ZoomingOptions.ZoomOutMouseAction"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A model of the mouse action used to zoom out of the chart.</value>
     </member>
     <member name="P:DevExpress.XtraCharts.Designer.ZoomingOptionsModel.ZoomOutShortcuts">
       <summary>
-        <para></para>
+        <para>Gets or sets the <see cref="P:DevExpress.XtraCharts.ZoomingOptions.ZoomOutShortcuts"/> property value within the model.</para>
       </summary>
-      <value></value>
+      <value>A collection of shortcuts used to zoom out of the chart.</value>
     </member>
     <member name="T:DevExpress.XtraCharts.Designer.ZoomRectangleModel">
       <summary>

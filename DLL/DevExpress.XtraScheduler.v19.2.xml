@@ -733,9 +733,9 @@
     </member>
     <member name="P:DevExpress.XtraScheduler.AppointmentDragDropOptions.AutoScrollEnabled">
       <summary>
-        <para></para>
+        <para>Gets or sets whether the control is automatically scrolled when a user drags an appointment beyond the control&#39;s top or bottom bound.</para>
       </summary>
-      <value></value>
+      <value>true if the control scrolls automatically; otherwise, false.</value>
     </member>
     <member name="P:DevExpress.XtraScheduler.AppointmentDragDropOptions.DragDropMode">
       <summary>
@@ -2224,6 +2224,12 @@
         <para>Gets or sets whether the end-user can select multiple dates.</para>
       </summary>
       <value>A <see cref="T:DevExpress.XtraEditors.Repository.CalendarSelectionMode"/>  enumeration member that specifies whether single or multiple selection is allowed.</value>
+    </member>
+    <member name="M:DevExpress.XtraScheduler.DateNavigator.SetSelection(DevExpress.XtraEditors.Controls.DateRange)">
+      <summary>
+        <para></para>
+      </summary>
+      <param name="range"></param>
     </member>
     <member name="P:DevExpress.XtraScheduler.DateNavigator.ShowClearButton">
       <summary>
@@ -6096,7 +6102,7 @@ The legacy default color is shown below:</para>
     </member>
     <member name="E:DevExpress.XtraScheduler.SchedulerControl.PrepareDragData">
       <summary>
-        <para></para>
+        <para>Fires when a user drags data items from another control or application, and allows you to create appointments based on the dragged data.</para>
       </summary>
     </member>
     <member name="E:DevExpress.XtraScheduler.SchedulerControl.PreparePopupMenu">

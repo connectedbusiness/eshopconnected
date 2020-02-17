@@ -1471,6 +1471,11 @@
       </summary>
       <value>A collection of operand values.</value>
     </member>
+    <member name="N:DevExpress.Xpf.Data">
+      <summary>
+        <para>Contains classes implementing the common data management functionality for DevExpress WPF controls (e.g. DXGrid).</para>
+      </summary>
+    </member>
     <member name="T:DevExpress.Xpf.Data.RowHandle">
       <summary>
         <para>Represents a row&#39;s handle.</para>
@@ -4316,7 +4321,7 @@
       <summary>
         <para>Gets or sets how column values are filtered. This is a dependency property.</para>
       </summary>
-      <value>A <see cref="T:DevExpress.Xpf.Grid.ColumnFilterMode"/> enumeration value that specifies how column values are filtered.</value>
+      <value>A mode that specifies how column values are filtered.</value>
     </member>
     <member name="F:DevExpress.Xpf.Grid.ColumnBase.ColumnFilterModeProperty">
       <summary>
@@ -8740,9 +8745,9 @@ This is a dependency property.</para>
     </member>
     <member name="P:DevExpress.Xpf.Grid.DataViewBase.HasErrors">
       <summary>
-        <para>Gets whether there is any error in a grid&#39;s view. This is a dependency property.</para>
+        <para>Gets whether the view has any data editing errors. This is a dependency property.</para>
       </summary>
-      <value>true if there is any error; otherwise, false.</value>
+      <value>true, if the view has any data editing errors; otherwise, false.</value>
     </member>
     <member name="F:DevExpress.Xpf.Grid.DataViewBase.HasErrorsProperty">
       <summary>
@@ -8752,9 +8757,9 @@ This is a dependency property.</para>
     </member>
     <member name="P:DevExpress.Xpf.Grid.DataViewBase.HasValidationError">
       <summary>
-        <para>Gets whether a validation error has been defined for the view. This is a dependency property.</para>
+        <para>Gets whether the view has a validation error. This is a dependency property.</para>
       </summary>
-      <value>true if a validation error is defined for the view; otherwise, false.</value>
+      <value>true, if the view has a validation error; otherwise, false.</value>
     </member>
     <member name="F:DevExpress.Xpf.Grid.DataViewBase.HasValidationErrorProperty">
       <summary>

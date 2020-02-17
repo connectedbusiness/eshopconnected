@@ -4,6 +4,11 @@
     <name>DevExpress.Xpf.Grid.v19.2</name>
   </assembly>
   <members>
+    <member name="N:DevExpress.Xpf.Core.FilteringUI">
+      <summary>
+        <para>Contains classes that implement the filtering UI functionality.</para>
+      </summary>
+    </member>
     <member name="T:DevExpress.Xpf.Core.FilteringUI.CalendarFilterElement">
       <summary>
         <para>A calendar filter element that allows a user to filter by date values.</para>
@@ -911,6 +916,11 @@
     <member name="M:DevExpress.Xpf.Core.FilteringUI.RangeFilterElement.#ctor">
       <summary>
         <para>Initializes a new instance of the <see cref="T:DevExpress.Xpf.Core.FilteringUI.RangeFilterElement"/> class.</para>
+      </summary>
+    </member>
+    <member name="N:DevExpress.Xpf.Grid">
+      <summary>
+        <para>Contains classes which implement the main functionality of the DXGrid for WPF suite. To use these classes in XAML code, add the xmlns:dxg=&quot;&quot; namespace reference.</para>
       </summary>
     </member>
     <member name="T:DevExpress.Xpf.Grid.CardData">
@@ -6406,7 +6416,7 @@ If the value is null, the rows number is 20.</value>
       <summary>
         <para>Gets or sets the trimming behavior for tokens. This is a dependency property.</para>
       </summary>
-      <value>A System.Windows.TextTrimming enumeration value.</value>
+      <value>A <see cref="T:System.Windows.TextTrimming"/> enumeration value.</value>
     </member>
     <member name="F:DevExpress.Xpf.Grid.LookUp.SearchTokenLookUpEditStyleSettings.TokenTextTrimmingProperty">
       <summary>
@@ -6542,7 +6552,7 @@ If the value is null, the rows number is 20.</value>
       <summary>
         <para>Gets or sets the trimming behavior for tokens. This is a dependency property.</para>
       </summary>
-      <value>A System.Windows.TextTrimming enumeration value.</value>
+      <value>A <see cref="T:System.Windows.TextTrimming"/> enumeration value.</value>
     </member>
     <member name="F:DevExpress.Xpf.Grid.LookUp.TokenLookUpEditStyleSettings.TokenTextTrimmingProperty">
       <summary>
@@ -12446,6 +12456,18 @@ If the value is null, the rows number is 20.</value>
         <para>Identifies the <see cref="P:DevExpress.Xpf.Grid.TreeListView.BestFitArea"/> dependency property.</para>
       </summary>
       <value>A dependency property identifier.</value>
+    </member>
+    <member name="P:DevExpress.Xpf.Grid.TreeListView.BestFitCollapsedNodes">
+      <summary>
+        <para></para>
+      </summary>
+      <value></value>
+    </member>
+    <member name="F:DevExpress.Xpf.Grid.TreeListView.BestFitCollapsedNodesProperty">
+      <summary>
+        <para></para>
+      </summary>
+      <value></value>
     </member>
     <member name="M:DevExpress.Xpf.Grid.TreeListView.BestFitColumn(DevExpress.Xpf.Grid.BaseColumn)">
       <summary>

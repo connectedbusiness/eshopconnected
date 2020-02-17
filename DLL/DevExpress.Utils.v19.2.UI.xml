@@ -206,7 +206,7 @@
     </member>
     <member name="F:DevExpress.Utils.UI.Localization.UtilsUIStringId.PropGrid_TTip_FavoriteProperties">
       <summary>
-        <para></para>
+        <para>&quot;Favorite Properties&quot;</para>
       </summary>
     </member>
     <member name="F:DevExpress.Utils.UI.Localization.UtilsUIStringId.PropGrid_TTip_Properties">

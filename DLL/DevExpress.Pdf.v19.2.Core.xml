@@ -4,6 +4,11 @@
     <name>DevExpress.Pdf.v19.2.Core</name>
   </assembly>
   <members>
+    <member name="N:DevExpress.Pdf">
+      <summary>
+        <para>Contains classes and enumerations that are used to implement the main functionality of WinForms and WPF PDF Viewers, and the PDF Document API.</para>
+      </summary>
+    </member>
     <member name="T:DevExpress.Pdf.IPdfViewer">
       <summary>
         <para>For internal use. Provides the functionality of  <see cref="T:DevExpress.XtraPdfViewer.PdfViewer"/> and <see cref="T:DevExpress.Xpf.PdfViewer.PdfViewerControl"/> classes.</para>
@@ -3063,17 +3068,17 @@
     </member>
     <member name="T:DevExpress.Pdf.PdfGraphicsTextOrigin">
       <summary>
-        <para>Contains values that specify how to interpret a point passed to one of the  overload methods that take a PointF object as an argument.</para>
+        <para>Contains values that specify how to interpret a point passed to one of the PdfGraphics.DrawString overload methods that take a PointF object as an argument.</para>
       </summary>
     </member>
     <member name="F:DevExpress.Pdf.PdfGraphicsTextOrigin.Baseline">
       <summary>
-        <para>The point passed to one of the  methods that take a PointF object is on the text baseline.</para>
+        <para>The point passed to one of the PdfGraphics.DrawString methods that take a PointF object is on the text baseline.</para>
       </summary>
     </member>
     <member name="F:DevExpress.Pdf.PdfGraphicsTextOrigin.TopLeftCorner">
       <summary>
-        <para>The point passed to one the  methods that take a PointF object is the top left corner of the text bounding rectangle.</para>
+        <para>The point passed to one the PdfGraphics.DrawString methods that take a PointF object is the top left corner of the text bounding rectangle.</para>
       </summary>
     </member>
     <member name="T:DevExpress.Pdf.PdfHotkeyPrefix">
@@ -3327,7 +3332,7 @@
     </member>
     <member name="P:DevExpress.Pdf.PdfInteractiveFormField.Flags">
       <summary>
-        <para>Gets flags specifying various document-level characteristics related to interactive form fields.</para>
+        <para>Gets or sets flags specifying various document-level characteristics related to interactive form fields.</para>
       </summary>
       <value><see cref="T:DevExpress.Pdf.PdfInteractiveFormFieldFlags"/> enumeration values that represent flags specifying various document-level characteristics.</value>
     </member>
@@ -4169,6 +4174,12 @@
       </summary>
       <value>A <see cref="T:System.Double"/> value that is the rotation angle of the rectangle in radians.</value>
     </member>
+    <member name="P:DevExpress.Pdf.PdfOrientedRectangle.BoundingRectangle">
+      <summary>
+        <para>Provides access to the PdfOrientedRectangle object&#39; s minimum bounding rectangle.</para>
+      </summary>
+      <value>An PdfRectangle object that is the minimum bounding rectangle.</value>
+    </member>
     <member name="M:DevExpress.Pdf.PdfOrientedRectangle.Contains(DevExpress.Pdf.PdfOrientedRectangle)">
       <summary>
         <para>Determines whether the current PdfOrientedRectangle object contains the specified rectangle.</para>
@@ -4200,6 +4211,12 @@
         <para>Gets the rectangle position in relation to the top edge of the page.</para>
       </summary>
       <value>A <see cref="T:System.Double"/> value.</value>
+    </member>
+    <member name="P:DevExpress.Pdf.PdfOrientedRectangle.Vertices">
+      <summary>
+        <para>Provides access to the PdfOrientedRectangle object&#39;s vertices.</para>
+      </summary>
+      <value>A list of vertices (starting from top left).</value>
     </member>
     <member name="P:DevExpress.Pdf.PdfOrientedRectangle.Width">
       <summary>
@@ -5152,6 +5169,12 @@
       </summary>
       <value>A <see cref="T:System.String"/> value, specifying the file name.</value>
     </member>
+    <member name="P:DevExpress.Pdf.PdfPasswordRequestedEventArgs.FilePath">
+      <summary>
+        <para>Returns the path of the file requested to be opened in the PDF Viewer or PDF Document Processor.</para>
+      </summary>
+      <value>The file path.</value>
+    </member>
     <member name="P:DevExpress.Pdf.PdfPasswordRequestedEventArgs.Password">
       <summary>
         <para>This property is now obsolete. Use the <see cref="P:DevExpress.Pdf.PdfPasswordRequestedEventArgs.PasswordString"/> property instead.</para>
@@ -5202,66 +5225,66 @@
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_Addition(DevExpress.Pdf.PdfPoint,DevExpress.Pdf.PdfPoint)">
       <summary>
-        <para></para>
+        <para>Adds a PdfPoint object to the PdfPoint object and returns the result as the PdfPoint object.</para>
       </summary>
-      <param name="left"></param>
-      <param name="right"></param>
-      <returns></returns>
+      <param name="left">A PdfPoint object to add.</param>
+      <param name="right">A PdfPoint object to add.</param>
+      <returns>The sum of two PdfPoint objects.</returns>
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_Division(DevExpress.Pdf.PdfPoint,DevExpress.Pdf.PdfPoint)">
       <summary>
-        <para></para>
+        <para>Divides two <see cref="T:DevExpress.Pdf.PdfPoint"/> values.</para>
       </summary>
-      <param name="left"></param>
-      <param name="right"></param>
-      <returns></returns>
+      <param name="left">A <see cref="T:DevExpress.Pdf.PdfPoint"/> value that is the dividend.</param>
+      <param name="right">A <see cref="T:DevExpress.Pdf.PdfPoint"/> value that is the divisor.</param>
+      <returns>A <see cref="T:DevExpress.Pdf.PdfPoint"/> value that is the result of division.</returns>
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_Division(DevExpress.Pdf.PdfPoint,System.Double)">
       <summary>
-        <para></para>
+        <para>Divides a PdfPoint value to the <see cref="T:System.Double"/> value.</para>
       </summary>
-      <param name="value1"></param>
-      <param name="value2"></param>
-      <returns></returns>
+      <param name="value1">A PdfPoint value that is the dividend.</param>
+      <param name="value2">A <see cref="T:System.Double"/> value that is the divisor.</param>
+      <returns>A <see cref="T:DevExpress.Pdf.PdfPoint"/> object that is the result of dividing.</returns>
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_Multiply(DevExpress.Pdf.PdfPoint,DevExpress.Pdf.PdfPoint)">
       <summary>
-        <para></para>
+        <para>Multiplies two <see cref="T:DevExpress.Pdf.PdfPoint"/> values.</para>
       </summary>
-      <param name="left"></param>
-      <param name="right"></param>
-      <returns></returns>
+      <param name="left">A PdfPoint value to multiply.</param>
+      <param name="right">A PdfPoint value to multiply.</param>
+      <returns>The result of multiplication.</returns>
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_Multiply(DevExpress.Pdf.PdfPoint,System.Double)">
       <summary>
-        <para></para>
+        <para>Multiplies the PdfPoint value by the <see cref="T:System.Double"/> value.</para>
       </summary>
-      <param name="left"></param>
-      <param name="right"></param>
-      <returns></returns>
+      <param name="left">A PdfPoint value to multiply.</param>
+      <param name="right">A <see cref="T:System.Double"/> value to multiply.</param>
+      <returns>The result of multiplication.</returns>
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_Multiply(System.Double,DevExpress.Pdf.PdfPoint)">
       <summary>
-        <para></para>
+        <para>Multiplies the <see cref="T:System.Double"/> value by the PdfPoint value.</para>
       </summary>
-      <param name="left"></param>
-      <param name="right"></param>
-      <returns></returns>
+      <param name="left">A <see cref="T:System.Double"/> value to multiply.</param>
+      <param name="right">A PdfPoint value to multiply.</param>
+      <returns>The result of multiplication.</returns>
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_Subtraction(DevExpress.Pdf.PdfPoint,DevExpress.Pdf.PdfPoint)">
       <summary>
-        <para></para>
+        <para>Subtracts the <see cref="T:DevExpress.Pdf.PdfPoint"/> value from the <see cref="T:DevExpress.Pdf.PdfPoint"/> value.</para>
       </summary>
-      <param name="left"></param>
-      <param name="right"></param>
-      <returns></returns>
+      <param name="left">The minuend.</param>
+      <param name="right">The subtrahend.</param>
+      <returns>The result of subtraction.</returns>
     </member>
     <member name="M:DevExpress.Pdf.PdfPoint.op_UnaryNegation(DevExpress.Pdf.PdfPoint)">
       <summary>
-        <para></para>
+        <para>Negates the value of the specified <see cref="T:DevExpress.Pdf.PdfPoint"/> operand.</para>
       </summary>
-      <param name="value"></param>
-      <returns></returns>
+      <param name="value">The value to negate.</param>
+      <returns>The result of the value multiplied by negative one (-1).</returns>
     </member>
     <member name="P:DevExpress.Pdf.PdfPoint.X">
       <summary>
