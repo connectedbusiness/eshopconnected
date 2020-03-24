@@ -760,50 +760,51 @@ Public Class ConfigSettingsListSection
 
         For iLoop = 0 To Me.ListGridView.RowCount - 1
             strProductCode = Me.m_ConfigSettingsSectionFacade.ConnectorProductCode(Me.ListGridView.GetRowCellValue(iLoop, Me.ConfigSettingsSectionGateway.LerrynImportExportConfig_DEV000221.InputHandler_DEV000221Column.ColumnName).ToString)
-            If strProductCode = PRODUCT_CODE Then
-                If Me.m_ConfigSettingsSectionFacade.IsActivated Then
-                    'Me.ListGridView.SetRowCellValue(iLoop, "Active", True) ' comment by mark kee 6/24/2015
-                    Me.ListGridView.SetRowCellValue(iLoop, "Active", False) '
-                End If
-                If Me.m_ConfigSettingsSectionFacade.IsActivated Or Me.m_ConfigSettingsSectionFacade.HasBeenActivated Then
-                    'Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ActivationExpires) ' comment by mark kee
 
-                    'added code by mark jeson kee 6/25/2015
-                    If Me.m_ConfigSettingsSectionFacade.ActivationExpires <> Date.Today.AddYears(-100) Then
-                        Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode))
-                    End If
-                    'end code by mark kee 6/25/2015
-                End If
+            Me.ListGridView.SetRowCellValue(iLoop, "Active", True)
+            Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode))
 
-            ElseIf (strProductCode = ASP_STORE_FRONT_CONNECTOR_CODE Or strProductCode = CHANNEL_ADVISOR_CONNECTOR_CODE Or strProductCode = MAGENTO_CONNECTOR_CODE) And _
-                Not Me.m_ConfigSettingsSectionFacade.IsConnectorActivated(strProductCode) Then ' TJS 02/12/11
-                If Me.m_ConfigSettingsSectionFacade.IsActivated Then
+            'If strProductCode = PRODUCT_CODE Then
+            '    If Me.m_ConfigSettingsSectionFacade.IsActivated Then
+            '        'Me.ListGridView.SetRowCellValue(iLoop, "Active", True) ' comment by mark kee 6/24/2015
+            '        Me.ListGridView.SetRowCellValue(iLoop, "Active", True) '
+            '    End If
+            '    If Me.m_ConfigSettingsSectionFacade.IsActivated Or Me.m_ConfigSettingsSectionFacade.HasBeenActivated Then
+            '        'Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ActivationExpires) ' comment by mark kee
 
-                    'comment by mark kee 6/24/2015
+            '        'added code by mark jeson kee 6/25/2015
+            '        If Me.m_ConfigSettingsSectionFacade.ActivationExpires <> Date.Today.AddYears(-100) Then
+            '            Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode))
+            '        End If
+            '        'end code by mark kee 6/25/2015
+            '    End If
 
-                    'Me.ListGridView.SetRowCellValue(iLoop, "Active", True)
-                    'Me.ListGridView.SetRowCellValue(iLoop, "InventoryImportOnly", True)
-                    'Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ActivationExpires)
+            'ElseIf (strProductCode = ASP_STORE_FRONT_CONNECTOR_CODE Or strProductCode = CHANNEL_ADVISOR_CONNECTOR_CODE Or strProductCode = MAGENTO_CONNECTOR_CODE) And _
+            '    Not Me.m_ConfigSettingsSectionFacade.IsConnectorActivated(strProductCode) Then ' TJS 02/12/11
+            '    If Me.m_ConfigSettingsSectionFacade.IsActivated Then
 
-                    'end comment
+            '        'comment by mark kee 6/24/2015
 
-                    'added code by mark kee 6/24/2015 
-                    Me.ListGridView.SetRowCellValue(iLoop, "Active", False)
-                    Me.ListGridView.SetRowCellValue(iLoop, "InventoryImportOnly", False)
-                    If Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode) <> Date.Today.AddYears(-100) Then
-                        Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode))
-                    End If
-                    'end code by mark kee
-                End If
+            '        'Me.ListGridView.SetRowCellValue(iLoop, "Active", True)
+            '        'Me.ListGridView.SetRowCellValue(iLoop, "InventoryImportOnly", True)
+            '        'Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ActivationExpires)
 
-            Else
-                If Me.m_ConfigSettingsSectionFacade.IsConnectorActivated(strProductCode) Then
-                    Me.ListGridView.SetRowCellValue(iLoop, "Active", True)
-                End If
-                If Me.m_ConfigSettingsSectionFacade.IsConnectorActivated(strProductCode) Or Me.m_ConfigSettingsSectionFacade.HasConnectorBeenActivated(strProductCode) Then
-                    Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode))
-                End If
-            End If
+            '        'end comment
+
+            '        'added code by mark kee 6/24/2015 
+            '        Me.ListGridView.SetRowCellValue(iLoop, "Active", True)
+            '        Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode))
+            '        'end code by mark kee
+            '    End If
+
+            'Else
+            '    If Me.m_ConfigSettingsSectionFacade.IsConnectorActivated(strProductCode) Then
+            '        Me.ListGridView.SetRowCellValue(iLoop, "Active", True)
+            '    End If
+            '    If Me.m_ConfigSettingsSectionFacade.IsConnectorActivated(strProductCode) Or Me.m_ConfigSettingsSectionFacade.HasConnectorBeenActivated(strProductCode) Then
+            '        Me.ListGridView.SetRowCellValue(iLoop, "ExpiryDate", Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode))
+            '    End If
+            'End If
         Next
         Me.FindForm.Text = PRODUCT_NAME & " Configuration Settings" ' TJS 02/12/11
         listControl_RowChanged(Me, Nothing) ' TJS 02/12/11        
