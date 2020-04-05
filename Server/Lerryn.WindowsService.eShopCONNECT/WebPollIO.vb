@@ -355,6 +355,7 @@ Module WebPollIO
         Dim sTemp As String, iResultsLoop As Integer, iMerchantLoop As Integer, iChanAdvStatusLoop As Integer
         Dim iPageFilter As Integer, iOrderPosn As Integer, bOrderMeetsFilterCriteria As Boolean
         Dim bReturnValue As Boolean, bXMLError As Boolean, bPollError As Boolean ' TJS 01/05/14
+        Dim iStartLoop As Integer, iEndLoop As Integer
 
         'Const dateFormat As String = "dd/MM/yyyy hh:mm:ss.fffffff"
 
@@ -371,7 +372,17 @@ Module WebPollIO
 
                 Dim bLimitReached As Boolean = False
 
-                For iChanAdvStatusLoop = 1 To 8 ' TJS 19/08/10 TJS 22/09/10
+                ' dynenttech.com adjust for safer testing
+                If InhibitWebPosts Then
+                    iStartLoop = 2
+                    iEndLoop = 2
+                Else
+                    iStartLoop = 1
+                    iEndLoop = 8
+                End If
+
+                For iChanAdvStatusLoop = iStartLoop To iEndLoop  ' TJS 19/08/10 TJS 22/09/10
+
                     ' ignore orders without payments or with failed payments if ImportAsQuoteIfNoPayment not set
                     If (ActiveSource.ChannelAdvSettings(iMerchantLoop).ActionIfNoPayment <> "Ignore" And _
                         (iChanAdvStatusLoop = 4 Or iChanAdvStatusLoop = 5)) Or _

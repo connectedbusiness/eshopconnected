@@ -72,7 +72,8 @@ Public Class ImportExportFacade
     Private m_BaseProductName As String
     Private m_SourceConfig As XDocument ' TJS 02/12/11
     Private m_ValidatingActivation As Boolean = False ' TJS 17/03/09 
-    Private m_IsFullActivation As Boolean = False ' TJS 03/04/09
+    'Private m_IsFullActivation As Boolean = False ' TJS 03/04/09
+    Private m_IsFullActivation As Boolean = True  'dynenttech.com
     Private m_AccountDetailsValidationStage As String = "" ' TJS 18/03/11
     Private m_LerrynCustomerCode As String = "" ' TJS 18/03/11
 #End Region
@@ -160,7 +161,8 @@ Public Class ImportExportFacade
                     End If
                 Next
             End If
-            Return bReturnValue
+            'Return bReturnValue
+            Return True  'dynenttech.com
         End Get
     End Property
 #End Region
@@ -287,24 +289,25 @@ Public Class ImportExportFacade
         '------------------------------------------------------------------------------------------
 
         Get
-            If m_IsFullActivation Then ' TJS 29/03/11
-                Select Case m_MaxAccounts
-                    Case Is < 0
-                        Return 250
-                    Case 0, 1
-                        Return 250
-                    Case 2
-                        Return 2500
-                    Case 3
-                        Return 10000
-                    Case Is > 1000 ' TJS 12/09/11
-                        Return 999999 ' TJS 12/09/11
-                    Case Is >= 4
-                        Return 25000
-                End Select
-            Else
-                Return 250 ' TJS 29/03/11
-            End If
+            'dynenttech.com commented out this code to eliminte import limits
+            'If m_IsFullActivation Then ' TJS 29/03/11
+            '    Select Case m_MaxAccounts
+            '        Case Is < 0
+            '            Return 250
+            '        Case 0, 1
+            '            Return 250
+            '        Case 2
+            '            Return 2500
+            '        Case 3
+            '            Return 10000
+            '        Case Is > 1000 ' TJS 12/09/11
+            Return 999999 ' TJS 12/09/11
+            '        Case Is >= 4
+            'Return 25000
+            '    End Select
+            'Else
+            'Return 250 ' TJS 29/03/11
+            'End If
         End Get
     End Property
 #End Region
@@ -980,11 +983,14 @@ Public Class ImportExportFacade
 
         m_IsActivated = True ' TJS 10/06/12 
         m_HasBeenActivated = False ' TJS 10/06/12
-        m_IsFullActivation = False ' TJS 10/06/12
+        'm_IsFullActivation = False ' TJS 10/06/12
+        m_IsFullActivation = True 'dynenttech.com 
         For iModuleLoop = 0 To ConnectorStates.Length - 1 ' TJS 10/06/12
-            ConnectorStates(iModuleLoop).IsActivated = False ' TJS 10/06/12
+            'ConnectorStates(iModuleLoop).IsActivated = False ' TJS 10/06/12
+            ConnectorStates(iModuleLoop).IsActivated = True 'dynenttech.com
             ConnectorStates(iModuleLoop).HasBeenActivated = False ' TJS 10/06/12
-            ConnectorStates(iModuleLoop).IsFullActivation = False ' TJS 10/06/12
+            'ConnectorStates(iModuleLoop).IsFullActivation = False ' TJS 10/06/12
+            ConnectorStates(iModuleLoop).IsFullActivation = True 'dynenttech.com
         Next
         GetSystemLicenceID(False, m_SystemID, m_CacheID, m_SystemHashCode) ' TJS 04/06/10
 
@@ -4362,6 +4368,10 @@ Public Class ImportExportFacade
             Else
                 bExtractDetails = True ' TJS 17/03/09
             End If
+
+            ' dynenttech.com 3/31/2020 we are skipping the license programming
+            bExtractDetails = False
+
             If bExtractDetails Then ' TJS 17/03/09
                 If dtrTemp >= Date.Today Then
                     If GetLicenceSecondaryCount(strLicenceCode) = 0 Then
@@ -4423,6 +4433,9 @@ Public Class ImportExportFacade
             Else
                 bExtractDetails = True ' TJS 17/03/09
             End If
+
+            bExtractDetails = False 'dynenttech.com
+
             If bExtractDetails Then ' TJS 17/03/09
                 If dtrTemp >= Date.Today Then
                     If GetLicenceSecondaryCount(strLicenceCode) = 0 Then

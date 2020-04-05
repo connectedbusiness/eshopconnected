@@ -286,24 +286,25 @@ Public Class ImportExportRule
         '------------------------------------------------------------------------------------------
 
         Get
-            If m_IsFullActivation Then ' TJS 29/03/11
-                Select Case m_MaxAccounts
-                    Case Is < 0
-                        Return 250
-                    Case 0, 1
-                        Return 250
-                    Case 2
-                        Return 2500
-                    Case 3
-                        Return 10000
-                    Case Is > 1000 ' TJS 12/09/11
-                        Return 999999 ' TJS 12/09/11
-                    Case Is >= 4
-                        Return 25000
-                End Select
-            Else
-                Return 250 ' TJS 29/03/11
-            End If
+            'dynenttech.com removing limits
+            'If m_IsFullActivation Then ' TJS 29/03/11
+            '    Select Case m_MaxAccounts
+            '        Case Is < 0
+            '            Return 250
+            '        Case 0, 1
+            '            Return 250
+            '        Case 2
+            '            Return 2500
+            '        Case 3
+            '            Return 10000
+            '        Case Is > 1000 ' TJS 12/09/11
+            Return 999999 ' TJS 12/09/11
+            '        Case Is >= 4
+            'Return 25000
+            '    End Select
+            'Else
+            'Return 250 ' TJS 29/03/11
+            'End If
         End Get
     End Property
 #End Region
