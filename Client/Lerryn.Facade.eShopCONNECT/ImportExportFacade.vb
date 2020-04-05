@@ -72,7 +72,8 @@ Public Class ImportExportFacade
     Private m_BaseProductName As String
     Private m_SourceConfig As XDocument ' TJS 02/12/11
     Private m_ValidatingActivation As Boolean = False ' TJS 17/03/09 
-    Private m_IsFullActivation As Boolean = False ' TJS 03/04/09
+    'Private m_IsFullActivation As Boolean = False ' TJS 03/04/09
+    Private m_IsFullActivation As Boolean = True  'dynenttech.com
     Private m_AccountDetailsValidationStage As String = "" ' TJS 18/03/11
     Private m_LerrynCustomerCode As String = "" ' TJS 18/03/11
 #End Region
@@ -160,7 +161,8 @@ Public Class ImportExportFacade
                     End If
                 Next
             End If
-            Return bReturnValue
+            'Return bReturnValue
+            Return True  'dynenttech.com
         End Get
     End Property
 #End Region
@@ -287,24 +289,25 @@ Public Class ImportExportFacade
         '------------------------------------------------------------------------------------------
 
         Get
-            If m_IsFullActivation Then ' TJS 29/03/11
-                Select Case m_MaxAccounts
-                    Case Is < 0
-                        Return 250
-                    Case 0, 1
-                        Return 250
-                    Case 2
-                        Return 2500
-                    Case 3
-                        Return 10000
-                    Case Is > 1000 ' TJS 12/09/11
-                        Return 999999 ' TJS 12/09/11
-                    Case Is >= 4
-                        Return 25000
-                End Select
-            Else
-                Return 250 ' TJS 29/03/11
-            End If
+            'dynenttech.com commented out this code to eliminte import limits
+            'If m_IsFullActivation Then ' TJS 29/03/11
+            '    Select Case m_MaxAccounts
+            '        Case Is < 0
+            '            Return 250
+            '        Case 0, 1
+            '            Return 250
+            '        Case 2
+            '            Return 2500
+            '        Case 3
+            '            Return 10000
+            '        Case Is > 1000 ' TJS 12/09/11
+            Return 999999 ' TJS 12/09/11
+            '        Case Is >= 4
+            'Return 25000
+            '    End Select
+            'Else
+            'Return 250 ' TJS 29/03/11
+            'End If
         End Get
     End Property
 #End Region
@@ -535,16 +538,16 @@ Public Class ImportExportFacade
             m_BaseProductCode = "000"
             m_BaseProductName = "Lerryn Import/Export"
         End If
-        m_ExpiryDate = Date.Today.AddYears(-100)
+        m_ExpiryDate = Date.Today.AddYears(10)
         ReDim ConnectorStates(2)
         ConnectorStates(0).SourceCode = SHOP_COM_SOURCE_CODE ' TJS 18/03/11
         ConnectorStates(0).ProductCode = SHOP_DOT_COM_CONNECTOR_CODE
         ConnectorStates(0).AccountConfigXMLPath = "eShopCONNECTConfig/ShopDotCom"
         ConnectorStates(0).AccountCoreConfigSettings = SHOPDOTCOM_CORE_CONFIG_SETTINGS
         ConnectorStates(0).InputHandler = "ShopComOrder.ashx"
-        ConnectorStates(0).ExpiryDate = Date.Today.AddYears(-100)
+        ConnectorStates(0).ExpiryDate = Date.Today.AddYears(10)
         ConnectorStates(0).HasBeenActivated = False
-        ConnectorStates(0).IsActivated = False
+        ConnectorStates(0).IsActivated = True
         ConnectorStates(0).MaxAccounts = 0
         ConnectorStates(0).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
         ConnectorStates(0).LatestActivationCode = "" ' TJS 17/03/09
@@ -553,9 +556,9 @@ Public Class ImportExportFacade
         ConnectorStates(1).AccountConfigXMLPath = "eShopCONNECTConfig/Amazon"
         ConnectorStates(1).AccountCoreConfigSettings = AMAZON_CORE_CONFIG_SETTINGS
         ConnectorStates(1).InputHandler = "Amazon eShopCONNECTOR" ' TJS 16/02/09 TJS 17/03/09
-        ConnectorStates(1).ExpiryDate = Date.Today.AddYears(-100)
+        ConnectorStates(1).ExpiryDate = Date.Today.AddYears(10)
         ConnectorStates(1).HasBeenActivated = False
-        ConnectorStates(1).IsActivated = False
+        ConnectorStates(1).IsActivated = True
         ConnectorStates(1).MaxAccounts = 0
         ConnectorStates(1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
         ConnectorStates(1).LatestActivationCode = "" ' TJS 17/03/09
@@ -565,9 +568,9 @@ Public Class ImportExportFacade
         ConnectorStates(2).AccountConfigXMLPath = "eShopCONNECTConfig/Volusion"
         ConnectorStates(2).AccountCoreConfigSettings = VOLUSION_CORE_CONFIG_SETTINGS
         ConnectorStates(2).InputHandler = "Volusion eShopCONNECTOR"
-        ConnectorStates(2).ExpiryDate = Date.Today.AddYears(-100)
+        ConnectorStates(2).ExpiryDate = Date.Today.AddYears(10)
         ConnectorStates(2).HasBeenActivated = False
-        ConnectorStates(2).IsActivated = False
+        ConnectorStates(2).IsActivated = True
         ConnectorStates(2).MaxAccounts = 0
         ConnectorStates(2).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
         ConnectorStates(2).LatestActivationCode = ""
@@ -583,9 +586,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig"
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = ""
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "File Import eShopCONNECTOR"
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100)
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10)
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = ""
@@ -601,9 +604,9 @@ Public Class ImportExportFacade
             Else
                 ConnectorStates(ConnectorStates.Length - 1).InputHandler = "Prospect/Lead eShopCONNECTOR" ' TJS 08/07/09 TJS 14/08/09
             End If
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100) ' TJS 08/07/09
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10) ' TJS 08/07/09
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False ' TJS 08/07/09
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False ' TJS 08/07/09
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True ' TJS 08/07/09
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0 ' TJS 08/07/09
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = "" ' TJS 08/07/09
@@ -615,9 +618,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig/ChannelAdvisor" ' TJS 10/12/09
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = CHANNEL_ADVISOR_CORE_CONFIG_SETTINGS ' TJS 10/12/09
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "Channel Advisor eShopCONNECTOR" ' TJS 10/12/09 
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100) ' TJS 10/12/09
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10) ' TJS 10/12/09
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False ' TJS 10/12/09
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False ' TJS 10/12/09
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True ' TJS 10/12/09
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0 ' TJS 10/12/09
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = "" ' TJS 10/12/09
@@ -627,9 +630,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig/Magento" ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = MAGENTO_CORE_CONFIG_SETTINGS ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "Magento eShopCONNECTOR" ' TJS 19/08/10
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100) ' TJS 19/08/10
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10) ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False ' TJS 19/08/10
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False ' TJS 19/08/10
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0 ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = "" ' TJS 19/08/10
@@ -639,9 +642,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig/ASPStoreFront" ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = ASP_STORE_FRONT_CORE_CONFIG_SETTINGS ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "ASPDotNetStoreFront eShopCONNECTOR" ' TJS 19/08/10
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100) ' TJS 19/08/10
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10) ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False ' TJS 19/08/10
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False ' TJS 19/08/10
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0 ' TJS 19/08/10
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = "" ' TJS 19/08/10
@@ -651,9 +654,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig/eBay" ' TJS 02/12/11 
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = EBAY_CORE_CONFIG_SETTINGS ' TJS 02/12/11 
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "eBay eShopCONNECTOR" ' TJS 02/12/11 
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100) ' TJS 02/12/11 
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10) ' TJS 02/12/11 
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False ' TJS 02/12/11 
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False ' TJS 02/12/11 
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True ' TJS 02/12/11 
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0 ' TJS 02/12/11 
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = "" ' TJS 02/12/11 
@@ -663,9 +666,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig/SearsDotCom" ' TJS 16/01/12 
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = SEARSDOTCOM_CORE_CONFIG_SETTINGS ' TJS 16/01/12 
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "Sears.com eShopCONNECTOR" ' TJS 16/01/12 
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100) ' TJS 16/01/12 
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10) ' TJS 16/01/12 
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False ' TJS 16/01/12 
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False ' TJS 16/01/12 
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True ' TJS 16/01/12 
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0 ' TJS 16/01/12 
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 17/02/12
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = "" ' TJS 16/01/12 
@@ -675,9 +678,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig/AmazonFBA" ' TJS 05/07/12 
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = AMAZON_FBA_CORE_CONFIG_SETTINGS ' TJS 05/07/12 
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "Amazon FBA eShopCONNECTOR" ' TJS 05/07/12 
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100) ' TJS 22/06/12 
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10) ' TJS 22/06/12 
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False ' TJS 05/07/12 
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False ' TJS 05/07/12 
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True ' TJS 05/07/12 
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0 ' TJS 05/07/12 
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0 ' TJS 05/07/12 
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = "" ' TJS 05/07/12 
@@ -688,9 +691,9 @@ Public Class ImportExportFacade
             ConnectorStates(ConnectorStates.Length - 1).AccountConfigXMLPath = "eShopCONNECTConfig/ThreeDCart"
             ConnectorStates(ConnectorStates.Length - 1).AccountCoreConfigSettings = THREE_D_CART_CORE_CONFIG_SETTINGS
             ConnectorStates(ConnectorStates.Length - 1).InputHandler = "3DCart eShopCONNECTOR"
-            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(-100)
+            ConnectorStates(ConnectorStates.Length - 1).ExpiryDate = Date.Today.AddYears(10)
             ConnectorStates(ConnectorStates.Length - 1).HasBeenActivated = False
-            ConnectorStates(ConnectorStates.Length - 1).IsActivated = False
+            ConnectorStates(ConnectorStates.Length - 1).IsActivated = True
             ConnectorStates(ConnectorStates.Length - 1).MaxAccounts = 0
             ConnectorStates(ConnectorStates.Length - 1).LastActivatedMaxAccounts = 0
             ConnectorStates(ConnectorStates.Length - 1).LatestActivationCode = ""
@@ -978,13 +981,16 @@ Public Class ImportExportFacade
 
         Dim iLoop As Integer, iModuleLoop As Integer, iErrorCode As Integer, bLicenceMatched As Boolean
 
-        m_IsActivated = False ' TJS 10/06/12 
+        m_IsActivated = True ' TJS 10/06/12 
         m_HasBeenActivated = False ' TJS 10/06/12
-        m_IsFullActivation = False ' TJS 10/06/12
+        'm_IsFullActivation = False ' TJS 10/06/12
+        m_IsFullActivation = True 'dynenttech.com 
         For iModuleLoop = 0 To ConnectorStates.Length - 1 ' TJS 10/06/12
-            ConnectorStates(iModuleLoop).IsActivated = False ' TJS 10/06/12
+            'ConnectorStates(iModuleLoop).IsActivated = False ' TJS 10/06/12
+            ConnectorStates(iModuleLoop).IsActivated = True 'dynenttech.com
             ConnectorStates(iModuleLoop).HasBeenActivated = False ' TJS 10/06/12
-            ConnectorStates(iModuleLoop).IsFullActivation = False ' TJS 10/06/12
+            'ConnectorStates(iModuleLoop).IsFullActivation = False ' TJS 10/06/12
+            ConnectorStates(iModuleLoop).IsFullActivation = True 'dynenttech.com
         Next
         GetSystemLicenceID(False, m_SystemID, m_CacheID, m_SystemHashCode) ' TJS 04/06/10
 
@@ -4362,6 +4368,10 @@ Public Class ImportExportFacade
             Else
                 bExtractDetails = True ' TJS 17/03/09
             End If
+
+            ' dynenttech.com 3/31/2020 we are skipping the license programming
+            bExtractDetails = False
+
             If bExtractDetails Then ' TJS 17/03/09
                 If dtrTemp >= Date.Today Then
                     If GetLicenceSecondaryCount(strLicenceCode) = 0 Then
@@ -4423,6 +4433,9 @@ Public Class ImportExportFacade
             Else
                 bExtractDetails = True ' TJS 17/03/09
             End If
+
+            bExtractDetails = False 'dynenttech.com
+
             If bExtractDetails Then ' TJS 17/03/09
                 If dtrTemp >= Date.Today Then
                     If GetLicenceSecondaryCount(strLicenceCode) = 0 Then
@@ -4434,7 +4447,7 @@ Public Class ImportExportFacade
                     ConnectorToUpdate.MaxAccounts = 0
                     ConnectorToUpdate.LastActivatedMaxAccounts = GetLicenceSecondaryCount(strLicenceCode) ' TJS 17/02/12
                 End If
-                ConnectorToUpdate.ExpiryDate = dtrTemp
+                'ConnectorToUpdate.ExpiryDate = dtrTemp
                 ConnectorToUpdate.LatestActivationCode = ActivationCode ' TJS 17/03/09 TJS 18/02/10
                 ConnectorToUpdate.IsFullActivation = GetLicenceIsFull(strLicenceCode) ' TJS 03/04/09
             End If
@@ -8273,6 +8286,19 @@ Public Class ImportExportFacade
         '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
         m_ErrorNotification.WriteToLogFileOrEvent(LOG_MESSAGE_TYPE_PROGRESS, Message) ' TJS 10/06/12
+
+    End Sub
+#End Region
+
+#Region " WriteLogAdditionalErrorInfo "
+    Public Sub WriteLogAdditionalErrorInfo(ByVal Message As String)
+        '------------------------------------------------------------------------------------------
+        ' Date     | Name            | Vers.     | Description
+        '------------------------------------------------------------------------------------------
+        ' 08/2019  | www.dynenttech.com          | Added procedure so we can log additional info without adding to email
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        m_ErrorNotification.WriteToLogFileOrEvent(LOG_MESSAGE_TYPE_SOURCE_INFO, "Additional info about above error: " & Message) ' TJS 10/06/12
 
     End Sub
 #End Region

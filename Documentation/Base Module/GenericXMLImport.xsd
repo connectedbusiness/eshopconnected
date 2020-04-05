@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+         <xs:element name="eShopCONNECT">
+               <xs:complexType>
+                     <xs:sequence>
+                           <xs:element name="ImportType" type="xs:string"></xs:element>
+                           <xs:element name="Source">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="SourceName" type="xs:string"></xs:element>
+                                             <xs:element name="SourceCode" type="xs:string"></xs:element>
+                                             <xs:element name="Authentication" type="xs:string"></xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="Order" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="CustomerOrderRef" type="xs:string"></xs:element>
+                                             <xs:element name="SourceOrderRef" type="xs:string"></xs:element>
+                                             <xs:element name="SourceWebSiteRef" type="xs:string"></xs:element>
+                                             <xs:element name="SourceMerchantID" type="xs:string"></xs:element>
+                                             <xs:element name="OrderDate" type="xs:string"></xs:element>
+                                             <xs:element name="OrderCurrency" type="xs:string"></xs:element>
+                                             <xs:element name="CustomerSalesCoupon" type="xs:string"></xs:element>
+                                             <xs:element name="SalesRepGroupCode" type="xs:string"></xs:element>
+                                             <xs:element name="SalesRepCode" type="xs:string"></xs:element>
+                                             <xs:element name="Notes" type="xs:string"></xs:element>
+                                             <xs:element name="SalesAgency" type="xs:string"></xs:element>
+                                             <xs:element name="OrderTaker" type="xs:string"></xs:element>
+                                             <xs:element name="BuyerName" type="xs:string"></xs:element>
+                                             <xs:element name="BuyerPhone" type="xs:string"></xs:element>
+                                             <xs:element name="BuyerEmail" type="xs:string"></xs:element>
+                                             <xs:element name="CreditCardToken" type="xs:string"></xs:element>
+                                             <xs:element name="BillingDetails">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="Customer">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="SourceCustomerID" type="xs:string"></xs:element>
+                                                                                 <xs:element name="ISCustomerCode" type="xs:string"></xs:element>
+                                                                                 <xs:element name="NamePrefix" type="xs:string"></xs:element>
+                                                                                 <xs:element name="FirstName" type="xs:string"></xs:element>
+                                                                                 <xs:element name="LastName" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Company" type="xs:string"></xs:element>
+                                                                                 <xs:element name="HomePhone" type="xs:string"></xs:element>
+                                                                                 <xs:element name="WorkPhone" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Mobilephone" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Email" type="xs:string"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="BillingAddress">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="Address" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Town_City" type="xs:string"></xs:element>
+                                                                                 <xs:element name="State" type="xs:string"></xs:element>
+                                                                                 <xs:element name="County" type="xs:string"></xs:element>
+                                                                                 <xs:element name="PostalCode" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Country" type="xs:string"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="ShippingDetails">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="Customer">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="NamePrefix" type="xs:string"></xs:element>
+                                                                                 <xs:element name="FirstName" type="xs:string"></xs:element>
+                                                                                 <xs:element name="LastName" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Company" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Telephone" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Email" type="xs:string"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="ShippingAddress">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="Address" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Town_City" type="xs:string"></xs:element>
+                                                                                 <xs:element name="State" type="xs:string"></xs:element>
+                                                                                 <xs:element name="County" type="xs:string"></xs:element>
+                                                                                 <xs:element name="PostalCode" type="xs:string"></xs:element>
+                                                                                 <xs:element name="Country" type="xs:string"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="ShippingMethod" type="xs:string"></xs:element>
+                                                               <xs:element name="ShippingMethodGroup" type="xs:string"></xs:element>
+                                                               <xs:element name="ShippingDate" type="xs:string"></xs:element>
+                                                               <xs:element name="LatestShippingDate" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="PaymentDetails">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="PaymentMethod" type="xs:string"></xs:element>
+                                                               <xs:element name="CreditCardDetails">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="NameOnCard" type="xs:string"></xs:element>
+                                                                                 <xs:element name="CardType" type="xs:string"></xs:element>
+                                                                                 <xs:element name="CardIssuer" type="xs:string"></xs:element>
+                                                                                 <xs:element name="CardNumber" type="xs:string"></xs:element>
+                                                                                 <xs:element name="CardStartDate" type="xs:string"></xs:element>
+                                                                                 <xs:element name="CardExpiryDate" type="xs:string"></xs:element>
+                                                                                 <xs:element name="CardSecurityNumber" type="xs:string"></xs:element>
+                                                                                 <xs:element name="CardIssueNumber" type="xs:string"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="Item" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="SourceItemPurchaseID" type="xs:string"></xs:element>
+                                                               <xs:element name="ISItemCode" type="xs:string"></xs:element>
+                                                               <xs:element name="ISItemName" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemDescription" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemWarehouse" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemDropShip" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemDropShipReference" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemQuantity" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemUnitPrice" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemSubTotal" type="xs:string"></xs:element>
+                                                               <xs:element name="SpecialInstructions">
+                                                                     <xs:complexType>
+                                                                           <xs:sequence>
+                                                                                 <xs:element name="SpecialInstructionDetail" type="xs:string"></xs:element>
+                                                                           </xs:sequence>
+                                                                     </xs:complexType>
+                                                               </xs:element>
+                                                               <xs:element name="ItemTaxRate" type="xs:string"></xs:element>
+                                                               <xs:element name="ItemTaxValue" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="OrderTotals">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="Subtotal" type="xs:string"></xs:element>
+                                                               <xs:element name="Shipping" type="xs:string"></xs:element>
+                                                               <xs:element name="Tax" type="xs:string"></xs:element>
+                                                               <xs:element name="Total" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                             <xs:element name="CustomerComments" type="xs:string"></xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                           <xs:element name="OrderCount" type="xs:string"></xs:element>
+                     </xs:sequence>
+               </xs:complexType>
+         </xs:element>
+   </xs:schema>

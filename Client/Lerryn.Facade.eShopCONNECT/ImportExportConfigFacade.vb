@@ -316,7 +316,7 @@ Public Class ImportExportConfigFacade
         '------------------------------------------------------------------------------------------
 
         Get
-            If Interprise.Connectivity.Database.Configuration.Design.AppConfig.InterpriseConfiguration.Instance.LicenseInfo.ProductEdition = "ISB" Then
+            If Interprise.Connectivity.Database.Configuration.Design.AppConfig.InterpriseConfiguration.Instance.LicenseInfo.ProductEdition.ToString() = "ISB" Then
                 Return True
             Else
                 Return False
@@ -4521,6 +4521,20 @@ Public Class ImportExportConfigFacade
 
     End Sub
 #End Region
+
+#Region " WriteLogAdditionalErrorInfo "
+    Public Sub WriteLogAdditionalErrorInfo(ByVal Message As String)
+        '------------------------------------------------------------------------------------------
+        ' Date     | Name            | Vers.     | Description
+        '------------------------------------------------------------------------------------------
+        ' 08/2019  | www.dynenttech.com          | Added procedure so we can log additional info without adding to email
+        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+        m_ErrorNotification.WriteToLogFileOrEvent(LOG_MESSAGE_TYPE_SOURCE_INFO, "Additional info about above or below error: " & Message) ' TJS 10/06/12
+
+    End Sub
+#End Region
+
 
 #Region " GetAmazonBrowseListItems "
     Public Sub GetAmazonBrowseListItems(ByVal ParentCategory As String, ByVal SiteCode As String)

@@ -91,6 +91,15 @@ Namespace [Shared]
         Public Const GENERIC_XML_QUOTE_DATE As String = "Quote/QuoteDate"
         Public Const GENERIC_XML_QUOTE_CURRENCY As String = "Quote/QuoteCurrency"
         Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_COUPON As String = "Quote/CustomerSalesCoupon"
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_REP_GROUP_CODE As String = "Quote/SalesRepGroupCode" ' RCD 2019/08/12
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_REP_CODE As String = "Quote/SalesRepCode" ' RCD 2019/08/15
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_NOTES As String = "Quote/Notes" ' RCD 2019/08/13
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_SALES_AGENCY As String = "Quote/SalesAgency" ' RCD 2019/08/13
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_ORDER_TAKER As String = "Quote/OrderTaker" ' RCD 2019/08/13
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_BUYER_NAME As String = "Quote/BuyerName" ' RCD 2019/08/13
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_BUYER_PHONE As String = "Quote/BuyerPhone" ' RCD 2019/08/13
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_BUYER_EMAIL As String = "Quote/BuyerEmail" ' RCD 2019/08/13
+        Public Const GENERIC_XML_QUOTE_CUSTOMER_CREDIT_CARD_TOKEN As String = "Quote/CreditCardToken" ' RCD 2019/08/13
         Public Const GENERIC_XML_QUOTE_UPDATE_CUSTOMER As String = "Quote/UpdateCustomer" ' TJS/FA 09/07/11
         Public Const GENERIC_XML_QUOTE_DISCOUNT_COUPON_DESCRIPTION As String = "Quote/DiscountCoupon/DiscountDescription"
         Public Const GENERIC_XML_QUOTE_DISCOUNT_COUPON_VALUE As String = "Quote/DiscountCoupon/DiscountValue"
@@ -103,6 +112,8 @@ Namespace [Shared]
         Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_ADDRESS As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/ShippingAddress"
         Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_METHOD As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/ShippingMethod"
         Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_METHOD_GROUP As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/ShippingMethodGroup"
+        Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_SHIPPING_DATE As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/ShippingDate"
+        Public Const GENERIC_XML_QUOTE_SHIPPING_DETAILS_LATEST_SHIPPING_DATE As String = GENERIC_XML_QUOTE_SHIPPING_DETAILS & "/LatestShippingDate"
         Public Const GENERIC_XML_QUOTE_TOTALS As String = "Quote/QuoteTotals"
         Public Const GENERIC_XML_QUOTE_ITEM_LIST As String = "Quote/Item"
         Public Const GENERIC_XML_QUOTE_CUSTOMER_COMMENTS As String = "Quote/CustomerComments"
@@ -120,6 +131,15 @@ Namespace [Shared]
         Public Const GENERIC_XML_ORDER_DATE As String = "Order/OrderDate"
         Public Const GENERIC_XML_ORDER_CURRENCY As String = "Order/OrderCurrency"
         Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_COUPON As String = "Order/CustomerSalesCoupon" ' TJS 09/03/096
+        Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_REP_GROUP_CODE As String = "Order/SalesRepGroupCode" ' RCD 2019/08/12
+        Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_REP_CODE As String = "Order/SalesRepCode" ' RCD 2019/08/15
+        Public Const GENERIC_XML_ORDER_CUSTOMER_NOTES As String = "Order/Notes" ' RCD 2019/08/13
+        Public Const GENERIC_XML_ORDER_CUSTOMER_SALES_AGENCY As String = "Order/SalesAgency" ' RCD 2019/08/13
+        Public Const GENERIC_XML_ORDER_CUSTOMER_ORDER_TAKER As String = "Order/OrderTaker" ' RCD 2019/08/13
+        Public Const GENERIC_XML_ORDER_CUSTOMER_BUYER_NAME As String = "Order/BuyerName" ' RCD 2019/08/13
+        Public Const GENERIC_XML_ORDER_CUSTOMER_BUYER_PHONE As String = "Order/BuyerPhone" ' RCD 2019/08/13
+        Public Const GENERIC_XML_ORDER_CUSTOMER_BUYER_EMAIL As String = "Order/BuyerEmail" ' RCD 2019/08/13
+        Public Const GENERIC_XML_ORDER_CUSTOMER_CREDIT_CARD_TOKEN As String = "Order/CreditCardToken" ' RCD 2019/08/13
         Public Const GENERIC_XML_ORDER_UPDATE_CUSTOMER As String = "Order/UpdateCustomer" ' TJS/FA 09/07/11
         Public Const GENERIC_XML_ORDER_DISCOUNT_COUPON_DESCRIPTION As String = "Order/DiscountCoupon/DiscountDescription" ' TJS 08/06/09
         Public Const GENERIC_XML_ORDER_DISCOUNT_COUPON_VALUE As String = "Order/DiscountCoupon/DiscountValue" ' TJS 08/06/09
@@ -132,6 +152,8 @@ Namespace [Shared]
         Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_ADDRESS As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/ShippingAddress"
         Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_METHOD As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/ShippingMethod"
         Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_METHOD_GROUP As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/ShippingMethodGroup"
+        Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_SHIPPING_DATE As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/ShippingDate" ' RCD 08/09/2019
+        Public Const GENERIC_XML_ORDER_SHIPPING_DETAILS_LATEST_SHIPPING_DATE As String = GENERIC_XML_ORDER_SHIPPING_DETAILS & "/LatestShippingDate" ' RCD 08/12/2019
         Public Const GENERIC_XML_ORDER_PAYMENT_DETAILS_LIST As String = "Order/PaymentDetails" ' TJS 02/12/11
         Public Const GENERIC_XML_ORDER_PAYMENT_DETAILS As String = "PaymentDetails" ' TJS 02/12/11
         Public Const GENERIC_XML_ORDER_PAYMENT_METHOD As String = GENERIC_XML_ORDER_PAYMENT_DETAILS & "/PaymentMethod"
@@ -148,6 +170,15 @@ Namespace [Shared]
         Public Const GENERIC_XML_INVOICE_SOURCE_INVOICE_REF As String = "Invoice/SourceInvoiceRef"
         Public Const GENERIC_XML_INVOICE_SOURCE_WEBSITE_REF As String = "Invoice/SourceWebSiteRef"
         Public Const GENERIC_XML_INVOICE_SOURCE_MERCHANT_ID As String = "Invoice/SourceMerchantID" ' TJS 24/01/09
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_SALES_REP_GROUP_CODE As String = "Invoice/SalesRepGroupCode" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_SALES_REP_CODE As String = "Invoice/SalesRepCode" ' RCD 2019/08/15
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_NOTES As String = "Invoice/Notes" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_SALES_AGENCY As String = "Invoice/SalesAgency" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_ORDER_TAKER As String = "Invoice/OrderTaker" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_BUYER_NAME As String = "Invoice/BuyerName" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_BUYER_PHONE As String = "Invoice/BuyerPhone" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_BUYER_EMAIL As String = "Invoice/BuyerEmail" ' RCD 2019/08/13
+        Public Const GENERIC_XML_INVOICE_CUSTOMER_CREDIT_CARD_TOKEN As String = "Invoice/CreditCardToken" ' RCD 2019/08/13
         Public Const GENERIC_XML_INVOICE_PRICES_INCLUDE_TAX As String = "Invoice/PricesIncludeTax" ' TJS 08/06/09
         Public Const GENERIC_XML_INVOICE_TAXCODE_FOR_SOURCE_TAX As String = "Invoice/TaxCodeForSourceTax" ' TJS 26/10/11
         Public Const GENERIC_XML_INVOICE_DATE As String = "Invoice/InvoiceDate"
@@ -162,6 +193,8 @@ Namespace [Shared]
         Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_ADDRESS As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/ShippingAddress"
         Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_METHOD As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/ShippingMethod"
         Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_METHOD_GROUP As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/ShippingMethodGroup"
+        Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_SHIPPING_DATE As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/ShippingDate"
+        Public Const GENERIC_XML_INVOICE_SHIPPING_DETAILS_LATEST_SHIPPING_DATE As String = GENERIC_XML_INVOICE_SHIPPING_DETAILS & "/LatestShippingDate"
         Public Const GENERIC_XML_INVOICE_PAYMENT_DETAILS_LIST As String = "Invoice/PaymentDetails" ' TJS 26/10/11
         Public Const GENERIC_XML_INVOICE_PAYMENT_DETAILS As String = "PaymentDetails" ' TJS 02/12/11
         Public Const GENERIC_XML_INVOICE_PAYMENT_METHOD As String = GENERIC_XML_INVOICE_PAYMENT_DETAILS & "/PaymentMethod"
@@ -267,6 +300,11 @@ Namespace [Shared]
         Public Const GENERIC_XML_CUSTOMER_SHIPPING_ADDRESS_DETAILS As String = GENERIC_XML_CUSTOMER_SHIPPING_DETAILS & "/ShippingAddress" ' TJS 24/07/09
         Public Const GENERIC_XML_CUSTOMER_CURRENCY As String = "Customer/TradingCurrency"
         Public Const GENERIC_XML_CUSTOMER_ACTIVITY As String = "Customer/Activity"
+
+        ' Formatting and Validation - RCD 08/09/2019
+        Public Const GENERIC_XML_YMD As String = "yyyy-MM-dd"
+        Public Const GENERIC_XML_INVALID_SHIPPING_DATE As String = "Shipping Date Is Invalid! Should be yyyy-MM-dd."
+        Public Const GENERIC_XML_INVALID_LATEST_SHIPPING_DATE As String = "Latest Shipping Date Is Invalid! Should be yyyy-MM-dd."
         ' end of code added TJS 13/07/09
 
         ' Shop.com Order XML paths
@@ -412,6 +450,7 @@ Namespace [Shared]
         Public Const LOG_MESSAGE_TYPE_WARNING As String = "!Warning"
         Public Const LOG_MESSAGE_TYPE_ERROR As String = "!Error!!"
         Public Const LOG_MESSAGE_TYPE_SOURCE_ERROR As String = "!SrcErr!"
+        Public Const LOG_MESSAGE_TYPE_SOURCE_INFO As String = "!SrcInfo!"
 
         'Stored Procedure Parameter
         Public Const AT_PRODUCT_CODE As String = "@ProductCode"

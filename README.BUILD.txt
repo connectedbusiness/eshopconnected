@@ -5,10 +5,9 @@ Below are the references needed for my environment.
 David Nelson
 www.dynenttech.com
 
-
-
     Lerryn.Framework.ImportExport
 	Add reference path
+		..\..\DLL\
 		C:\Program Files (x86)\Connected Business 18.2 Client\
 
     Lerryn.Extendable.ImportExport
@@ -16,15 +15,15 @@ www.dynenttech.com
 		..\..\DLL\
 		C:\Program Files (x86)\Connected Business 18.2 Client\
 
-    Lerryn.WindowsService.eShopCONNECT.UnitTest
-	Add reference path
-		C:\Program Files (x86)\Connected Business 18.2 Client\
-
     Lerryn.WindowsService.eShopCONNECT
 	Add reference path
 		..\..\DLL\
 		C:\Program Files (x86)\Connected Business 18.2 Client\
 		C:\Program Files (x86)\Connected Business 18.2 Server\		
+
+    Lerryn.Business.ImportExport
+	Add reference path
+		C:\Program Files (x86)\Connected Business 18.2 Client\
 
     Lerryn.Presentation.eShopCONNECT
 	Add reference path

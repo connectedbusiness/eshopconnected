@@ -1,7 +1,13 @@
 ﻿
-Partial Public Class ImportExportDataset
+Namespace DatasetComponent
 
-End Class
+    Partial Public Class ImportExportDataset
+
+    End Class
+
+End Namespace
+
+
 
 
 

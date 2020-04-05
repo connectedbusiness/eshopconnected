@@ -187,7 +187,7 @@ Public Module General
             'Set the application parameters (return from Interprise database)
             If GetSettings() Then
                 m_ErrorNotification.WriteToLogFileOrEvent(LOG_MESSAGE_TYPE_PROGRESS, strConfigText) ' TJS 20/05/12 TJS 10/06/12
-                m_ErrorNotification.WriteToLogFileOrEvent(LOG_MESSAGE_TYPE_PROGRESS, "Finished fetching parameters from Interprise DB.") ' TJS 28/01/09 TJS 22/02/09 TJS 10/06/12
+                m_ErrorNotification.WriteToLogFileOrEvent(LOG_MESSAGE_TYPE_PROGRESS, "Finished fetching parameters from database.") ' TJS 28/01/09 TJS 22/02/09 TJS 10/06/12
 
                 ' start of code added TJS 03/07/13
                 For Each ActiveSource In Setts.ActiveSources
@@ -385,6 +385,10 @@ Public Module General
         Try
             ' check registry for inhibit web post setting (prevents sending posts during testing)
             bInhibitWebPosts = (m_ImportExportConfigFacade.CheckRegistryValue(REGISTRY_KEY_ROOT, "InhibitWebPosts", "NO").ToUpper = "YES") ' TJs 13/06/10 TJS 19/08/10
+
+            If bInhibitWebPosts Then
+                m_ErrorNotification.WriteToLogFileOrEvent(LOG_MESSAGE_TYPE_PROGRESS, "InhibitWebPosts registry settings is YES") ' TJS 28/01/09 TJS 22/02/09 TJS 10/06/12
+            End If
 
             ' load config settings
             m_ImportExportConfigFacade.LoadDataSet(New String()() {New String() {m_ImportExportDataset.LerrynImportExportConfig_DEV000221.TableName, _
