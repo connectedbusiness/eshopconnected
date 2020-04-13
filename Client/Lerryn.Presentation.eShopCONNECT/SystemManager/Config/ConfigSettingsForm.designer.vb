@@ -84,6 +84,7 @@ Namespace SystemManager.Config
             Me.IconOptions.Icon = CType(resources.GetObject("ConfigSettingsForm.IconOptions.Icon"), System.Drawing.Icon)
             Me.Name = "ConfigSettingsForm"
             Me.Text = "Config Settings"
+            Me.BaseFormSize = Interprise.Framework.Base.Shared.Enum.FormSize.Medium
             CType(Me.RibbonControl, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.RepositoryNumKey, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.MenuApplication, System.ComponentModel.ISupportInitialize).EndInit()
