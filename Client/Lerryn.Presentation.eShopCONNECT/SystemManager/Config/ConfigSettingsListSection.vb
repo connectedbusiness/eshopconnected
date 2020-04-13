@@ -1129,24 +1129,31 @@ Public Class ConfigSettingsListSection
                             If Me.m_ConfigSettingsSectionFacade.IsConnectorActivated(strProductCode) Then ' TJS 02/12/11
                                 DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).LabelActivationStatus.Text = "Activation expires " & Me.m_ConfigSettingsSectionFacade.ConnectorActivationExpires(strProductCode).ToShortDateString ' TJS 02/12/11
                                 DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).LabelActivationStatus.Appearance.ForeColor = System.Drawing.Color.Black
-                                DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).TextEditInitialActivation1.Text = Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(0, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(5, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(10, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(15, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(20, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(25, 5) & "-" & _
+
+                                If (Not Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Equals(String.Empty)) Then
+                                    DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).TextEditInitialActivation1.Text = Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(0, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(5, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(10, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(15, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(20, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(25, 5) & "-" &
                                     Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(30, 5) ' TJS 18/02/10 TJS 02/12/11
+                                End If
+
                                 DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).GridControlConfigSettings.Enabled = True
 
                             ElseIf Me.m_ConfigSettingsSectionFacade.HasConnectorBeenActivated(strProductCode) Then ' TJS 02/12/11
                                 DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).LabelActivationStatus.Text = "Activation Code has expired"
-                                DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).TextEditInitialActivation1.Text = Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(0, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(5, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(10, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(15, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(20, 5) & "-" & _
-                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(25, 5) & "-" & _
+
+                                If (Not Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Equals(String.Empty)) Then
+                                    DirectCast(Me.PluginContainerBaseDetailPluginInstance, ConfigSettingsDetailSection).TextEditInitialActivation1.Text = Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(0, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(5, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(10, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(15, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(20, 5) & "-" &
+                                    Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(25, 5) & "-" &
                                     Me.m_ConfigSettingsSectionFacade.ConnectorLatestActivationCode(strProductCode).Substring(30, 5) ' TJS 18/02/10 TJS 02/12/11
+                                End If
                             End If
                         End If
                         If Me.ConfigSettingsSectionGateway.LerrynImportExportConfig_DEV000221.Count = 0 And Me.IsNew Then

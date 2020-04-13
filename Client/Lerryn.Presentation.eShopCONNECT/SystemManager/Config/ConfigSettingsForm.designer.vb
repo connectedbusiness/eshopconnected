@@ -19,6 +19,7 @@ Namespace SystemManager.Config
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Protected Overridable Sub InitializeComponent()
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ConfigSettingsForm))
             CType(Me.RibbonControl, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.RepositoryNumKey, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.MenuApplication, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -26,18 +27,27 @@ Namespace SystemManager.Config
             CType(Me.DefaultBarAndDockingController.Controller, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.BarAndDockingController, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.PopupMenuSave, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.PopupMenuPrint, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.PopupMenuExport, System.ComponentModel.ISupportInitialize).BeginInit()
+            CType(Me.RepositoryCacheProgressBar, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.skins, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
             '
             'RibbonControl
             '
+            Me.RibbonControl.ApplicationButtonImageOptions.Image = CType(resources.GetObject("RibbonControl.ApplicationButtonImageOptions.Image"), System.Drawing.Image)
             Me.PropertyExtender.SetAssignActionfrmRbCntrl(Me.RibbonControl, "")
             Me.RibbonControl.ExpandCollapseItem.Id = 0
-            Me.RibbonControl.ExpandCollapseItem.Name = ""
             Me.PropertyExtender.SetHelpText(Me.RibbonControl, New Interprise.Presentation.Base.DisplayText(Nothing, Nothing, Nothing))
             Me.PropertyExtender.SetReadOnlyBackColor(Me.RibbonControl, System.Drawing.Color.Empty)
-            Me.RibbonControl.Size = New System.Drawing.Size(830, 144)
+            Me.RibbonControl.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.[Default]
+            '
+            '
+            '
+            Me.RibbonControl.SearchEditItem.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Left
+            Me.RibbonControl.SearchEditItem.EditWidth = 150
+            Me.RibbonControl.SearchEditItem.Id = -5000
+            Me.RibbonControl.SearchEditItem.ImageOptions.AllowGlyphSkinning = DevExpress.Utils.DefaultBoolean.[True]
             Me.PropertyExtender.SetTextDisplay(Me.RibbonControl, New Interprise.Presentation.Base.DisplayText(Nothing, Nothing, Nothing))
             '
             'RepositoryNumKey
@@ -64,13 +74,14 @@ Namespace SystemManager.Config
             'ConfigSettingsForm
             '
             Me.Appearance.BackColor = System.Drawing.SystemColors.Control
-            Me.Appearance.Font = New System.Drawing.Font("Tahoma", 8.0!)
             Me.Appearance.ForeColor = System.Drawing.Color.LightSkyBlue
             Me.Appearance.Options.UseBackColor = True
-            Me.Appearance.Options.UseFont = True
             Me.Appearance.Options.UseForeColor = True
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+            Me.BaseFormSize = Interprise.Framework.Base.[Shared].[Enum].FormSize.Medium
             Me.ClientSize = New System.Drawing.Size(830, 700)
+            Me.Font = New System.Drawing.Font("Tahoma", 8.25!)
+            Me.IconOptions.Icon = CType(resources.GetObject("ConfigSettingsForm.IconOptions.Icon"), System.Drawing.Icon)
             Me.Name = "ConfigSettingsForm"
             Me.Text = "Config Settings"
             CType(Me.RibbonControl, System.ComponentModel.ISupportInitialize).EndInit()
@@ -80,9 +91,12 @@ Namespace SystemManager.Config
             CType(Me.DefaultBarAndDockingController.Controller, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.BarAndDockingController, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.PopupMenuSave, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.PopupMenuPrint, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.PopupMenuExport, System.ComponentModel.ISupportInitialize).EndInit()
+            CType(Me.RepositoryCacheProgressBar, System.ComponentModel.ISupportInitialize).EndInit()
             CType(Me.skins, System.ComponentModel.ISupportInitialize).EndInit()
             Me.ResumeLayout(False)
+            Me.PerformLayout()
 
         End Sub
         Friend WithEvents LabelPluginsForInterprise As DevExpress.XtraEditors.LabelControl
