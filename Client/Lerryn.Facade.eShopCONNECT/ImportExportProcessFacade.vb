@@ -4057,9 +4057,13 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         commissionTotal += .CustomerSalesOrderDetailView(counter).CommissionAmount
                         commissionTotalRate += .CustomerSalesOrderDetailView(counter).CommissionAmountRate
                     Next
-                    .CustomerSalesRepCommissionView(0).CommissionPercent = 100
-                    .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
-                    .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    ' RCD 2021/01/08 Start Added validation for active object instance
+                    If (.CustomerSalesRepCommissionView IsNot Nothing AndAlso .CustomerSalesRepCommissionView.Count > 0) Then
+                        .CustomerSalesRepCommissionView(0).CommissionPercent = 100
+                        .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
+                        .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    End If
+                    ' RCD 2019/08/13 Start Added validation for active object instance
                     ' RCD 2019/08/13 End SalesRepGroupCode
 
                     .CustomerSalesOrderView(0).SubTotal = dblQuoteTotal
@@ -5850,22 +5854,26 @@ Imports System.Xml.XPath ' TJS 02/12/11
                     m_ImportExportConfigFacade.SourceConfig, "ImportExportProcessFacade - CreateOrder", XMLGenericOrder.ToString) ' TJS 09/03/09
             End If
 
-            ' RCD 2019/08/13 Start SalesRepGroupCode
-            Dim commissionTotal As Decimal = 0
-            Dim commissionTotalRate As Decimal = 0
-            For counter As Integer = 0 To .CustomerSalesOrderDetailView.Rows.Count - 1
-                commissionTotal += .CustomerSalesOrderDetailView(counter).CommissionAmount
-                commissionTotalRate += .CustomerSalesOrderDetailView(counter).CommissionAmountRate
-            Next
-            .CustomerSalesRepCommissionView(0).CommissionPercent = 100
-            .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
-            .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
-            ' RCD 2019/08/13 End SalesRepGroupCode
+                    ' RCD 2019/08/13 Start SalesRepGroupCode
+                    Dim commissionTotal As Decimal = 0
+                    Dim commissionTotalRate As Decimal = 0
+                    For counter As Integer = 0 To .CustomerSalesOrderDetailView.Rows.Count - 1
+                        commissionTotal += .CustomerSalesOrderDetailView(counter).CommissionAmount
+                        commissionTotalRate += .CustomerSalesOrderDetailView(counter).CommissionAmountRate
+                    Next
+                    ' RCD 2021/01/08 Start Added validation for active object instance
+                    If (.CustomerSalesRepCommissionView IsNot Nothing AndAlso .CustomerSalesRepCommissionView.Count > 0) Then
+                        .CustomerSalesRepCommissionView(0).CommissionPercent = 100
+                        .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
+                        .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    End If
+                    ' RCD 2019/08/13 Start Added validation for active object instance
+                    ' RCD 2019/08/13 End SalesRepGroupCode
 
-            .CustomerSalesOrderView(0).SubTotal = dblOrderTotal
-            .CustomerSalesOrderView(0).SubTotalRate = dblOrderTotalRate ' TJS 26/05/09
+                    .CustomerSalesOrderView(0).SubTotal = dblOrderTotal
+                    .CustomerSalesOrderView(0).SubTotalRate = dblOrderTotalRate ' TJS 26/05/09
 
-            strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_TOTALS & "/Shipping") ' TJS 09/03/09
+                    strTempValue = GetXMLElementText(XMLGenericOrder, GENERIC_XML_ORDER_TOTALS & "/Shipping") ' TJS 09/03/09
             ' has shipping charge been supplied ?
             If strTempValue <> "" Then ' TJS 09/03/09
                 ' yes, must be numeric and not contain any commas
@@ -7711,9 +7719,13 @@ Imports System.Xml.XPath ' TJS 02/12/11
                         commissionTotal += .CustomerInvoiceDetailView(counter).CommissionAmount
                         commissionTotalRate += .CustomerInvoiceDetailView(counter).CommissionAmountRate
                     Next
-                    .CustomerSalesRepCommissionView(0).CommissionPercent = 100
-                    .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
-                    .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    ' RCD 2021/01/08 Start Added validation for active object instance
+                    If (.CustomerSalesRepCommissionView IsNot Nothing AndAlso .CustomerSalesRepCommissionView.Count > 0) Then
+                        .CustomerSalesRepCommissionView(0).CommissionPercent = 100
+                        .CustomerSalesRepCommissionView(0).CommissionTotal = commissionTotal
+                        .CustomerSalesRepCommissionView(0).CommissionTotalRate = commissionTotalRate
+                    End If
+                    ' RCD 2019/08/13 Start Added validation for active object instance
                     ' RCD 2019/08/13 End SalesRepGroupCode
 
                     .CustomerInvoiceView(0).SubTotal = dblInvoiceTotal
