@@ -39,7 +39,9 @@ Public Class ServiceMain
     '       (a) Set as startup project
     '       (b) Set project application type from "Windows Service" to "Windows Forms Application"
     '       (c) Set project application startup object from "ServiceMain" to "Sub Main"
+	'			The sub main is located in ServiceMain.designer.vb, find it by searching for "TestStartupAndStop"
     '       (d) Create/Set registry entry: [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Lerryn\ISPlugins] "InhibitWebPosts"="Yes"
+	'			The above registry key is for 32-bit processes, for 64-bit processes the registry key is different
     '           See Lerryn.ISPlugins.InhibitWebPosts.reg in root folder
     '           Code below will let you know if the program picked up the registry entry as expected
     '       (e) Set breakpoints in these functions to start with
@@ -49,6 +51,14 @@ Public Class ServiceMain
     '               ServiceMain.RunRoutines
     '       (f) Use the CB App Configuration Tool to make sure your windows service project is pointing to the correct database
     '               Set connection in this file Server\Lerryn.WindowsService.eShopCONNECT\App.Config
+	'
+	' FYI ServiceState values
+	'	Running = 0,
+	'	Pausing = 1,
+    '	Paused = 2,
+    '	Stopping = 3,
+    '	ShuttingDown = 4,
+    '	Stopped = 5
 
     ' Controlling function if running in VS debugger
     Protected Sub TestStartupAndStop()
