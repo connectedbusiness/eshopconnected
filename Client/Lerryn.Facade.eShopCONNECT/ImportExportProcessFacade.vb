@@ -7207,7 +7207,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                                     iItemRowsAdded = ItemBundleDataset.InventoryBundleConfiguratorView.Count
                                                     iBundlePtr = 0
                                                     For Each ItemBundleRow In ItemBundleDataset.InventoryBundleConfiguratorView.Rows
-                                                        SalesOrderFacade.AssignInventoryItem(ItemBundleRow, itemView(iBundleRow), sTemp)
+                                                        InvoiceFacade.AssignInventoryItem(ItemBundleRow, itemView(iBundleRow), sTemp)
                                                         .CustomerInvoiceDetailView(iBundleRow).ItemCode = ItemBundleRow(CUSTOMERSALESORDERDETAIL_ITEMCODE_COLUMN).ToString
                                                         .CustomerInvoiceDetailView(iBundleRow).ItemName = ItemBundleRow(INVENTORYITEMS_ITEMNAME_COLUMN).ToString
                                                         .CustomerInvoiceDetailView(iBundleRow).ItemDescription = ItemBundleRow(INVENTORYITEMDESCRIPTION_ITEMDESCRIPTION_COLUMN).ToString
@@ -7924,7 +7924,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                     ' start of code added TJS 10/06/12
                                 ElseIf GetXMLElementText(XMLTemp, GENERIC_XML_INVOICE_PAYMENT_METHOD).ToUpper = "SOURCE" Then
                                     ' no, payment is taken by source so create payment record 
-                                    xmlResponseDetailNode = RecordSourcePayment(XMLTemp, SalesOrderFacade, InvoiceDataset, CustomerCode, contactCode, .CustomerInvoiceView(0).InvoiceCode, .CustomerInvoiceView(0).TotalRate, True, bPostInvoice) ' TJS 02/08/12
+                                    xmlResponseDetailNode = RecordSourcePayment(XMLTemp, InvoiceFacade, InvoiceDataset, CustomerCode, contactCode, .CustomerInvoiceView(0).InvoiceCode, .CustomerInvoiceView(0).TotalRate, True, bPostInvoice) ' TJS 02/08/12
                                     If bPostInvoice Then ' TJS 02/08/12
                                         InvoiceFacade.Post() ' TJS 02/08/12
                                     End If
@@ -8891,7 +8891,7 @@ Imports System.Xml.XPath ' TJS 02/12/11
                                                     iItemRowsAdded = ItemBundleDataset.InventoryBundleConfiguratorView.Count
                                                     iBundlePtr = 0
                                                     For Each ItemBundleRow In ItemBundleDataset.InventoryBundleConfiguratorView.Rows
-                                                        SalesOrderFacade.AssignInventoryItem(ItemBundleRow, itemView(iBundleRow), sTemp)
+                                                        InvoiceFacade.AssignInventoryItem(ItemBundleRow, itemView(iBundleRow), sTemp)
                                                         .CustomerInvoiceDetailView(iBundleRow).ItemCode = ItemBundleRow(CUSTOMERSALESORDERDETAIL_ITEMCODE_COLUMN).ToString
                                                         .CustomerInvoiceDetailView(iBundleRow).ItemName = ItemBundleRow(INVENTORYITEMS_ITEMNAME_COLUMN).ToString
                                                         .CustomerInvoiceDetailView(iBundleRow).ItemDescription = ItemBundleRow(INVENTORYITEMDESCRIPTION_ITEMDESCRIPTION_COLUMN).ToString
