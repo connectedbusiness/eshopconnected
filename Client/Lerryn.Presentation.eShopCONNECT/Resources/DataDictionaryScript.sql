@@ -1345,7 +1345,7 @@ CREATE TABLE [dbo].[LerrynImportExportServiceAction_DEV000221](
 	[DateCreated] [datetime] NULL,
 	[UserModified] [nvarchar](30) NULL,
 	[DateModified] [datetime] NULL,
-	[ConfigVersion_DEV000221] [nvarchar](15) NULL,
+	[ConfigVersion_DEV000221] [nvarchar](30) NULL,
 	[LastImportWizardUpdate_DEV000221] [datetime] NULL,
 	[ShutDownTime_DEV000221] [nvarchar](5) NULL,
 	[StartUpTime_DEV000221] [nvarchar](5) NULL,
@@ -30458,7 +30458,7 @@ DECLARE @TableName nvarchar(128),
 SET @TableName = 'LerrynImportExportServiceAction_DEV000221';
 SET @ColumnName = 'ConfigVersion_DEV000221';
 SET @DataType = 'nvarchar';
-SET @ColumnLength = 15;
+SET @ColumnLength = 30;
 SET @NumericPrecision = 0;
 SET @NumericScale = 0;
 SET @AllowsNull = 1;
@@ -39738,7 +39738,7 @@ CREATE PROCEDURE dbo.CreateLerrynImportExportServiceAction_DEV000221(
 	@DateCreated datetime, 
 	@UserModified nvarchar(30), 
 	@DateModified datetime, 
-	@ConfigVersion_DEV000221 nvarchar(15), 
+	@ConfigVersion_DEV000221 nvarchar(30), 
 	@LastImportWizardUpdate_DEV000221 datetime, 
 	@ShutDownTime_DEV000221 nvarchar(5), 
 	@StartUpTime_DEV000221 nvarchar(5)
@@ -50952,7 +50952,7 @@ CREATE PROCEDURE dbo.UpdateLerrynImportExportServiceAction_DEV000221(
 	@DateCreated datetime, 
 	@UserModified nvarchar(30), 
 	@DateModified datetime, 
-	@ConfigVersion_DEV000221 nvarchar(15), 
+	@ConfigVersion_DEV000221 nvarchar(30), 
 	@LastImportWizardUpdate_DEV000221 datetime, 
 	@ShutDownTime_DEV000221 nvarchar(5), 
 	@StartUpTime_DEV000221 nvarchar(5), 
@@ -50966,7 +50966,7 @@ CREATE PROCEDURE dbo.UpdateLerrynImportExportServiceAction_DEV000221(
 	@Original_DateCreated datetime, 
 	@Original_UserModified nvarchar(30), 
 	@Original_DateModified datetime, 
-	@Original_ConfigVersion_DEV000221 nvarchar(15), 
+	@Original_ConfigVersion_DEV000221 nvarchar(30), 
 	@Original_LastImportWizardUpdate_DEV000221 datetime, 
 	@Original_ShutDownTime_DEV000221 nvarchar(5), 
 	@Original_StartUpTime_DEV000221 nvarchar(5)
@@ -50982,7 +50982,7 @@ DECLARE
 @LocalDateCreated datetime, 
 @LocalUserModified nvarchar(30), 
 @LocalDateModified datetime, 
-@LocalConfigVersion_DEV000221 nvarchar(15), 
+@LocalConfigVersion_DEV000221 nvarchar(30), 
 @LocalLastImportWizardUpdate_DEV000221 datetime, 
 @LocalShutDownTime_DEV000221 nvarchar(5), 
 @LocalStartUpTime_DEV000221 nvarchar(5)
