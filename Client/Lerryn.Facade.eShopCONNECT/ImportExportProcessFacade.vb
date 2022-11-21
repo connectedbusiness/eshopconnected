@@ -5824,8 +5824,10 @@ Imports System.Xml.XPath ' TJS 02/12/11
 
                                         ' start of code added TJS 18/01/13
                                         If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOCATE_AND_RESERVE_STOCK).ToUpper = "YES" Then
-                                            SalesOrderFacade.AllocateStock(.CustomerSalesOrderDetailView(iRowLoop))
-                                            SalesOrderFacade.ReserveStock(.CustomerSalesOrderDetailView(iRowLoop))
+                                            'https://trello.com/c/bs32kBYR/2095-eshopconnect-reservation
+                                            'SalesOrderFacade.AllocateStock(.CustomerSalesOrderDetailView(iRowLoop))
+                                            'SalesOrderFacade.ReserveStock(.CustomerSalesOrderDetailView(iRowLoop))
+                                            SalesOrderFacade.AllocateAndReserveStock(.CustomerSalesOrderDetailView(iRowLoop))
                                         End If
                                         ' end of code added TJS 18/01/13
 
@@ -7680,8 +7682,10 @@ Imports System.Xml.XPath ' TJS 02/12/11
 
                                         ' start of code added TJS 18/01/13
                                         If GetXMLElementText(m_ImportExportConfigFacade.SourceConfig, SOURCE_CONFIG_ALLOCATE_AND_RESERVE_STOCK).ToUpper = "YES" Then
-                                            InvoiceFacade.AllocateStock(.CustomerInvoiceDetailView(iRowLoop))
-                                            InvoiceFacade.ReserveStock(.CustomerInvoiceDetailView(iRowLoop))
+                                            'https://trello.com/c/bs32kBYR/2095-eshopconnect-reservation
+                                            'InvoiceFacade.AllocateStock(.CustomerInvoiceDetailView(iRowLoop))
+                                            'InvoiceFacade.ReserveStock(.CustomerInvoiceDetailView(iRowLoop))
+                                            InvoiceFacade.AllocateAndReserveStock(.CustomerInvoiceDetailView(iRowLoop))
                                             InvoiceFacade.AssignQuantityShipped(.CustomerInvoiceDetailView(iRowLoop), Convert.ToDecimal(IsNull(.CustomerInvoiceDetailView(iRowLoop).QuantityToAllocate, 0)), TransactionType.Invoice)
                                         End If
                                         ' end of code added TJS 18/01/13
