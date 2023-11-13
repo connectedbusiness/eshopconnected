@@ -12,7 +12,7 @@ Imports System.Security.Permissions
 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: AssemblyCompanyAttribute("Connected Business")>
-<Assembly: AssemblyCopyrightAttribute("Copyright © 2020 Connected Business, All rights reserved.")>
+<Assembly: AssemblyCopyrightAttribute("Copyright © 2023 Connected Business, All rights reserved.")>
 <Assembly: AssemblyProductAttribute("Connected Business")> 
 <Assembly: ComVisible(True)>
 
@@ -25,4 +25,4 @@ Imports System.Security.Permissions
 '
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:
-<Assembly: AssemblyVersion("20.0.*")>
+<Assembly: AssemblyVersion("23.2.*")>
