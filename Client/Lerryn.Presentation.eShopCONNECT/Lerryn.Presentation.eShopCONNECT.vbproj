@@ -89,9 +89,8 @@
     <Import Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ChilkatDotNet45">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\mark.kee\AppData\Local\Microsoft\VisualStudio\12.0\Extensions\ntnguiut.obz\ChilkatDotNet45.dll</HintPath>
+    <Reference Include="ChilkatDotNet47">
+      <HintPath>..\..\..\..\DLL\ChilkatDotNet47.dll</HintPath>
     </Reference>
     <Reference Include="Interprise.Connectivity.Database.Configuration.Design, Version=15.0.0.179, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

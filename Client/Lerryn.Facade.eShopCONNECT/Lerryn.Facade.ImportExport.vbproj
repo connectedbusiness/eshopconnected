@@ -79,9 +79,8 @@
     <Import Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ChilkatDotNet45, Version=9.4.1.0, Culture=neutral, PublicKeyToken=eb5fc1fc52ef09bd, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\DLL\ChilkatDotNet45.dll</HintPath>
+    <Reference Include="ChilkatDotNet47">
+      <HintPath>..\..\..\..\DLL\ChilkatDotNet47.dll</HintPath>
     </Reference>
     <Reference Include="Interprise.Business.Base, Version=15.0.0.179, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
